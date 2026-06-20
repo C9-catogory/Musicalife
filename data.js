@@ -1,13 +1,13 @@
 window.ML_DATA = {
-  "version": "harmonic-starcove-v9",
+  "version": "harmonic-starcove-v12",
   "copy": {
     "zh": {
       "home": "首页",
-      "odyssey": "声之塔",
-      "atlas": "星盘",
+      "odyssey": "学习主线",
+      "atlas": "星图",
       "lab": "声学实验",
       "pythagoras": "比例花园",
-      "voice": "人声",
+      "voice": "歌唱",
       "life": "选择音乐",
       "beings": "生命共振",
       "compose": "创作",
@@ -22,15 +22,15 @@ window.ML_DATA = {
       "reset": "重置",
       "export": "导出",
       "homeTitle": "音乐是我们建构的爱的方程式。",
-      "homeLead": "在 Harmonic Starcove，一切都是音乐的载体。我们通过频率、比例、节奏、声乐、共振、创作和疗愈，学习如何听见世界、翻译感受、写出自己的旋律，最后点亮一整片星空。",
-      "gateTitle": "Harmonic Starcove",
-      "gateSub": "和谐星旅：从一束光、一条正弦曲线、一颗星开始，学习音乐如何变成生命的勇气。",
+      "homeLead": "Harmonic Starcove V12 仍然是一片星河：知识是星星，练习是光，创作是把感受翻译成旋律。点亮越多，宇宙越明亮；你会一步步学习创作音乐、把身体当作乐器、选择适合自己的音乐，并用声音表达生命。",
+      "gateTitle": "Harmonic Starcove V12",
+      "gateSub": "和谐星旅：音乐是我们建构的爱的方程式。进入星空，学习如何听见、歌唱、创作、选择、疗愈，并点亮属于自己的音乐宇宙。",
       "enter": "进入和谐星旅",
       "made": "已点亮",
       "stars": "知识星点",
       "score": "音乐能力",
       "choose": "选择",
-      "listen": "听一听",
+      "listen": "聆听",
       "learn": "我理解了，点亮这颗星",
       "task": "任务",
       "why": "为什么",
@@ -39,14 +39,14 @@ window.ML_DATA = {
     },
     "en": {
       "home": "Home",
-      "odyssey": "Odyssey",
-      "atlas": "Atlas",
+      "odyssey": "Learning path",
+      "atlas": "Star map",
       "lab": "Sound lab",
       "pythagoras": "Ratio garden",
-      "voice": "Voice",
+      "voice": "Sing",
       "life": "Choose music",
       "beings": "Resonance",
-      "compose": "Compose",
+      "compose": "Create",
       "library": "Library",
       "simple": "Simple",
       "motion": "Reduced motion",
@@ -58,9 +58,9 @@ window.ML_DATA = {
       "reset": "Reset",
       "export": "Export",
       "homeTitle": "Music is the equation of love we build.",
-      "homeLead": "In Harmonic Starcove, everything can carry music. Through frequency, ratio, rhythm, voice, resonance, creation and care, we learn to hear the world, translate feeling, write our own melody and light a whole sky.",
-      "gateTitle": "Harmonic Starcove",
-      "gateSub": "A journey of harmony: start from one beam, one sine curve, one star, and learn how music becomes courage for life.",
+      "homeLead": "Harmonic Starcove V12 remains a starfield: knowledge is stars, practice is light, creation translates feeling into melody. The more you light, the brighter the universe becomes; step by step, learn to compose, sing the body, choose music and express life through sound.",
+      "gateTitle": "Harmonic Starcove V12",
+      "gateSub": "A journey of harmony: music is the equation of love we build. Enter the starfield and learn to hear, sing, compose, choose, heal and light your musical universe.",
       "enter": "Enter Harmonic Starcove",
       "made": "Lit",
       "stars": "Knowledge stars",
@@ -84,8 +84,8 @@ window.ML_DATA = {
     [
       "odyssey",
       "☄",
-      "声之塔",
-      "Odyssey"
+      "能力",
+      "Ability"
     ],
     [
       "lab",
@@ -1783,6 +1783,701 @@ window.ML_DATA = {
       "音乐科技",
       "Music technology",
       "Web Audio API, MIDI, synthesis, DAW, sampling, spatial audio."
+    ],
+    [
+      "音乐哲学与宇宙想象",
+      "Music philosophy and cosmology",
+      "Pythagoras, Kepler, Musica Universalis, harmony of spheres; search keywords: Pythagorean tuning, music of the spheres."
+    ],
+    [
+      "冥想与低干扰结构",
+      "Meditation and low-interference structure",
+      "Predictability, low dynamics, low lyric load, attention anchors; connect to soundscape and mindfulness listening."
+    ],
+    [
+      "作曲入门路径",
+      "Composition path",
+      "Motive, phrase, repetition, variation, cadence, form; connect to compose desk and notation."
+    ],
+    [
+      "声乐练习路径",
+      "Voice practice path",
+      "Breath, onset, SOVT, vowels, resonance strategy, vocal health; connect to voice lessons."
+    ],
+    [
+      "音乐与情绪唤醒",
+      "Music and arousal",
+      "Tempo, mode, loudness, roughness, brightness and expectancy shape arousal and valence."
+    ],
+    [
+      "科幻与声音想象",
+      "Sci-fi sound imagination",
+      "Theremin, electronic timbre, ambient worlds, cinematic sound design, future instruments."
+    ],
+    [
+      "音乐与失眠",
+      "Music and insomnia",
+      "低动态、低歌词、可预测结构、稳定声景常用于降低睡前唤醒。关键词：music sleep intervention, insomnia, arousal."
+    ],
+    [
+      "音乐与认知",
+      "Music and cognition",
+      "节奏、旋律和重复可作为记忆与注意的外部脚手架。关键词：music cognition, auditory prediction, memory."
+    ],
+    [
+      "音乐与情绪调节",
+      "Music and emotion regulation",
+      "BPM、调式、音色、动态与期待共同影响唤醒和情绪色彩。关键词：music emotion arousal valence."
+    ],
+    [
+      "音乐与注意力",
+      "Music and attention",
+      "适合专注的音乐通常低歌词、稳定节奏、低惊喜度。关键词：background music attention ADHD."
+    ],
+    [
+      "音乐与疼痛",
+      "Music and pain",
+      "音乐可能通过注意、情绪、放松和预测降低疼痛体验。关键词：music pain systematic review."
+    ],
+    [
+      "音乐与慈悲心",
+      "Music and compassion",
+      "合唱、同步、共同节奏和慈悲聆听能支持连接感。关键词：music empathy compassion choir synchronization."
     ]
+  ],
+  "instruments": [
+    {
+      "id": "softBell",
+      "zh": "柔和星铃",
+      "en": "Soft bell",
+      "hint": "适合起床铃声、希望主题。"
+    },
+    {
+      "id": "warmPiano",
+      "zh": "暖钢琴",
+      "en": "Warm piano",
+      "hint": "适合日常旋律、学习主题。"
+    },
+    {
+      "id": "musicBox",
+      "zh": "音乐盒",
+      "en": "Music box",
+      "hint": "适合梦境、睡前、温柔片段。"
+    },
+    {
+      "id": "theremin",
+      "zh": "特雷门光线",
+      "en": "Theremin light",
+      "hint": "适合频率、靠近、星体共振。"
+    },
+    {
+      "id": "ambientPad",
+      "zh": "星云 Pad",
+      "en": "Ambient pad",
+      "hint": "适合疗愈、长音、生命场。"
+    },
+    {
+      "id": "pluck",
+      "zh": "拨弦",
+      "en": "Plucked string",
+      "hint": "适合节奏、清晰动机。"
+    },
+    {
+      "id": "softChoir",
+      "zh": "柔和合唱",
+      "en": "Soft choir",
+      "hint": "适合人声学习、慈悲聆听、温柔表达。"
+    },
+    {
+      "id": "breathFlute",
+      "zh": "呼吸长笛",
+      "en": "Breath flute",
+      "hint": "适合换气、乐句、宁静。"
+    },
+    {
+      "id": "deepBowl",
+      "zh": "低音钵",
+      "en": "Deep bowl",
+      "hint": "适合冥想、低干扰、稳定中心。"
+    },
+    {
+      "id": "warmStrings",
+      "zh": "暖弦乐",
+      "en": "Warm strings",
+      "hint": "适合悲伤、回归、情绪流动。"
+    },
+    {
+      "id": "kalimba",
+      "zh": "拇指琴",
+      "en": "Kalimba",
+      "hint": "适合轻快、安心、简单循环。"
+    },
+    {
+      "id": "celeste",
+      "zh": "星光钢片琴",
+      "en": "Celeste",
+      "hint": "适合梦境、星空、起床铃。"
+    }
+  ],
+  "composePurposes": [
+    {
+      "id": "wake",
+      "zh": "起床闹铃",
+      "en": "Morning alarm",
+      "tempo": 92,
+      "scale": "C_major",
+      "instrument": "softBell"
+    },
+    {
+      "id": "daily",
+      "zh": "每日主题",
+      "en": "Daily theme",
+      "tempo": 84,
+      "scale": "C_pentatonic",
+      "instrument": "warmPiano"
+    },
+    {
+      "id": "sleep",
+      "zh": "睡前安抚",
+      "en": "Sleep comfort",
+      "tempo": 62,
+      "scale": "A_minor",
+      "instrument": "musicBox"
+    },
+    {
+      "id": "courage",
+      "zh": "勇气主题",
+      "en": "Courage theme",
+      "tempo": 104,
+      "scale": "D_dorian",
+      "instrument": "pluck"
+    },
+    {
+      "id": "love",
+      "zh": "爱的方程式",
+      "en": "Equation of love",
+      "tempo": 76,
+      "scale": "C_major",
+      "instrument": "ambientPad"
+    }
+  ],
+  "voiceLessons": [
+    {
+      "id": "breath",
+      "zh": "呼吸波",
+      "en": "Breath wave",
+      "goalZh": "稳定气流，不是越大越好。",
+      "goalEn": "Stabilize airflow; louder is not always better."
+    },
+    {
+      "id": "vocal_folds",
+      "zh": "声带门",
+      "en": "Vocal fold gate",
+      "goalZh": "理解漏气、挤压和平衡闭合。",
+      "goalEn": "Understand breathy, pressed and balanced closure."
+    },
+    {
+      "id": "sovt",
+      "zh": "SOVT 回压",
+      "en": "SOVT back pressure",
+      "goalZh": "出口变窄，回压帮助声带更省力。",
+      "goalEn": "Narrowing the outlet creates back pressure and can ease phonation."
+    },
+    {
+      "id": "formant",
+      "zh": "Formant 元音地图",
+      "en": "Formant vowel map",
+      "goalZh": "a/i/u/e/o 改变的是声道滤波形状。",
+      "goalEn": "a/i/u/e/o change the vocal tract filter shape."
+    },
+    {
+      "id": "choir",
+      "zh": "合唱共振",
+      "en": "Choir resonance",
+      "goalZh": "多个声音形成稳定和声。",
+      "goalEn": "Multiple voices can form stable harmony."
+    }
+  ],
+  "learningPaths": [
+    {
+      "id": "hear",
+      "icon": "∿",
+      "route": "lab",
+      "zh": "听见声音",
+      "en": "Hear sound",
+      "zhLead": "频率、振幅、相位、谐波、共振、噪声、频谱。先让耳朵知道声音如何存在。",
+      "enLead": "Frequency, amplitude, phase, harmonics, resonance, noise and spectrum. First learn how sound exists.",
+      "skills": [
+        "frequency",
+        "amplitude",
+        "harmonic",
+        "resonance",
+        "spectrum",
+        "masking"
+      ]
+    },
+    {
+      "id": "sing",
+      "icon": "◌",
+      "route": "voice",
+      "zh": "歌唱身体",
+      "en": "Sing the body",
+      "zhLead": "人是乐器：呼吸、声带、声道、元音、Formant、SOVT 与合唱。",
+      "enLead": "The human is an instrument: breath, folds, tract, vowels, formants, SOVT and choir.",
+      "skills": [
+        "breath",
+        "vocal_folds",
+        "sovt",
+        "formant",
+        "vowel",
+        "choir"
+      ]
+    },
+    {
+      "id": "compose",
+      "icon": "𝄞",
+      "route": "compose",
+      "zh": "创作旋律",
+      "en": "Compose melody",
+      "zhLead": "把感受翻译成音阶、BPM、节奏、和弦、结构、乐器与曼陀罗。",
+      "enLead": "Translate feeling into scale, BPM, rhythm, harmony, form, instrument and mandala.",
+      "skills": [
+        "scale",
+        "rhythm",
+        "chord",
+        "harmony",
+        "mandala",
+        "notation"
+      ]
+    },
+    {
+      "id": "choose",
+      "icon": "♡",
+      "route": "life",
+      "zh": "选择音乐",
+      "en": "Choose music",
+      "zhLead": "按状态选择音乐特征：唤醒、动态、歌词、可预测性、频谱亮度与节奏复杂度。",
+      "enLead": "Choose music by state: arousal, dynamics, lyrics, predictability, brightness and rhythmic complexity.",
+      "skills": [
+        "sleep_music",
+        "adhd_start",
+        "overload",
+        "soundscape",
+        "compassion"
+      ]
+    },
+    {
+      "id": "listen",
+      "icon": "◖)",
+      "route": "atlas",
+      "zh": "聆听音乐",
+      "en": "Listen deeply",
+      "zhLead": "听节奏、低音、旋律、和声、音色、空间、重复变化与身体反应。",
+      "enLead": "Listen for rhythm, bass, melody, harmony, timbre, space, repetition, variation and body response.",
+      "skills": [
+        "rhythm",
+        "timbre",
+        "harmony",
+        "binaural",
+        "emotion_curve"
+      ]
+    },
+    {
+      "id": "express",
+      "icon": "✺",
+      "route": "beings",
+      "zh": "表达自我",
+      "en": "Express self",
+      "zhLead": "生成生命星体：主频、呼吸、边界、开放度、互补、共振与爱的方程式。",
+      "enLead": "Generate a being-star: center frequency, breath, boundary, openness, complement, resonance and love equation.",
+      "skills": [
+        "life_frequency",
+        "boundary",
+        "complement",
+        "love_equation"
+      ]
+    }
+  ],
+  "emotionTemplates": [
+    {
+      "id": "focus",
+      "zh": "专注",
+      "en": "Focus",
+      "bpm": 84,
+      "scale": "C_pentatonic",
+      "instrument": "warmPiano",
+      "density": 0.55,
+      "contour": "stable",
+      "structure": [
+        "Intro",
+        "A",
+        "A'",
+        "Loop"
+      ],
+      "zhWhy": "低歌词、稳定节奏、低惊喜度，像外部脚手架。",
+      "enWhy": "Low lyrics, steady rhythm and low surprise: an external scaffold."
+    },
+    {
+      "id": "calm",
+      "zh": "宁静 / 冥想",
+      "en": "Calm / meditation",
+      "bpm": 62,
+      "scale": "A_minor",
+      "instrument": "ambientPad",
+      "density": 0.34,
+      "contour": "breath",
+      "structure": [
+        "Breath in",
+        "A",
+        "Space",
+        "Return"
+      ],
+      "zhWhy": "低干扰、低噪声、低动态、长音和可预测结构。",
+      "enWhy": "Low interference, low noise, low dynamics, long tones and predictable form."
+    },
+    {
+      "id": "joy",
+      "zh": "快乐 / 幸福",
+      "en": "Joy",
+      "bpm": 108,
+      "scale": "C_major",
+      "instrument": "softBell",
+      "density": 0.72,
+      "contour": "rise",
+      "structure": [
+        "Spark",
+        "A",
+        "A'",
+        "Climax",
+        "Return"
+      ],
+      "zhWhy": "明亮音阶、上行动机、轻快节奏和稳定回归。",
+      "enWhy": "Bright scale, rising motives, light rhythm and stable return."
+    },
+    {
+      "id": "sad",
+      "zh": "悲伤 / 安抚",
+      "en": "Sadness / comfort",
+      "bpm": 68,
+      "scale": "A_minor",
+      "instrument": "musicBox",
+      "density": 0.42,
+      "contour": "fall",
+      "structure": [
+        "Statement",
+        "Pause",
+        "Gentle turn",
+        "Return"
+      ],
+      "zhWhy": "允许情绪流动：下行、留白、柔和音色、低动态。",
+      "enWhy": "Allow feeling to move: falling contour, space, soft timbre and low dynamics."
+    },
+    {
+      "id": "courage",
+      "zh": "勇气",
+      "en": "Courage",
+      "bpm": 104,
+      "scale": "D_dorian",
+      "instrument": "pluck",
+      "density": 0.68,
+      "contour": "leap",
+      "structure": [
+        "Call",
+        "A",
+        "Build",
+        "Climax",
+        "Home"
+      ],
+      "zhWhy": "清晰脉冲、上行跳进、重复和渐强会带来行动感。",
+      "enWhy": "Clear pulse, rising leaps, repetition and build create action."
+    },
+    {
+      "id": "love",
+      "zh": "爱的方程式",
+      "en": "Equation of love",
+      "bpm": 76,
+      "scale": "C_major",
+      "instrument": "ambientPad",
+      "density": 0.48,
+      "contour": "wave",
+      "structure": [
+        "Meet",
+        "Echo",
+        "Tension",
+        "Resolve",
+        "Glow"
+      ],
+      "zhWhy": "相遇、回应、张力、解决，像两个频率形成新的和声。",
+      "enWhy": "Meeting, echo, tension and resolution: two frequencies forming new harmony."
+    }
+  ],
+  "songParts": [
+    {
+      "id": "intro",
+      "zh": "Intro 开头",
+      "en": "Intro",
+      "zhText": "建立空间，不要急着塞满。像第一次亮起的星。",
+      "enText": "Create space; do not fill too soon. Like the first star lighting."
+    },
+    {
+      "id": "motif",
+      "zh": "Motif 动机",
+      "en": "Motif",
+      "zhText": "一小段可记忆的核心旋律，是整首曲子的种子。",
+      "enText": "A memorable small idea: the seed of the piece."
+    },
+    {
+      "id": "repeat",
+      "zh": "Repeat 重复",
+      "en": "Repeat",
+      "zhText": "重复让身体建立预测，也是疗愈和冥想的重要结构。",
+      "enText": "Repetition builds prediction in the body; central to care and meditation."
+    },
+    {
+      "id": "variation",
+      "zh": "Variation 变化",
+      "en": "Variation",
+      "zhText": "变化让音乐继续生长，避免僵硬。",
+      "enText": "Variation lets music grow and avoids stiffness."
+    },
+    {
+      "id": "turn",
+      "zh": "Turn 转折",
+      "en": "Turn",
+      "zhText": "改变方向、音区、节奏或和声，制造旅程感。",
+      "enText": "Change direction, register, rhythm or harmony to create journey."
+    },
+    {
+      "id": "climax",
+      "zh": "Climax 高潮",
+      "en": "Climax",
+      "zhText": "更高、更密、更亮或更强，但不一定更吵。",
+      "enText": "Higher, denser, brighter or stronger, but not necessarily louder."
+    },
+    {
+      "id": "return",
+      "zh": "Return 回归",
+      "en": "Return",
+      "zhText": "回到主音或熟悉动机，让生命重新稳定。",
+      "enText": "Return to tonic or familiar motive so life stabilizes again."
+    }
+  ],
+  "voiceCurriculum": [
+    {
+      "id": "posture",
+      "zh": "1. 姿态：身体成为乐器",
+      "en": "1. Posture: body as instrument",
+      "term": "breath",
+      "lab": "voice-posture",
+      "principleZh": "稳定、开放、不过度用力的身体，能让气流和声道更自由。",
+      "principleEn": "A stable, open, non-forced body lets airflow and tract move more freely.",
+      "practiceZh": "站或坐稳，头顶轻轻向上，肩颈放松，肋骨像伞一样展开。",
+      "practiceEn": "Stand or sit steady; crown gently upward, neck relaxed, ribs open like an umbrella.",
+      "mistakeZh": "不要塌腰、耸肩、抬下巴硬唱。",
+      "mistakeEn": "Avoid collapsed torso, raised shoulders or chin-up pushing."
+    },
+    {
+      "id": "breath",
+      "zh": "2. 呼吸波：气流是动力",
+      "en": "2. Breath wave: airflow is power",
+      "term": "breath",
+      "lab": "voice-breath",
+      "principleZh": "歌唱需要稳定气流，不是最大气流。气流像柔和的河，不像突然的风。",
+      "principleEn": "Singing needs steady airflow, not maximum airflow. It is a gentle river, not a blast.",
+      "practiceZh": "轻轻吸气，用 sss 或 hum 延长 4–6 秒，保持波形平稳。",
+      "practiceEn": "Inhale gently; sustain sss or hum for 4–6 seconds with a smooth wave.",
+      "mistakeZh": "不要憋气，也不要一开始就把气全部冲出去。",
+      "mistakeEn": "Do not hold breath or dump all air at the start."
+    },
+    {
+      "id": "folds",
+      "zh": "3. 声带门：原始声源",
+      "en": "3. Vocal fold gate: raw source",
+      "term": "vocal_folds",
+      "lab": "voice-folds",
+      "principleZh": "声带在气压驱动下振动，产生原始声源。闭合太少会漏气，太多会挤压。",
+      "principleEn": "Folds vibrate under air pressure to create source. Too little closure is breathy; too much is pressed.",
+      "practiceZh": "轻声 mm / ng，找到清楚但不紧的起声。",
+      "practiceEn": "Soft mm / ng to find clear but not tight onset.",
+      "mistakeZh": "不要用喉咙夹紧换取音量。",
+      "mistakeEn": "Do not squeeze the throat to gain volume."
+    },
+    {
+      "id": "onset",
+      "zh": "4. 起声：声音如何开始",
+      "en": "4. Onset: how sound begins",
+      "term": "onset",
+      "lab": "voice-onset",
+      "principleZh": "起声决定声音进入的方式：太硬会撞击，太软会漏气，平衡起声更省力。",
+      "principleEn": "Onset shapes entry: too hard collides, too soft leaks; balanced onset is easier.",
+      "practiceZh": "用“嗯-啊”轻声连接，感受声音自然出现。",
+      "practiceEn": "Use a gentle “mm-ah” connection and let sound appear naturally.",
+      "mistakeZh": "不要突然爆破式开始。",
+      "mistakeEn": "Avoid explosive starts."
+    },
+    {
+      "id": "sovt",
+      "zh": "5. SOVT：让声带省力",
+      "en": "5. SOVT: easier folds",
+      "term": "sovt",
+      "lab": "voice-sovt",
+      "principleZh": "吸管、唇颤、哼鸣等半闭合声道会增加回压，帮助声带更稳定振动。",
+      "principleEn": "Straw, lip trill and hum create back pressure and help folds vibrate more stably.",
+      "practiceZh": "轻轻唇颤或吸管滑音，从低到高再回来。",
+      "practiceEn": "Gentle lip trill or straw siren from low to high and back.",
+      "mistakeZh": "不要用大声量或推气完成练习。",
+      "mistakeEn": "Do not use loudness or pushing to complete it."
+    },
+    {
+      "id": "tract",
+      "zh": "6. 声道滤波：音色从哪里来",
+      "en": "6. Vocal tract filter: where color comes from",
+      "term": "vocal_tract",
+      "lab": "voice-tract",
+      "principleZh": "声带产生源，声道像可变形的滤波器，塑造元音和音色。",
+      "principleEn": "Folds create source; tract is a shape-changing filter that forms vowel and timbre.",
+      "practiceZh": "同一音高上切换 a-i-u，感受嘴型改变音色。",
+      "practiceEn": "On the same pitch, switch a-i-u and notice color change.",
+      "mistakeZh": "不要把所有共鸣都理解成某个固定腔体在震。",
+      "mistakeEn": "Do not reduce all resonance to one fixed body cavity."
+    },
+    {
+      "id": "vowel",
+      "zh": "7. 元音与 Formant",
+      "en": "7. Vowels and formants",
+      "term": "formant",
+      "lab": "voice-formant",
+      "principleZh": "元音来自声道增强的频率区域。舌位、唇形和开口会改变 F1/F2。",
+      "principleEn": "Vowels come from frequency regions enhanced by the tract. Tongue, lips and opening change F1/F2.",
+      "practiceZh": "小音量唱 a/e/i/o/u，观察频谱和元音点移动。",
+      "practiceEn": "Sing a/e/i/o/u softly and watch spectrum and vowel point move.",
+      "mistakeZh": "不要用尖锐挤压去追求明亮。",
+      "mistakeEn": "Do not squeeze sharply to chase brightness."
+    },
+    {
+      "id": "scale",
+      "zh": "8. 音阶：从 do re mi 开始",
+      "en": "8. Scale: start with do re mi",
+      "term": "scale",
+      "lab": "voice-scale",
+      "principleZh": "音阶是安全的音高路线。先学会回到主音，才容易唱准。",
+      "principleEn": "A scale is a safe pitch route. Learn to return to tonic to sing more accurately.",
+      "practiceZh": "1-2-3-2-1，再 1-3-5-3-1，小声、慢速、稳定。",
+      "practiceEn": "1-2-3-2-1, then 1-3-5-3-1; soft, slow and steady.",
+      "mistakeZh": "不要一开始就追求高音或大音量。",
+      "mistakeEn": "Do not chase high notes or volume at first."
+    },
+    {
+      "id": "phrase",
+      "zh": "9. 换气与乐句",
+      "en": "9. Breath and phrase",
+      "term": "rhythm",
+      "lab": "voice-phrase",
+      "principleZh": "唱歌不是每个音都用力，而是把一组音组织成一句话。换气在结构边界处发生。",
+      "principleEn": "Singing is not forcing every note; it organizes notes into phrases. Breath happens at structural boundaries.",
+      "practiceZh": "唱 4 个音，停顿换气，再唱 4 个音。",
+      "practiceEn": "Sing 4 notes, pause-breathe, then sing 4 notes.",
+      "mistakeZh": "不要随机断气，把词和旋律切碎。",
+      "mistakeEn": "Do not breathe randomly and break words/melody."
+    },
+    {
+      "id": "choir",
+      "zh": "10. 合唱：与他人形成和声",
+      "en": "10. Choir: harmony with others",
+      "term": "choir",
+      "lab": "voice-choir",
+      "principleZh": "合唱是多个生命的频率在边界中合作。根音、三度、五度形成稳定三角。",
+      "principleEn": "Choir is multiple lives cooperating with boundaries. Root, third and fifth form a stable triangle.",
+      "practiceZh": "先唱 1，再听 3 和 5，感受稳定与张力。",
+      "practiceEn": "Sing 1 first, then listen to 3 and 5; feel stability and tension.",
+      "mistakeZh": "不要只追求大声盖过别人。",
+      "mistakeEn": "Do not try to cover others with loudness."
+    }
+  ],
+  "soundLabs": [
+    {
+      "id": "sound",
+      "zh": "频率与音高",
+      "en": "Frequency & pitch",
+      "term": "frequency",
+      "formula": "f = 1/T"
+    },
+    {
+      "id": "amplitude",
+      "zh": "振幅与响度",
+      "en": "Amplitude & loudness",
+      "term": "amplitude",
+      "formula": "larger wave → often louder"
+    },
+    {
+      "id": "phase",
+      "zh": "相位与抵消",
+      "en": "Phase & cancellation",
+      "term": "phase",
+      "formula": "same phase add · opposite phase cancel"
+    },
+    {
+      "id": "harmonics",
+      "zh": "谐波与音色",
+      "en": "Harmonics & timbre",
+      "term": "harmonic",
+      "formula": "timbre = f + 2f + 3f + ..."
+    },
+    {
+      "id": "spectrum",
+      "zh": "频谱与傅里叶",
+      "en": "Spectrum & Fourier",
+      "term": "fourier",
+      "formula": "complex sound → many sine waves"
+    },
+    {
+      "id": "resonance",
+      "zh": "共振与放大",
+      "en": "Resonance & amplification",
+      "term": "resonance",
+      "formula": "input ≈ preferred frequency → response ↑"
+    },
+    {
+      "id": "beating",
+      "zh": "拍频与紧张感",
+      "en": "Beating & tension",
+      "term": "beating",
+      "formula": "beat rate = |f1-f2|"
+    },
+    {
+      "id": "noise",
+      "zh": "噪声颜色",
+      "en": "Noise color",
+      "term": "noise_color",
+      "formula": "spectrum slope shapes noise color"
+    },
+    {
+      "id": "tempo",
+      "zh": "BPM 与身体唤醒",
+      "en": "BPM & arousal",
+      "term": "tempo",
+      "formula": "tempo changes bodily timing"
+    },
+    {
+      "id": "rhythmDensity",
+      "zh": "节奏密度",
+      "en": "Rhythm density",
+      "term": "rhythm",
+      "formula": "more events → more information"
+    },
+    {
+      "id": "scaleColor",
+      "zh": "音阶与情绪色彩",
+      "en": "Scale & emotional color",
+      "term": "scale",
+      "formula": "scale = pitch environment"
+    },
+    {
+      "id": "chordTension",
+      "zh": "和弦张力与解决",
+      "en": "Chord tension & release",
+      "term": "harmony",
+      "formula": "tension → resolution"
+    }
   ]
 };

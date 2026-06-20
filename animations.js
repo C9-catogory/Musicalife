@@ -37,16 +37,30 @@
   function label(ctx,t,x,y){
     ctx.save(); ctx.fillStyle='rgba(255,255,255,.82)'; ctx.font='12px system-ui, sans-serif'; ctx.fillText(t,x,y); ctx.restore();
   }
+  function litCount(){
+    try{
+      const keys=['hs12_lit','hs11_lit','hs10_lit','hs9_lit'];
+      for(const k of keys){
+        const v=JSON.parse(localStorage.getItem(k)||'[]');
+        if(Array.isArray(v) && v.length) return v.length;
+      }
+    }catch(e){}
+    return 0;
+  }
   function drawCosmos(canvas, reduced=false){
     const {ctx,w,h}=setup(canvas);
-    const stars=Array.from({length:180},()=>({x:Math.random(),y:Math.random(),r:Math.random()*1.4+.25,s:Math.random()*0.8+.3,a:Math.random()*TAU}));
+    const lit=litCount();
+    const count=180+Math.min(220,lit*5);
+    const stars=Array.from({length:count},()=>({x:Math.random(),y:Math.random(),r:Math.random()*(1.4+Math.min(1.4,lit*.02))+.25,s:Math.random()*0.8+.3,a:Math.random()*TAU,c:Math.random()}));
     let raf=0;
     function frame(t){
       clear(ctx,w,h);
       const tt=t*.001;
+      const glowBoost=Math.min(.45,lit*.006);
       for(const st of stars){
-        const pulse = reduced ? .62 : (.32+.68*Math.sin(tt*st.s+st.a)**2);
-        ctx.globalAlpha=pulse; star(ctx,st.x*w,st.y*h,st.r,'#fff');
+        const pulse = reduced ? (.48+glowBoost) : (.22+glowBoost+.78*Math.sin(tt*st.s+st.a)**2);
+        const col=st.c>.88?'#ffe19b':st.c>.72?'#7ce9ff':st.c>.58?'#ff9fd5':'#fff';
+        ctx.globalAlpha=Math.min(1,pulse); star(ctx,st.x*w,st.y*h,st.r,col);
       }
       ctx.globalAlpha=1;
       // large quiet function curves
@@ -56,8 +70,15 @@
           const y=h*(.35+k*.12)+Math.sin(x*.009*(k+1)+tt*(.25+k*.08))*22/(k+1)+Math.cos(x*.004+tt)*14;
           x?ctx.lineTo(x,y):ctx.moveTo(x,y);
         }
-        ctx.strokeStyle=['rgba(124,233,255,.28)','rgba(255,225,155,.18)','rgba(255,159,213,.16)','rgba(185,156,255,.22)'][k];
-        ctx.lineWidth=1.2; ctx.stroke();
+        ctx.strokeStyle=[`rgba(124,233,255,${.28+glowBoost})`,`rgba(255,225,155,${.18+glowBoost})`,`rgba(255,159,213,${.16+glowBoost})`,`rgba(185,156,255,${.22+glowBoost})`][k];
+        ctx.lineWidth=1.2+Math.min(1.2,lit*.01); ctx.stroke();
+      }
+      if(lit>8){
+        for(let i=0;i<Math.min(16,Math.floor(lit/4));i++){
+          const a=tt*.05+i*TAU/Math.max(1,Math.min(16,Math.floor(lit/4)));
+          const cx=w*.5+Math.cos(a)*w*.28, cy=h*.52+Math.sin(a*1.7)*h*.22;
+          star(ctx,cx,cy,1.4+i*.02,'rgba(255,225,155,.9)');
+        }
       }
       if(!reduced) raf=requestAnimationFrame(frame);
     }
@@ -206,6 +227,32 @@
     label(ctx,`F1 ${data[0]}Hz · F2 ${data[1]}Hz`,24,30);
   }
   function drawBeings(ctx,w,h,t,p){
+    const a=+(p.a||52), b=+(p.b||68), c=+(p.c||42), open=+(p.open||60)/100;
+    const cx1=w*.30, cx2=w*.68, cx3=w*.50, cy1=h*.48, cy2=h*.48, cy3=h*.30;
+    const vals=[a,b,c];
+    const avg=vals.reduce((s,x)=>s+x,0)/3;
+    const spread=(Math.abs(a-b)+Math.abs(b-c)+Math.abs(c-a))/3;
+    const resonance=Math.max(0,1-spread/78)*open;
+    drawBeing(ctx,cx1,cy1,48,a,'#7ce9ff',t);
+    drawBeing(ctx,cx2,cy2,48,b,'#ff9fd5',-t);
+    drawBeing(ctx,cx3,cy3,42,c,'#ffe19b',t*.7);
+    const pts=[[cx1,cy1],[cx2,cy2],[cx3,cy3]];
+    ctx.globalAlpha=.16+.55*resonance; ctx.strokeStyle='#ffe19b'; ctx.lineWidth=1.4+resonance*3;
+    for(let i=0;i<3;i++){
+      const [x1,y1]=pts[i], [x2,y2]=pts[(i+1)%3];
+      for(let k=0;k<5;k++){
+        ctx.beginPath();
+        ctx.moveTo(x1,y1-18+k*9);
+        ctx.bezierCurveTo(w*.5, h*.58+Math.sin(t+k+i)*60, w*.5, h*.22+Math.cos(t+k+i)*42, x2, y2-18+k*9);
+        ctx.stroke();
+      }
+    }
+    ctx.globalAlpha=1;
+    star(ctx,w*.5,h*.58,6+resonance*8,'#fff1aa');
+    label(ctx,`three-body resonance ${(resonance*100).toFixed(0)}% · shared center ${avg.toFixed(0)}`,24,30);
+    label(ctx,`similarity is not sameness: boundary + openness → harmony`,24,52);
+  }
+  function drawBeings(ctx,w,h,t,p){
     const a=+(p.a||52), b=+(p.b||68), open=+(p.open||60)/100;
     const cx1=w*.36, cx2=w*.64, cy=h*.48;
     const diff=Math.abs(a-b); const resonance=Math.max(0,1-diff/70)*open;
@@ -243,9 +290,10 @@
       ctx.strokeStyle=['#7ce9ff','#ffe19b','#ff9fd5','#b99cff'][ring]; ctx.lineWidth=1.7; ctx.globalAlpha=.82; ctx.stroke();
     }
     ctx.globalAlpha=1;
-    for(let i=0;i<16;i++){
+    const total=Math.max(16,notes.length||16);
+    for(let i=0;i<total;i++){
       const n=notes[i];
-      const a=i/16*TAU-Math.PI/2; const r=R*(n>=0?0.88:0.55);
+      const a=i/total*TAU-Math.PI/2; const r=R*(n>=0?0.88:0.55);
       star(ctx,cx+Math.cos(a)*r,cy+Math.sin(a)*r,n>=0?5:2,n>=0?'#ffe19b':'rgba(255,255,255,.35)');
       if(i===step) {ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath();ctx.arc(cx+Math.cos(a)*r,cy+Math.sin(a)*r,11,0,TAU);ctx.stroke();}
     }
@@ -270,5 +318,181 @@
     notes.forEach((note,i)=>{ if(note) { playFreq(audio,noteToFreq(note),Math.min(.46,step*.9),type,.04,i*step); last=i; } });
     return step*1000;
   }
-  window.ML_ANIM = {setup,drawCosmos,drawGate,drawLab,drawMandala,noteToFreq,makeAudio,playFreq,playMelody};
+
+  function instrumentProfile(instrument){
+    const map={
+      softBell:{osc:'sine',gain:.045,partials:[[1,.9],[2,.35],[3,.12]],decay:.9},
+      warmPiano:{osc:'triangle',gain:.05,partials:[[1,.9],[2,.22],[3,.08]],decay:.55},
+      musicBox:{osc:'sine',gain:.042,partials:[[1,.9],[2,.55],[4,.18]],decay:.7},
+      theremin:{osc:'sine',gain:.04,partials:[[1,1]],decay:.75},
+      ambientPad:{osc:'sine',gain:.032,partials:[[1,.75],[2,.22],[3,.12],[5,.06]],decay:1.15},
+      pluck:{osc:'triangle',gain:.048,partials:[[1,.9],[2,.32],[3,.2]],decay:.38},
+      softChoir:{osc:'sine',gain:.03,partials:[[1,.7],[2,.18],[3,.08]],decay:1.2},
+      breathFlute:{osc:'sine',gain:.035,partials:[[1,.75],[2,.28],[4,.06]],decay:.75},
+      deepBowl:{osc:'sine',gain:.045,partials:[[.5,.55],[1,.8],[2,.16]],decay:1.6},
+      warmStrings:{osc:'triangle',gain:.04,partials:[[1,.75],[2,.26],[3,.12],[5,.04]],decay:1.1},
+      kalimba:{osc:'triangle',gain:.046,partials:[[1,.9],[2,.38],[5,.1]],decay:.45},
+      celeste:{osc:'sine',gain:.043,partials:[[1,.8],[2,.55],[3,.18],[6,.08]],decay:.7}
+    };
+    return map[instrument]||map.warmPiano;
+  }
+  function playInstrument(audio,freq=440,dur=.35,instrument='warmPiano',gainMul=1,when=0){
+    if(!audio) return;
+    if(audio.state==='suspended') audio.resume();
+    const prof=instrumentProfile(instrument);
+    const now=audio.currentTime+when;
+    const master=audio.createGain();
+    master.gain.setValueAtTime(.0001,now);
+    master.gain.exponentialRampToValueAtTime(Math.max(.0001,prof.gain*gainMul),now+.025);
+    master.gain.exponentialRampToValueAtTime(.0001,now+Math.max(.08,dur*prof.decay));
+    master.connect(audio.destination);
+    (prof.partials||[[1,1]]).forEach(([mul,amp])=>{
+      const o=audio.createOscillator();
+      o.type=prof.osc;
+      o.frequency.setValueAtTime(freq*mul,now);
+      if(instrument==='theremin'){
+        o.frequency.linearRampToValueAtTime(freq*mul*1.012,now+dur*.45);
+        o.frequency.linearRampToValueAtTime(freq*mul*.998,now+dur);
+      }
+      const g=audio.createGain();
+      g.gain.setValueAtTime(amp,now);
+      o.connect(g); g.connect(master); o.start(now); o.stop(now+Math.max(.1,dur*prof.decay)+.05);
+    });
+  }
+  function playMelodyInstrument(audio,notes,tempo=88,instrument='warmPiano'){
+    if(!audio) return 0;
+    if(audio.state==='suspended') audio.resume();
+    const step=60/tempo/2;
+    notes.forEach((note,i)=>{ if(note) playInstrument(audio,noteToFreq(note),Math.min(.62,step*.92),instrument,.9,i*step); });
+    return step*1000;
+  }
+  function synthSample(freq,t,instrument){
+    const p=instrumentProfile(instrument);
+    let y=0;
+    (p.partials||[[1,1]]).forEach(([mul,amp])=>{ y+=Math.sin(TAU*freq*mul*t)*amp; });
+    const env=Math.min(1,t/.03)*Math.exp(-Math.max(0,t-.04)/(p.decay*.35));
+    return Math.max(-1,Math.min(1,y*env*.22));
+  }
+  function renderWavBuffer(notes,tempo=88,instrument='warmPiano'){
+    const sr=44100, step=60/tempo/2, dur=notes.length*step+1.2;
+    const samples=new Float32Array(Math.ceil(sr*dur));
+    notes.forEach((note,i)=>{
+      if(!note) return;
+      const freq=noteToFreq(note), start=Math.floor(i*step*sr), len=Math.floor(Math.min(.9,step*.92)*sr);
+      for(let j=0;j<len && start+j<samples.length;j++){
+        samples[start+j]+=synthSample(freq,j/sr,instrument);
+      }
+    });
+    return {samples,sr};
+  }
+  function wavBlob(notes,tempo=88,instrument='warmPiano'){
+    const {samples,sr}=renderWavBuffer(notes,tempo,instrument);
+    const buffer=new ArrayBuffer(44+samples.length*2);
+    const view=new DataView(buffer);
+    function wstr(o,s){for(let i=0;i<s.length;i++) view.setUint8(o+i,s.charCodeAt(i));}
+    wstr(0,'RIFF'); view.setUint32(4,36+samples.length*2,true); wstr(8,'WAVE'); wstr(12,'fmt ');
+    view.setUint32(16,16,true); view.setUint16(20,1,true); view.setUint16(22,1,true); view.setUint32(24,sr,true); view.setUint32(28,sr*2,true); view.setUint16(32,2,true); view.setUint16(34,16,true);
+    wstr(36,'data'); view.setUint32(40,samples.length*2,true);
+    let off=44; for(let i=0;i<samples.length;i++,off+=2){ const s=Math.max(-1,Math.min(1,samples[i])); view.setInt16(off,s<0?s*0x8000:s*0x7fff,true); }
+    return new Blob([view],{type:'audio/wav'});
+  }
+
+
+  function drawSongStructure(canvas, template={}, step=0){
+    const {ctx,w,h}=setup(canvas); clear(ctx,w,h);
+    const parts=(template.structure||['Intro','Motif','Repeat','Turn','Return']);
+    const pad=34, y=h*.58, total=parts.length, gap=(w-pad*2)/Math.max(1,total);
+    ctx.save();
+    ctx.lineWidth=2;
+    parts.forEach((name,i)=>{
+      const x=pad+gap*(i+.5);
+      const amp=[.25,.5,.45,.7,.9,.55,.35][i%7];
+      const r=18+amp*34;
+      const color=['#7ce9ff','#ffe19b','#ff9fd5','#b99cff','#aaf2c5','#fff1aa'][i%6];
+      ctx.globalAlpha=.18; ctx.fillStyle=color; ctx.beginPath(); ctx.arc(x,y-r*.45,r*1.8,0,TAU); ctx.fill();
+      ctx.globalAlpha=.88; star(ctx,x,y-r*.45,7+i%3,color);
+      ctx.beginPath();
+      for(let k=0;k<=36;k++){
+        const a=k/36*TAU;
+        const rr=r*(1+.11*Math.sin(a*(i+3)+performance.now()*.001));
+        const px=x+Math.cos(a)*rr, py=y-r*.45+Math.sin(a)*rr*.65;
+        k?ctx.lineTo(px,py):ctx.moveTo(px,py);
+      }
+      ctx.strokeStyle=color; ctx.stroke();
+      ctx.fillStyle='rgba(255,255,255,.88)'; ctx.font='12px system-ui, sans-serif'; ctx.textAlign='center';
+      ctx.fillText(name,x,y+58);
+      if(i<total-1){ctx.strokeStyle='rgba(255,255,255,.18)'; ctx.beginPath(); ctx.moveTo(x+28,y); ctx.lineTo(x+gap-28,y); ctx.stroke();}
+    });
+    ctx.globalAlpha=1;
+    label(ctx,'song form: space → seed → repeat → change → return',22,28);
+    ctx.restore();
+  }
+  function drawMiniLesson(canvas,type='frequency',p={}){
+    const {ctx,w,h}=setup(canvas); clear(ctx,w,h);
+    const t=performance.now()*.001;
+    if(type.includes('breath')||type==='voice-breath'){
+      ctx.beginPath();
+      for(let x=30;x<w-30;x+=3){
+        const y=h*.52+Math.sin((x/w)*TAU*2+t)*36;
+        x>30?ctx.lineTo(x,y):ctx.moveTo(x,y);
+      }
+      ctx.strokeStyle='#aaf2c5'; ctx.lineWidth=4; ctx.stroke();
+      label(ctx,'breath = stable gentle airflow',24,28);
+      label(ctx,'not more air, but smoother support',24,50);
+      return;
+    }
+    if(type.includes('fold')||type==='voice-folds'){
+      const cx=w*.5, cy=h*.52, gap=22+Math.sin(t*8)*8;
+      ctx.fillStyle='rgba(255,159,213,.42)';
+      ctx.beginPath();ctx.ellipse(cx-gap,cy,28,100,0,0,TAU);ctx.fill();
+      ctx.beginPath();ctx.ellipse(cx+gap,cy,28,100,0,0,TAU);ctx.fill();
+      ctx.strokeStyle='#ffe19b'; ctx.lineWidth=2;
+      for(let i=-3;i<=3;i++){ctx.beginPath();ctx.moveTo(cx-gap+8,cy+i*18);ctx.quadraticCurveTo(cx,cy+i*16+Math.sin(t*10+i)*10,cx+gap-8,cy+i*18);ctx.stroke();}
+      label(ctx,'vocal fold gate: breathy ⇄ balanced ⇄ pressed',24,28);
+      return;
+    }
+    if(type.includes('sovt')){
+      const cx=w*.46, cy=h*.52;
+      ctx.strokeStyle='rgba(255,255,255,.25)'; ctx.lineWidth=16; ctx.lineCap='round';
+      ctx.beginPath();ctx.moveTo(w*.18,cy);ctx.bezierCurveTo(w*.35,cy-80,w*.55,cy+70,w*.72,cy);ctx.stroke();
+      ctx.strokeStyle='#7ce9ff';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(w*.72,cy);ctx.lineTo(w*.9,cy);ctx.stroke();
+      for(let i=0;i<8;i++){star(ctx,w*.58+i*20,cy+Math.sin(t*3+i)*18,2+i*.2,'#ffe19b');}
+      label(ctx,'SOVT: narrow outlet → back pressure → easier vibration',24,28);
+      return;
+    }
+    if(type.includes('formant')||type.includes('vowel')||type==='voice-formant'||type==='voice-tract'){
+      drawVoice(ctx,w,h,t,{vowel:p.vowel||'a'}); return;
+    }
+    if(type.includes('scale')||type==='voice-scale'){
+      const notes=['1','2','3','4','5','6','7','1′']; notes.forEach((n,i)=>{
+        const x=w*.12+i*w*.1, y=h*.75-i*22; star(ctx,x,y,8,i===0||i===7?'#ffe19b':'#7ce9ff'); label(ctx,n,x-5,y-16);
+      });
+      ctx.strokeStyle='rgba(255,255,255,.28)';ctx.beginPath();notes.forEach((n,i)=>{const x=w*.12+i*w*.1,y=h*.75-i*22;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
+      label(ctx,'scale = safe pitch path · return to tonic',24,28); return;
+    }
+    if(type.includes('choir')){
+      const cx=w*.5, cy=h*.5, R=96; const pts=[[-Math.PI/2,'1','#ffe19b'],[Math.PI/6,'3','#ff9fd5'],[Math.PI*5/6,'5','#7ce9ff']];
+      ctx.strokeStyle='rgba(255,255,255,.22)'; ctx.beginPath();
+      pts.forEach((pt,i)=>{const x=cx+Math.cos(pt[0])*R,y=cy+Math.sin(pt[0])*R;i?ctx.lineTo(x,y):ctx.moveTo(x,y)}); ctx.closePath();ctx.stroke();
+      pts.forEach(pt=>{const x=cx+Math.cos(pt[0])*R,y=cy+Math.sin(pt[0])*R;star(ctx,x,y,12,pt[2]);label(ctx,pt[1],x-4,y+4)});
+      label(ctx,'choir: root + third + fifth = stable triangle',24,28); return;
+    }
+    if(type==='beating'){
+      drawSound(ctx,w,h,t,{freq:220,amp:60,phase:0}); label(ctx,'beating: close frequencies pulse in loudness',24,72); return;
+    }
+    if(type==='noise'){
+      for(let i=0;i<80;i++){const x=20+i*(w-40)/80; const y=h*.62-Math.random()*120*(1-i/90); ctx.fillStyle=i%2?'#7ce9ff':'#ffe19b';ctx.fillRect(x,y,4,h*.62-y);}
+      label(ctx,'noise color = different spectrum slopes',24,28); return;
+    }
+    if(type==='tempo'||type==='rhythmDensity'){
+      for(let i=0;i<16;i++){const x=40+i*(w-80)/15; const on=type==='tempo'?i%2===0:i%3!==1; star(ctx,x,h*.55,on?9:3,on?'#ffe19b':'rgba(255,255,255,.35)');}
+      label(ctx,type==='tempo'?'BPM: how fast the body clock moves':'rhythm density: how much information per time',24,28); return;
+    }
+    if(type==='scaleColor'||type==='chordTension'){
+      drawRatio(ctx,w,h,t,p); label(ctx,type==='scaleColor'?'scale color = pitch environment':'chord tension → resolution',24,56); return;
+    }
+    drawLab(canvas,'sound',p);
+  }
+
+  window.ML_ANIM = {setup,drawCosmos,drawGate,drawLab,drawMandala,drawSongStructure,drawMiniLesson,noteToFreq,makeAudio,playFreq,playMelody,playInstrument,playMelodyInstrument,wavBlob};
 })();

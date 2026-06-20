@@ -784,5 +784,112 @@
     ctx.restore();
   }
 
-  window.ML_ANIM = {setup,drawCosmos,drawGate,drawLab,drawMandala,drawSongStructure,drawMiniLesson,drawTeachingLab:drawTeachingLabV14,drawVoiceTeaching,drawSingingCoach,drawResonanceTeaching,drawVoiceFlow,noteToFreq,makeAudio,playFreq,playMelody,playInstrument,playMelodyInstrument,playVocalGuide,wavBlob,wavBlobArrangement};
+
+  function drawRoundRect(ctx,x,y,w,h,r){
+    ctx.beginPath();
+    if(ctx.roundRect){ctx.roundRect(x,y,w,h,r);return;}
+    ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
+  }
+  function drawLineMelodyGuide(canvas, points=[], grid=[]){
+    const {ctx,w,h}=setup(canvas); clear(ctx,w,h);
+    ctx.save();
+    ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=1;
+    for(let i=0;i<=8;i++){const y=32+i*(h-64)/8;ctx.beginPath();ctx.moveTo(32,y);ctx.lineTo(w-32,y);ctx.stroke();}
+    for(let i=0;i<=16;i++){const x=32+i*(w-64)/16;ctx.beginPath();ctx.moveTo(x,32);ctx.lineTo(x,h-32);ctx.stroke();}
+    label(ctx,'time →',w-92,h-18); label(ctx,'pitch ↑',22,28);
+    if(points && points.length>1){
+      ctx.lineWidth=5; ctx.lineCap='round'; ctx.lineJoin='round';
+      const grad=ctx.createLinearGradient(0,0,w,0); grad.addColorStop(0,'#7ce9ff');grad.addColorStop(.55,'#ffe19b');grad.addColorStop(1,'#ff9fd5');
+      ctx.strokeStyle=grad; ctx.beginPath();
+      points.forEach((p,i)=>{i?ctx.lineTo(p.x*w,p.y*h):ctx.moveTo(p.x*w,p.y*h)});
+      ctx.stroke();
+    }else{
+      captionBox(ctx,'Draw a line: left→right is time, up/down is pitch',w*.18,h*.42,Math.min(360,w*.62));
+    }
+    if(grid && grid.length){
+      const n=grid.length;
+      grid.forEach((v,i)=>{
+        if(v<0)return; const x=32+i*(w-64)/Math.max(1,n-1); const y=h-42-(v/7)*(h-90);
+        star(ctx,x,y,5,'#ffe19b');
+      });
+    }
+    captionBox(ctx,'smooth line → singable contour · valleys → breath/pause',32,42,300);
+    ctx.restore();
+  }
+  function drawSingingTrainer(canvas, trainer={}, params={}){
+    const {ctx,w,h}=setup(canvas); clear(ctx,w,h);
+    const mode=trainer.mode||'pitch';
+    const now=performance.now()*.001;
+    ctx.save();
+    if(mode==='pitch'){
+      const target=trainer.targetFreq||261.63, current=trainer.currentFreq||0;
+      const cents=current?1200*Math.log2(current/target):0;
+      const center=h*.52, x=w*.50;
+      ctx.strokeStyle='rgba(255,225,155,.55)';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(44,center);ctx.lineTo(w-44,center);ctx.stroke();
+      label(ctx,'target pitch',48,center-10);
+      ctx.strokeStyle='rgba(255,255,255,.14)';
+      [-100,-50,50,100].forEach(c=>{const y=center-c*.9;ctx.beginPath();ctx.moveTo(64,y);ctx.lineTo(w-64,y);ctx.stroke();label(ctx,(c>0?'+':'')+c+' cents',w-130,y-4);});
+      const y=current?Math.max(40,Math.min(h-40,center-cents*.9)):center+Math.sin(now*3)*32;
+      const col=Math.abs(cents)<18?'#aaf2c5':cents>0?'#ff9fd5':'#7ce9ff';
+      star(ctx,x,y,18,col); drawArrow(ctx,x,y,x,center,col);
+      captionBox(ctx,current?`your voice: ${Math.round(current)} Hz · ${Math.round(cents)} cents`:'tap mic and sing the target',w*.08,42,320);
+      captionBox(ctx,'goal: bring the moving star onto the center line',w*.52,h-90,310);
+    }else if(mode==='breath'){
+      const level=trainer.level ?? 0.45;
+      ctx.strokeStyle='rgba(255,255,255,.12)';ctx.beginPath();ctx.moveTo(40,h*.55);ctx.lineTo(w-40,h*.55);ctx.stroke();
+      ctx.beginPath();
+      for(let x=40;x<w-40;x+=4){
+        const flow=h*.55 - (Math.sin(x*.025+now*2)*12 + level*70*(.72+.28*Math.sin(x*.006+now)));
+        x>40?ctx.lineTo(x,flow):ctx.moveTo(x,flow);
+      }
+      ctx.strokeStyle='#aaf2c5';ctx.lineWidth=5;ctx.stroke();
+      const targetY=h*.40; ctx.strokeStyle='rgba(255,225,155,.45)';ctx.setLineDash([8,8]);ctx.beginPath();ctx.moveTo(40,targetY);ctx.lineTo(w-40,targetY);ctx.stroke();ctx.setLineDash([]);
+      captionBox(ctx,'stable river: not a blast, not a held breath',w*.10,42,310);
+      captionBox(ctx,'practice: sss / hum for 6 seconds with a smooth line',w*.48,h-94,340);
+    }else if(mode==='rhythm'){
+      const steps=16, y=h*.52;
+      for(let i=0;i<steps;i++){
+        const x=54+i*(w-108)/(steps-1); const strong=i%4===0; const breath=i===7||i===15;
+        ctx.fillStyle=strong?'rgba(255,225,155,.25)':'rgba(124,233,255,.14)';
+        ctx.beginPath();ctx.arc(x,y,strong?18:10,0,TAU);ctx.fill();
+        ctx.fillStyle=strong?'#ffe19b':'#7ce9ff';ctx.font='12px system-ui';ctx.textAlign='center';ctx.fillText(strong?'STRONG':'·',x,y+38);
+        if(breath){ctx.fillStyle='#aaf2c5';ctx.font='24px system-ui';ctx.fillText('☾',x,y-32);label(ctx,'breath',x-18,y-54);}
+      }
+      captionBox(ctx,'phrasing = beats + accent + breath marks',w*.10,42,320);
+      captionBox(ctx,'do not breathe randomly; breathe at structure boundaries',w*.48,h-92,360);
+    }else if(mode==='folds'){
+      const closure=(params.closure||55)/100, air=(params.air||55)/100;
+      const cx=w*.50, cy=h*.52, gap=54-(closure*42);
+      ctx.fillStyle='rgba(255,159,213,.30)';ctx.beginPath();ctx.ellipse(cx-gap,cy,34,122,0,0,TAU);ctx.fill();ctx.beginPath();ctx.ellipse(cx+gap,cy,34,122,0,0,TAU);ctx.fill();
+      for(let i=-4;i<=4;i++){ctx.strokeStyle='rgba(124,233,255,.55)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(70,cy+i*15);ctx.quadraticCurveTo(cx,cy+i*13+Math.sin(now*8+i)*10,cx-gap+10,cy+i*11);ctx.stroke();}
+      ctx.strokeStyle=closure<.35?'#7ce9ff':closure>.78?'#ff9fd5':'#aaf2c5';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(cx-gap+8,cy);ctx.quadraticCurveTo(cx,cy+Math.sin(now*10)*10,cx+gap-8,cy);ctx.stroke();
+      const txt=closure<.35?'too open → breathy/leaky':closure>.78?'too tight → pressed/tired':'balanced → clear/easy';
+      captionBox(ctx,txt,w*.08,42,310); captionBox(ctx,'adjust closure + air until sound is clear but not squeezed',w*.50,h-96,340);
+    }else{
+      // expression
+      const points=[[.08,.65],[.22,.58],[.38,.40],[.56,.36],[.75,.48],[.92,.63]];
+      ctx.strokeStyle='#ffe19b';ctx.lineWidth=4;ctx.beginPath();points.forEach((p,i)=>{const x=p[0]*w,y=p[1]*h;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
+      points.forEach((p,i)=>{star(ctx,p[0]*w,p[1]*h,i===2?13:8,i===2?'#ff9fd5':'#7ce9ff')});
+      captionBox(ctx,'same melody, different meaning: accent, glide, fade, diction',w*.12,42,370);
+      captionBox(ctx,'emotion is direction, not just loudness',w*.52,h-92,310);
+    }
+    ctx.restore();
+  }
+  function drawTrackOverview(canvas, song={}){
+    const {ctx,w,h}=setup(canvas); clear(ctx,w,h);
+    const roles=[['melody','#ffe19b'],['chords','#ff9fd5'],['bass','#7ce9ff'],['drums','#aaf2c5']];
+    const steps=song.steps||32;
+    roles.forEach((r,ri)=>{
+      const y=48+ri*(h-86)/roles.length;
+      label(ctx,r[0],22,y+6);
+      for(let i=0;i<steps;i++){
+        const x=95+i*(w-125)/steps; const on=(r[0]==='melody'?(song.grid||[])[i]>=0:i%8===0 || (r[0]==='drums' && (i%4===0||i%4===2)));
+        ctx.fillStyle=on?r[1]:'rgba(255,255,255,.08)';
+        drawRoundRect(ctx,x,y,Math.max(3,(w-130)/steps-2),14,4);ctx.fill();
+      }
+    });
+    captionBox(ctx,'four tracks share one time axis: melody · chord · bass · drum',w*.38,18,360);
+  }
+
+  window.ML_ANIM = {setup,drawCosmos,drawGate,drawLab,drawMandala,drawSongStructure,drawMiniLesson,drawTeachingLab:drawTeachingLabV14,drawVoiceTeaching,drawSingingCoach,drawResonanceTeaching,drawVoiceFlow,drawLineMelodyGuide,drawSingingTrainer,drawTrackOverview,noteToFreq,makeAudio,playFreq,playMelody,playInstrument,playMelodyInstrument,playVocalGuide,wavBlob,wavBlobArrangement};
 })();

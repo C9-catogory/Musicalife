@@ -1,5 +1,5 @@
 window.ML_DATA = {
-  "version": "harmonic-starcove-v16",
+  "version": "harmonic-starcove-v17",
   "copy": {
     "zh": {
       "home": "首页",
@@ -22,9 +22,9 @@ window.ML_DATA = {
       "reset": "重置",
       "export": "导出",
       "homeTitle": "音乐是我们建构的爱的方程式。",
-      "homeLead": "Harmonic Starcove V16 聚焦 Music Maker Core 与 Singing Studio：更自然的旋律、多轨道/和弦/非洲鼓节奏、机器哼唱 guide，以及从姿态到表达的歌唱教学。",
-      "gateTitle": "Harmonic Starcove V16",
-      "gateSub": "和谐星旅：音乐是我们建构的爱的方程式。写一段更自然的小曲子，用机器哼唱对齐旋律，再进入歌唱练习。",
+      "homeLead": "Harmonic Starcove V17 聚焦可视化创作与可视化唱歌：手绘线条可以转成旋律，四轨道更适合手机和电脑，歌唱页可训练也可展开原理。",
+      "gateTitle": "Harmonic Starcove V17",
+      "gateSub": "和谐星旅：画出感受、生成旋律、加入和弦与鼓点，再用歌唱训练器练习音准、气息、节奏和表达。",
       "enter": "进入和谐星旅",
       "made": "已点亮",
       "stars": "知识星点",
@@ -38,7 +38,12 @@ window.ML_DATA = {
       "result": "结果",
       "quick": "极简",
       "teach": "教学",
-      "mode": "模式"
+      "mode": "模式",
+      "train": "训练",
+      "explain": "原理",
+      "drawMelody": "画旋律",
+      "pitchTrainer": "音准训练",
+      "breathTrainer": "气息训练"
     },
     "en": {
       "home": "Home",
@@ -61,9 +66,9 @@ window.ML_DATA = {
       "reset": "Reset",
       "export": "Export",
       "homeTitle": "Music is the equation of love we build.",
-      "homeLead": "Harmonic Starcove V16 focuses on Music Maker Core and Singing Studio: more natural melody, layers/chords/drum pulse, vocal guide, and a clearer path from posture to expression.",
-      "gateTitle": "Harmonic Starcove V16",
-      "gateSub": "A journey of harmony: music is the equation of love we build. Write a more natural small piece, align it with a vocal guide, then practice singing.",
+      "homeLead": "Harmonic Starcove V17 focuses on visual creation and visual singing: draw lines into melody, use responsive four-track creation, and train or unfold singing principles.",
+      "gateTitle": "Harmonic Starcove V17",
+      "gateSub": "Draw feeling into melody, add harmony and drums, then practice pitch, breath, rhythm and expression with singing trainers.",
       "enter": "Enter Harmonic Starcove",
       "made": "Lit",
       "stars": "Knowledge stars",
@@ -77,7 +82,12 @@ window.ML_DATA = {
       "result": "Result",
       "quick": "Quick",
       "teach": "Teach",
-      "mode": "Mode"
+      "mode": "Mode",
+      "train": "Train",
+      "explain": "Explain",
+      "drawMelody": "Draw melody",
+      "pitchTrainer": "Pitch trainer",
+      "breathTrainer": "Breath trainer"
     }
   },
   "routes": [
@@ -2794,31 +2804,43 @@ window.ML_DATA = {
   "trackRoles": [
     {
       "id": "melody",
-      "zh": "Melody 主旋律",
+      "name": "Melody",
+      "zh": "主旋律",
       "en": "Melody",
       "zhText": "表达主要情绪和记忆点，像一句话。",
-      "enText": "Carries the main feeling and memorable idea, like a sentence."
+      "enText": "Carries the main feeling and memorable idea."
     },
     {
       "id": "bass",
-      "zh": "Bass 低音",
+      "name": "Bass",
+      "zh": "低音",
       "en": "Bass",
       "zhText": "给音乐一个地基，帮助听众知道“家”在哪里。",
-      "enText": "Gives the piece a foundation and tells the ear where home is."
+      "enText": "Gives the piece a foundation and a sense of home."
     },
     {
       "id": "chords",
-      "zh": "Chord 和弦",
+      "name": "Chord",
+      "zh": "和弦",
       "en": "Chord",
-      "zhText": "给旋律情绪颜色：明亮、暗、悬浮、解决。",
-      "enText": "Gives melody emotional color: bright, dark, suspended or resolved."
+      "zhText": "决定明暗、张力和解决。",
+      "enText": "Shapes color, tension and resolution."
     },
     {
       "id": "pulse",
-      "zh": "Pulse 节奏",
+      "name": "Pulse",
+      "zh": "节奏",
       "en": "Pulse",
-      "zhText": "给身体一个可预测的时间脚手架。",
-      "enText": "Gives the body a predictable timing scaffold."
+      "zhText": "提供身体推动、强弱和时间结构。",
+      "enText": "Gives body pulse, accent and time structure."
+    },
+    {
+      "id": "drums",
+      "name": "Drum",
+      "zh": "鼓圈",
+      "en": "Drum",
+      "zhText": "低音、tone、slap 和休止组成身体节奏。",
+      "enText": "Bass, tone, slap and silence form bodily rhythm."
     }
   ],
   "chordProgressions": [
@@ -3254,5 +3276,124 @@ window.ML_DATA = {
       "feelZh": "不是更大声，而是更有方向。",
       "feelEn": "Not louder, but more directed."
     }
-  ]
+  ],
+  "voiceTrainers": [
+    {
+      "id": "pitch",
+      "zh": "音准训练",
+      "en": "Pitch training",
+      "icon": "◎",
+      "zhGoal": "听目标音，用自己的声音让光点靠近中心线。偏高/偏低会立即显示。",
+      "enGoal": "Hear a target pitch, then bring your voice-dot to the center line. Sharp/flat feedback appears immediately.",
+      "term": "frequency",
+      "search": [
+        "pitch matching exercise",
+        "ear training solfege",
+        "vocal intonation practice"
+      ]
+    },
+    {
+      "id": "breath",
+      "zh": "气息训练",
+      "en": "Breath training",
+      "icon": "〜",
+      "zhGoal": "让声音强度像平稳河流，不是冲出去、憋住或突然塌掉。",
+      "enGoal": "Make intensity flow like a steady river, not a burst, hold or collapse.",
+      "term": "breath",
+      "search": [
+        "breath support singing",
+        "semi occluded vocal tract breath",
+        "sustain hum exercise"
+      ]
+    },
+    {
+      "id": "rhythm",
+      "zh": "节奏/换气",
+      "en": "Rhythm & breath marks",
+      "icon": "◷",
+      "zhGoal": "看小节线、强拍、弱拍和换气点；学会一句在哪里开始、强调、停顿。",
+      "enGoal": "See bars, strong beats, weak beats and breath marks; learn where a phrase starts, accents and pauses.",
+      "term": "rhythm",
+      "search": [
+        "singing rhythm practice",
+        "phrase breathing singing",
+        "vocal phrasing"
+      ]
+    },
+    {
+      "id": "folds",
+      "zh": "声带门",
+      "en": "Vocal fold gate",
+      "icon": "◐",
+      "zhGoal": "比较漏气、挤压和平衡闭合，理解为什么省力比用力更重要。",
+      "enGoal": "Compare breathy, pressed and balanced closure; understand why ease matters more than force.",
+      "term": "vocal_folds",
+      "search": [
+        "vocal fold closure singing",
+        "pressed voice breathy voice balanced onset"
+      ]
+    },
+    {
+      "id": "expression",
+      "zh": "情感表达",
+      "en": "Expression",
+      "icon": "♡",
+      "zhGoal": "同一句旋律用不同强弱、咬字、滑音和淡出表达温柔、勇气、悲伤或慈悲。",
+      "enGoal": "Use dynamics, diction, glide and fade to shape tenderness, courage, sadness or compassion.",
+      "term": "emotion_curve",
+      "search": [
+        "singing dynamics expression",
+        "vocal phrasing emotion",
+        "pop vocal expression"
+      ]
+    }
+  ],
+  "singingStyles": [
+    {
+      "id": "pop",
+      "zh": "流行：语言感与情绪直接",
+      "en": "Pop: speech-like and direct",
+      "zhText": "咬字更接近说话，可用气声、滑音、轻重音、哭腔。麦克风也是表达的一部分。",
+      "enText": "Speech-like diction; breathiness, slides, accents and cry can be expressive. The microphone participates."
+    },
+    {
+      "id": "classical",
+      "zh": "美声：连续声线与元音统一",
+      "en": "Classical: continuous line and unified vowels",
+      "zhText": "强调稳定气息、连续线条、元音统一和更细的动态控制。",
+      "enText": "Stable breath, continuous line, vowel alignment and refined dynamic control."
+    },
+    {
+      "id": "overtone",
+      "zh": "泛音：突出频谱中的高亮倍频",
+      "en": "Overtone: highlighting upper partials",
+      "zhText": "基音上方有倍频；口腔/舌位改变滤波，让某些泛音被突出。",
+      "enText": "Partials sit above the fundamental; mouth/tongue filtering can highlight specific overtones."
+    },
+    {
+      "id": "folk",
+      "zh": "民歌/吟唱：故事、土地与共同节奏",
+      "en": "Folk/chant: story, place and shared pulse",
+      "zhText": "旋律常更贴近语言与身体节奏，重复让大家可以加入。",
+      "enText": "Melody often stays close to language and body pulse; repetition invites participation."
+    }
+  ],
+  "drawMelodyGuide": {
+    "zh": {
+      "title": "把线条画成旋律",
+      "x": "横轴 = 时间",
+      "y": "纵轴 = 音高",
+      "smooth": "平滑线 = 连贯歌唱",
+      "break": "断开/低谷 = 换气或停顿",
+      "color": "之后可以把颜色映射到乐器或情绪"
+    },
+    "en": {
+      "title": "Draw a line into melody",
+      "x": "Horizontal axis = time",
+      "y": "Vertical axis = pitch",
+      "smooth": "Smooth line = connected singing",
+      "break": "Breaks/valleys = breath or pause",
+      "color": "Later, color can map to instrument or emotion"
+    }
+  }
 };

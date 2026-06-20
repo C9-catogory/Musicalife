@@ -9,23 +9,26 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const jget = (k,f)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch(e){return f}};
   const state = {
-    lang: localStorage.getItem('hs16_lang') || localStorage.getItem('hs15_lang') || localStorage.getItem('hs14_lang') || localStorage.getItem('hs13_lang') || localStorage.getItem('hs12_lang') || localStorage.getItem('hs9_lang') || 'zh',
+    lang: localStorage.getItem('hs17_lang') || localStorage.getItem('hs16_lang') || localStorage.getItem('hs15_lang') || localStorage.getItem('hs14_lang') || localStorage.getItem('hs13_lang') || localStorage.getItem('hs12_lang') || localStorage.getItem('hs9_lang') || 'zh',
     route: ROUTES.has(location.hash.replace('#','')) ? location.hash.replace('#','') : 'home',
-    entered: (localStorage.getItem('hs16_entered') || localStorage.getItem('hs15_entered') || localStorage.getItem('hs14_entered') || localStorage.getItem('hs13_entered') || localStorage.getItem('hs12_entered') || localStorage.getItem('hs9_entered')) === '1',
-    simple: (localStorage.getItem('hs16_simple') || localStorage.getItem('hs15_simple') || localStorage.getItem('hs14_simple') || localStorage.getItem('hs13_simple') || localStorage.getItem('hs12_simple') || localStorage.getItem('hs9_simple')) === '1',
-    reduced: (localStorage.getItem('hs16_reduced') || localStorage.getItem('hs15_reduced') || localStorage.getItem('hs14_reduced') || localStorage.getItem('hs13_reduced') || localStorage.getItem('hs12_reduced') || localStorage.getItem('hs9_reduced')) === '1',
-    lit: new Set(jget('hs16_lit', jget('hs15_lit', jget('hs14_lit', jget('hs13_lit', jget('hs12_lit', jget('hs9_lit', []))))))),
+    entered: (localStorage.getItem('hs17_entered') || localStorage.getItem('hs16_entered') || localStorage.getItem('hs15_entered') || localStorage.getItem('hs14_entered') || localStorage.getItem('hs13_entered') || localStorage.getItem('hs12_entered') || localStorage.getItem('hs9_entered')) === '1',
+    simple: (localStorage.getItem('hs17_simple') || localStorage.getItem('hs16_simple') || localStorage.getItem('hs15_simple') || localStorage.getItem('hs14_simple') || localStorage.getItem('hs13_simple') || localStorage.getItem('hs12_simple') || localStorage.getItem('hs9_simple')) === '1',
+    reduced: (localStorage.getItem('hs17_reduced') || localStorage.getItem('hs16_reduced') || localStorage.getItem('hs15_reduced') || localStorage.getItem('hs14_reduced') || localStorage.getItem('hs13_reduced') || localStorage.getItem('hs12_reduced') || localStorage.getItem('hs9_reduced')) === '1',
+    lit: new Set(jget('hs17_lit', jget('hs16_lit', jget('hs15_lit', jget('hs14_lit', jget('hs13_lit', jget('hs12_lit', jget('hs9_lit', [])))))))),
     lab: 'sound',
     term: null,
     query: '',
     atlasFilter: 'all',
-    expandedGalaxy: localStorage.getItem('hs16_expandedGalaxy') || localStorage.getItem('hs15_expandedGalaxy') || 'create',
-    uiMode: localStorage.getItem('hs16_uiMode') || localStorage.getItem('hs15_uiMode') || 'quick',
+    expandedGalaxy: localStorage.getItem('hs17_expandedGalaxy') || localStorage.getItem('hs15_expandedGalaxy') || 'create',
+    uiMode: localStorage.getItem('hs17_uiMode') || localStorage.getItem('hs16_uiMode') || localStorage.getItem('hs15_uiMode') || 'quick',
+    activeTrack: localStorage.getItem('hs17_activeTrack') || 'melody',
+    voiceTrainer: {mode:'pitch',targetFreq:261.63,currentFreq:0,cents:0,level:0,mic:false,status:''},
+    drawMelody: {points:[], bound:false},
     raf: 0,
     rafs: {},
     stopCosmos: null,
     audio: null,
-    compose: jget('hs16_compose', jget('hs15_compose', jget('hs14_compose', jget('hs13_compose', jget('hs12_compose', {scale:'C_major',tempo:84,steps:32,instrument:'warmPiano',purpose:'daily',emotion:'focus',naturalize:true,vocalGuide:true,syllable:'hum',drums:true,grid:Array(32).fill(-1)}))))),
+    compose: jget('hs17_compose', jget('hs16_compose', jget('hs15_compose', jget('hs14_compose', jget('hs13_compose', jget('hs12_compose', {scale:'C_major',tempo:84,steps:32,instrument:'warmPiano',purpose:'daily',emotion:'focus',naturalize:true,vocalGuide:true,syllable:'hum',drums:true,grid:Array(32).fill(-1)})))))),
     life: {preset:'sleep', bpm:62,dynamic:22,lyrics:10,predict:86},
     beings: {a:52,b:68,c:42,open:60,ratioMode:'triad'},
     params: {freq:220,amp:52,phase:0,target:440,h1:1,h2:1,h3:.6,h4:.42,h5:.25,vowel:'a', voiceLesson:'breath'}
@@ -57,14 +60,15 @@
   const C = k => (DATA.copy[state.lang] && DATA.copy[state.lang][k]) || DATA.copy.zh[k] || k;
   const L = obj => obj?.[state.lang] || obj?.zh || obj?.en || obj || '';
   const save = () => {
-    localStorage.setItem('hs16_lang', state.lang);
-    localStorage.setItem('hs16_entered', state.entered?'1':'0');
-    localStorage.setItem('hs16_simple', state.simple?'1':'0');
-    localStorage.setItem('hs16_reduced', state.reduced?'1':'0');
-    localStorage.setItem('hs16_lit', JSON.stringify([...state.lit]));
-    localStorage.setItem('hs16_compose', JSON.stringify(state.compose));
-    localStorage.setItem('hs16_uiMode', state.uiMode);
-    localStorage.setItem('hs16_expandedGalaxy', state.expandedGalaxy);
+    localStorage.setItem('hs17_lang', state.lang);
+    localStorage.setItem('hs17_entered', state.entered?'1':'0');
+    localStorage.setItem('hs17_simple', state.simple?'1':'0');
+    localStorage.setItem('hs17_reduced', state.reduced?'1':'0');
+    localStorage.setItem('hs17_lit', JSON.stringify([...state.lit]));
+    localStorage.setItem('hs17_compose', JSON.stringify(state.compose));
+    localStorage.setItem('hs17_uiMode', state.uiMode);
+    localStorage.setItem('hs17_activeTrack', state.activeTrack||'melody');
+    localStorage.setItem('hs17_expandedGalaxy', state.expandedGalaxy);
   };
   document.addEventListener('DOMContentLoaded', init);
   function init(){
@@ -77,7 +81,7 @@
   }
   function bind(){
     document.addEventListener('click', e=>{
-      const el=e.target.closest('[data-act],[data-route],[data-term],[data-lab],[data-preset],[data-param-toggle],[data-filter],[data-voice-lesson],[data-soundlab],[data-voice-mode],[data-layer],[data-syllable],[data-ratio-mode],[data-ui-mode],[data-start-mode],[data-galaxy]');
+      const el=e.target.closest('[data-act],[data-route],[data-term],[data-lab],[data-preset],[data-param-toggle],[data-filter],[data-voice-lesson],[data-soundlab],[data-voice-mode],[data-layer],[data-syllable],[data-ratio-mode],[data-ui-mode],[data-start-mode],[data-galaxy],[data-track],[data-voice-trainer]');
       if(!el) return;
       if(el.dataset.route){ e.preventDefault(); closeModal(); route(el.dataset.route); return; }
       const act=el.dataset.act;
@@ -90,6 +94,12 @@
       if(act==='ratio-tone'){ if(!state.audio) state.audio=ANIM.makeAudio(); ANIM.playFreq(state.audio,Number(el.dataset.freq||220),.55,'sine',.04); return;}
       if(act==='light'){light(el.dataset.id); return;}
       if(act==='close'){closeModal(); return;}
+      if(act==='draw-to-melody'){drawLineToMelody(); return;}
+      if(act==='draw-clear'){state.drawMelody.points=[]; save(); drawActive(); return;}
+      if(act==='start-mic'){startMicTrainer(); return;}
+      if(act==='stop-mic'){stopMicTrainer(); return;}
+      if(act==='play-target'){playTargetTone(); return;}
+      if(act==='drum-hit'){toast(state.lang==='zh'?'鼓点已加入当前身体节奏':'Drum step added to body pulse'); return;}
       if(act==='compose-note'){toggleNote(+el.dataset.step,+el.dataset.pitch); return;}
       if(act==='compose-play'){playComposition(); return;}
       if(act==='vocal-guide-play'){playVocalGuide(); return;}
@@ -116,6 +126,8 @@
       if(el.dataset.ratioMode){ state.beings.ratioMode=el.dataset.ratioMode; drawActive(); return; }
       if(el.dataset.uiMode){ state.uiMode=el.dataset.uiMode; save(); render(); return; }
       if(el.dataset.startMode){ const m=(DATA.startModes||[]).find(x=>x.id===el.dataset.startMode); if(m){ state.uiMode=m.mode||'quick'; state.entered=true; save(); route(m.route||'home'); } return; }
+      if(el.dataset.track){ state.activeTrack=el.dataset.track; save(); renderCompose(); return; }
+      if(el.dataset.voiceTrainer){ state.voiceTrainer=state.voiceTrainer||{}; state.voiceTrainer.mode=el.dataset.voiceTrainer; renderVoice(true); return; }
       if(el.dataset.galaxy){ state.expandedGalaxy=el.dataset.galaxy; save(); renderAtlas(); return; }
       if(el.dataset.filter){ state.atlasFilter=el.dataset.filter; renderAtlas(); return; }
       if(el.dataset.voiceLesson){ state.params.voiceLesson=el.dataset.voiceLesson; renderVoice(); return; }
@@ -126,6 +138,11 @@
     });
     document.addEventListener('input', e=>{
       const el=e.target;
+      if(el.matches('[data-trainer-param]')){
+        const k=el.dataset.trainerParam; state.voiceTrainer=state.voiceTrainer||{}; state.voiceTrainer[k]=Number(el.value);
+        const out=el.closest('.control')?.querySelector('output'); if(out) out.textContent=Number(el.value).toFixed(k==='level'?2:0);
+        drawActive(); return;
+      }
       if(el.matches('[data-param]')){
         const k=el.dataset.param; state.params[k]=Number(el.value);
         const out=el.closest('.control')?.querySelector('output'); if(out) out.textContent=Number(el.value).toFixed(el.step && Number(el.step)<1 ? 2 : 0);
@@ -253,18 +270,84 @@ function renderVoice(redraw=true){
     const lessons=DATA.voiceCurriculum||[];
     const active=state.params.voiceLesson||'breath';
     const lesson=lessons.find(x=>x.id===active)||lessons[0];
-    const quickIds=['posture','breath','folds','sovt','vowel','dynamics','emotion'];
-    const shown=state.uiMode==='quick'?lessons.filter(l=>quickIds.includes(l.id)):lessons;
-    $('#view').innerHTML=`<section class="page">${head(C('voice'),state.lang==='zh'?'歌唱：先看总流程，再选择一步练习。极简模式只保留最常用动作；教学模式显示完整路径。':'Singing: see the whole flow, then practice one step. Quick mode keeps core actions; teaching mode shows the full path.')}
+    const trainers=DATA.voiceTrainers||[];
+    const mode=state.voiceTrainer?.mode||'pitch';
+    const trainer=trainers.find(t=>t.id===mode)||trainers[0]||{};
+    const theoryList = state.uiMode==='quick' ? lessons.filter(l=>['posture','breath','folds','sovt','vowel','phrase','dynamics','emotion'].includes(l.id)) : lessons;
+    $('#view').innerHTML=`<section class="page">${head(C('voice'),state.lang==='zh'?'歌唱工作室：可以直接训练，也可以展开原理。先练音准、气息、节奏和表达，再按需打开身体/声带/共鸣/咬字知识。':'Singing studio: train directly, and unfold principles when needed. Practice pitch, breath, rhythm and expression, then open body/fold/resonance/diction knowledge as needed.')}
       ${composeModeBar()}
-      <div class="panel voice-flow-panel"><h2>${state.lang==='zh'?'从感受到歌声':'From feeling to song'}</h2><div class="voice-flow-wrap"><canvas id="voiceFlowCanvas"></canvas></div><p class="mini">${state.lang==='zh'?'感受不是直接变成声音：先变成身体方向，再变成气流、声带振动、声道滤波、咬字、强弱和乐句。':'Feeling does not become sound directly: it becomes body direction, airflow, fold vibration, tract filter, words, dynamics and phrasing.'}</p></div>
-      <div class="panel vocal-guide-box"><h2>${state.lang==='zh'?'用当前旋律练唱':'Practice singing current melody'}</h2><p class="mini">${state.lang==='zh'?'先在创作页写或生成旋律，然后回到这里听机器哼唱 guide：哪里换气、哪里强调、哪里回到主音。':'Write/generate a melody in Compose, then return here and hear the vocal guide: breath points, accents and return to tonic.'}</p><div class="actions"><button class="btn primary" data-act="vocal-guide-play">${state.lang==='zh'?'机器哼唱当前旋律':'Sing current melody'}</button><button class="btn ghost" data-route="compose">${state.lang==='zh'?'去创作旋律':'Go compose'}</button></div><div class="melody-guide">${vocalPhraseMarks().map(x=>`<span>${x}</span>`).join('')}</div></div>
-      <div class="voice-quick-grid">${shown.map((l,i)=>`<button class="${active===l.id?'active':''}" data-voice-lesson="${l.id}"><b>${state.lang==='zh'?l.zh.replace(/^\d+\.\s*/,''):l.en.replace(/^\d+\.\s*/,'')}</b><br><span class="mini">${state.lang==='zh'?l.principleZh:l.principleEn}</span></button>`).join('')}</div>
-      <div class="lesson-stage"><div class="panel"><h2>${esc(state.lang==='zh'?lesson.zh:lesson.en)}</h2><div class="canvas-wrap"><canvas id="voiceLessonCanvas"></canvas></div><div class="voice-mode-row">${voiceModeButtons(active)}</div><div class="voice-control-grid">${voiceControls(active)}</div><div class="actions"><button class="btn primary" data-act="play-lab">${C('listen')}</button><button class="btn ghost" data-act="light" data-id="${lesson.term}">${C('learn')}</button><button class="btn gold" data-route="compose">${state.lang==='zh'?'把练习写成旋律':'Turn practice into melody'}</button></div></div><aside class="panel"><div class="principle-card"><b>${state.lang==='zh'?'原理':'Principle'}</b><p>${esc(state.lang==='zh'?lesson.principleZh:lesson.principleEn)}</p></div><div class="principle-card"><b>${state.lang==='zh'?'怎么练':'Practice'}</b><p>${esc(state.lang==='zh'?lesson.practiceZh:lesson.practiceEn)}</p></div><div class="principle-card"><b>${state.lang==='zh'?'常见错误':'Common mistake'}</b><p>${esc(state.lang==='zh'?lesson.mistakeZh:lesson.mistakeEn)}</p></div><div class="formula formula-plain">${voiceFormula(active)}</div><div class="resource-row">${resourceLinks('voice_core').map(r=>`<a href="${r.url}" target="_blank" rel="noopener">↗ ${r.label}</a>`).join('')}</div></aside></div>
+      <div class="panel voice-flow-panel">
+        <h2>${state.lang==='zh'?'从感受到歌声：总流程':'From feeling to song: full flow'}</h2>
+        <div class="voice-flow-wrap"><canvas id="voiceFlowCanvas"></canvas></div>
+        <p class="mini">${state.lang==='zh'?'感受先变成身体方向，再变成气流、声带振动、声道滤波、咬字、强弱、节奏和乐句。下面可以直接训练，也可以展开看原理。':'Feeling becomes body direction, airflow, fold vibration, tract filtering, diction, dynamics, rhythm and phrasing. Train first, unfold explanations when needed.'}</p>
+      </div>
+      <div class="voice-lab-layout">
+        <aside class="panel">
+          <h2>${state.lang==='zh'?'训练器':'Trainer'}</h2>
+          <div class="voice-trainer-tabs">${trainers.map(t=>`<button class="${mode===t.id?'active':''}" data-voice-trainer="${t.id}"><b>${t.icon||'✦'} ${state.lang==='zh'?t.zh:t.en}</b><span class="mini">${state.lang==='zh'?t.zhGoal:t.enGoal}</span></button>`).join('')}</div>
+          <div class="trainer-readout">
+            <div class="meter-card"><b>${state.lang==='zh'?'目标':'Target'}</b><span>${Math.round(state.voiceTrainer?.targetFreq||261.63)} Hz</span></div>
+            <div class="meter-card"><b>${state.lang==='zh'?'当前':'Current'}</b><span>${state.voiceTrainer?.currentFreq?Math.round(state.voiceTrainer.currentFreq)+' Hz':'—'}</span></div>
+            <div class="meter-card"><b>${state.lang==='zh'?'反馈':'Feedback'}</b><span class="pitch-status">${voiceFeedback()}</span></div>
+          </div>
+          <div class="actions">
+            <button class="btn primary" data-act="play-target">${state.lang==='zh'?'听目标音':'Target tone'}</button>
+            <button class="btn ghost" data-act="start-mic">${state.voiceTrainer?.mic?(state.lang==='zh'?'重新开始麦克风':'Restart mic'):(state.lang==='zh'?'打开麦克风':'Start mic')}</button>
+            <button class="btn ghost" data-act="stop-mic">${state.lang==='zh'?'停止麦克风':'Stop mic'}</button>
+          </div>
+          <div class="control"><label><span>${state.lang==='zh'?'目标音高':'Target pitch'}</span><output>${Math.round(state.voiceTrainer?.targetFreq||261.63)}</output></label><input data-trainer-param="targetFreq" type="range" min="130" max="660" value="${state.voiceTrainer?.targetFreq||261.63}"></div>
+          ${mode==='breath'?`<div class="control"><label><span>${state.lang==='zh'?'目标稳定度':'Target steadiness'}</span><output>${Math.round((state.voiceTrainer?.level||0.45)*100)}</output></label><input data-trainer-param="level" type="range" min="0" max="1" step="0.01" value="${state.voiceTrainer?.level||0.45}"></div>`:''}
+          <p class="mini">${state.lang==='zh'?trainer.zhGoal:trainer.enGoal}</p>
+        </aside>
+        <section class="panel">
+          <h2>${state.lang==='zh'?trainer.zh:trainer.en}</h2>
+          <div class="voice-trainer-canvas"><canvas id="voiceTrainerCanvas"></canvas></div>
+          <div class="teaching-overlay">${voiceTrainerInstruction(mode)}</div>
+          <div class="actions"><button class="btn primary" data-act="vocal-guide-play">${state.lang==='zh'?'机器哼唱当前旋律':'Sing current melody'}</button><button class="btn ghost" data-route="compose">${state.lang==='zh'?'去画/写旋律':'Draw/compose melody'}</button></div>
+        </section>
+      </div>
+      <div class="voice-folds">
+        <details open><summary>${state.lang==='zh'?'按需展开：唱歌原理路径':'Unfold when needed: singing principle path'}</summary><div class="inside">
+          <div class="voice-quick-grid">${theoryList.map((l,i)=>`<button class="${active===l.id?'active':''}" data-voice-lesson="${l.id}"><b><span class="voice-step-num">${i+1}</span>${state.lang==='zh'?l.zh.replace(/^\d+\.\s*/,''):l.en.replace(/^\d+\.\s*/,'')}</b><span class="mini">${state.lang==='zh'?l.principleZh:l.principleEn}</span></button>`).join('')}</div>
+          <div class="lesson-stage" style="margin-top:12px">
+            <div class="panel"><h2>${esc(state.lang==='zh'?lesson.zh:lesson.en)}</h2><div class="canvas-wrap"><canvas id="voiceLessonCanvas"></canvas></div><div class="voice-mode-row">${voiceModeButtons(active)}</div><div class="voice-control-grid">${voiceControls(active)}</div></div>
+            <aside class="panel"><div class="lesson-principles"><div class="principle-card"><b>${state.lang==='zh'?'原理':'Principle'}</b><p>${esc(state.lang==='zh'?lesson.principleZh:lesson.principleEn)}</p></div><div class="principle-card"><b>${state.lang==='zh'?'怎么练':'Practice'}</b><p>${esc(state.lang==='zh'?lesson.practiceZh:lesson.practiceEn)}</p></div><div class="principle-card"><b>${state.lang==='zh'?'常见错误':'Common mistake'}</b><p>${esc(state.lang==='zh'?lesson.mistakeZh:lesson.mistakeEn)}</p></div><div class="principle-card"><b>${state.lang==='zh'?'公式 / 逻辑':'Formula / logic'}</b><p class="formula-plain">${voiceFormula(active)}</p></div></div>${lessonLinks(lesson.term||active)}</aside>
+          </div>
+        </div></details>
+        <details><summary>${state.lang==='zh'?'风格比较：流行 / 美声 / 泛音 / 民歌':'Style comparison: pop / classical / overtone / folk'}</summary><div class="inside"><div class="singing-style-grid">${(DATA.singingStyles||[]).map(s=>`<article class="principle-card"><b>${state.lang==='zh'?s.zh:s.en}</b><p>${state.lang==='zh'?s.zhText:s.enText}</p></article>`).join('')}</div></div></details>
+        <details><summary>${state.lang==='zh'?'当前旋律的换气与重音':'Breath and accent marks for current melody'}</summary><div class="inside"><div class="melody-guide">${vocalPhraseMarks().map(x=>`<span>${x}</span>`).join('')}</div><p class="mini">${state.lang==='zh'?'☾ 是建议换气点；★ 是强调或回家点。先听机器哼唱，再自己跟唱。':'☾ marks suggested breath; ★ marks accent/home. Listen to the guide, then sing along.'}</p></div></details>
+      </div>
     </section>`;
     if(redraw) drawActive();
   }
-  function voiceModeButtons(id){
+  function voiceFeedback(){
+    const vt=state.voiceTrainer||{}; if(!vt.currentFreq) return state.lang==='zh'?'未检测':'—';
+    const cents=1200*Math.log2(vt.currentFreq/(vt.targetFreq||261.63));
+    if(Math.abs(cents)<18) return state.lang==='zh'?'准了':'in tune';
+    return cents>0 ? (state.lang==='zh'?'偏高':'sharp') : (state.lang==='zh'?'偏低':'flat');
+  }
+  function voiceTrainerInstruction(mode){
+    const zh={
+      pitch:'训练目标：不是一开始就唱大声，而是让音高光点慢慢靠近中心线。先用 hum，再换 la / ah。',
+      breath:'训练目标：让声音强度像平稳河流。冲气会一开始很高，憋气会断，稳定气流最容易唱准。',
+      rhythm:'训练目标：强拍像脚落地，弱拍像身体流动，换气在句子边界，不要随机断开。',
+      folds:'训练目标：漏气、挤压、平衡三种状态都听懂。平衡闭合是清楚但不紧。',
+      expression:'训练目标：情感不是只变大声，而是重音、淡出、滑音、咬字和换气位置共同改变。'
+    };
+    const en={
+      pitch:'Goal: do not start by singing loudly; bring the pitch-dot gently toward the target line. Hum first, then la / ah.',
+      breath:'Goal: keep intensity like a steady river. A burst spikes, holding breaks, stable airflow supports pitch.',
+      rhythm:'Goal: strong beat is landing, weak beat is flow, breath belongs at phrase boundaries.',
+      folds:'Goal: hear breathy, pressed and balanced states. Balanced closure is clear but not tight.',
+      expression:'Goal: emotion is not only loudness; accent, fade, glide, diction and breath placement shape meaning.'
+    };
+    return state.lang==='zh'?zh[mode]||zh.pitch:en[mode]||en.pitch;
+  }
+  function lessonLinks(term){
+    const q=encodeURIComponent((DATA.voiceTrainers||[]).find(t=>t.term===term)?.search?.[0] || term || 'singing practice');
+    return `<div class="principle-card"><b>${state.lang==='zh'?'继续学习':'Continue learning'}</b><div class="link-chips"><button data-term="${term||'voice'}">${state.lang==='zh'?'打开星点':'Open star'}</button><a target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${q}">YouTube</a><a target="_blank" rel="noopener" href="https://www.google.com/search?q=${q}">Search</a></div></div>`;
+  }
+function voiceModeButtons(id){
     if(id==='posture') return ['collapsed','balanced','tense'].map(m=>`<button class="pill ${state.params.voiceMode===m?'active':''}" data-voice-mode="${m}">${m}</button>`).join('');
     if(id==='folds') return ['breathy','balanced','pressed'].map(m=>`<button class="pill ${state.params.voiceMode===m?'active':''}" data-voice-mode="${m}">${m}</button>`).join('');
     if(id==='emotion') return ['comfort','joy','courage','goodbye'].map(m=>`<button class="pill ${state.params.voiceMode===m?'active':''}" data-voice-mode="${m}">${m}</button>`).join('');
@@ -323,13 +406,48 @@ function renderCompose(redraw=true){
         <label>${state.lang==='zh'?'乐器':'Instrument'}<select id="instrumentSelect">${insts.map(i=>`<option value="${i.id}" ${i.id===state.compose.instrument?'selected':''}>${state.lang==='zh'?i.zh:i.en}</option>`).join('')}</select></label>
         <label>${state.lang==='zh'?'长度':'Length'}<select id="stepsSelect">${[16,32,64,128].map(n=>`<option value="${n}" ${n===state.compose.steps?'selected':''}>${n}</option>`).join('')}</select></label>
       </div><div class="control"><label><span>BPM</span><output>${state.compose.tempo}</output></label><input id="tempoRange" type="range" min="40" max="180" value="${state.compose.tempo}"><input id="tempoInput" type="number" min="40" max="180" value="${state.compose.tempo}"></div>
-      <div class="quick-hint">${quickComposeHint()}</div>${makerCorePanel()}${vocalGuidePanel()}
-      <div class="sequencer long" style="${seqStyle(grid.length)}">${seqGrid(sc,grid)}</div>
+      <div class="quick-hint">${quickComposeHint()}</div>${drawMelodyPanel()}${trackMobilePanel()}${makerCorePanel()}${vocalGuidePanel()}
+      ${drawMelodyPanel()}${drawMelodyPanel()}<div class="sequencer long" style="${seqStyle(grid.length)}">${seqGrid(sc,grid)}</div>
       <div id="notation" class="notation">${notation(sc,grid)}</div>
       <div class="quick-actions-sticky"><button class="btn primary" data-act="compose-play">▶ ${C('play')}</button><button class="btn ghost" data-act="vocal-guide-play">${state.lang==='zh'?'哼唱':'Vocal'}</button><button class="btn ghost" data-act="compose-random">${state.lang==='zh'?'生成':'Generate'}</button><button class="btn ghost" data-act="compose-naturalize">${state.lang==='zh'?'更自然':'Humanize'}</button><button class="btn ghost" data-act="compose-clear">${C('reset')}</button><button class="btn gold" data-act="compose-wav">WAV</button><button class="btn gold" data-act="compose-midi">MIDI</button><button class="btn ghost" data-act="download-png">PNG</button></div></div>
       <aside class="panel"><div class="canvas-wrap"><canvas id="mandalaCanvas"></canvas></div><div class="compose-analysis">${compositionAnalysis().slice(0,3).map(a=>`<div class="analysis-card"><b>${a.title}</b><p class="mini">${a.text}</p></div>`).join('')}</div><div class="actions"><button class="btn ghost" data-act="download-wallpaper">${state.lang==='zh'?'星空壁纸':'Wallpaper'}</button><button class="btn ghost" data-ui-mode="teach">${state.lang==='zh'?'查看原理':'Show teaching'}</button></div></aside></div></section>`;
     if(redraw) drawActive();
   }
+
+  function drawMelodyPanel(){
+    const guide=DATA.drawMelodyGuide?.[state.lang]||DATA.drawMelodyGuide?.zh||{};
+    return `<details class="draw-melody-panel" open><summary><b>${C('drawMelody')||'Draw melody'}</b> · ${guide.title||''}</summary>
+      <div class="draw-melody-canvas-wrap"><canvas id="drawMelodyCanvas"></canvas></div>
+      <div class="actions"><button class="btn primary" data-act="draw-to-melody">${state.lang==='zh'?'线条转旋律':'Line → melody'}</button><button class="btn ghost" data-act="draw-clear">${state.lang==='zh'?'清空线条':'Clear line'}</button><button class="btn ghost" data-act="compose-naturalize">${state.lang==='zh'?'更自然':'Humanize'}</button></div>
+      <p class="mini">${guide.x||''} · ${guide.y||''} · ${guide.smooth||''} · ${guide.break||''}</p>
+    </details>`;
+  }
+  function trackMobilePanel(){
+    const roles=DATA.trackRoles||[];
+    const active=state.activeTrack||'melody';
+    return `<div class="track-mobile-shell"><div class="track-tabs">${roles.map(r=>`<button class="${active===r.id?'active':''}" data-track="${r.id}">${r.name||r.id}<br><span class="mini">${state.lang==='zh'?(r.zh||r.id):(r.en||r.id)}</span></button>`).join('')}</div>
+      <div class="track-lane-view">${trackLaneContent(active)}</div>
+      <div class="track-overview">${roles.slice(0,4).map(r=>trackOverviewRow(r)).join('')}</div>
+    </div>`;
+  }
+  function trackLaneContent(id){
+    const role=(DATA.trackRoles||[]).find(r=>r.id===id)||{};
+    if(id==='melody') return `<b>Melody / ${state.lang==='zh'?'主旋律':'main line'}</b><p class="mini">${state.lang==='zh'?'在下方星格或上方手绘线条中写旋律。主旋律负责“我想说什么”。':'Write melody in the grid or by drawing. Melody says what you mean.'}</p>`;
+    if(id==='chords') return `<b>Chord / ${state.lang==='zh'?'和弦':'harmony'}</b><p class="mini">${state.lang==='zh'?'选择一组和弦：根音给稳定，三度给明暗，五度给支撑。':'Choose chords: root stabilizes, third colors, fifth supports.'}</p><div class="chord-row">${(DATA.chordProgressions||[]).map(ch=>`<button class="pill ${state.compose.chords?.includes(ch.id)?'active':''}" data-act="chord" data-id="${ch.id}">${ch.id}</button>`).join('')}</div>`;
+    if(id==='bass') return `<b>Bass / ${state.lang==='zh'?'低音':'bass'}</b><p class="mini">${state.lang==='zh'?'低音跟随和弦根音，让音乐有地面和回家感。':'Bass follows chord roots so the song has ground and home.'}</p><button class="pill ${state.compose.layers?.bass!==false?'active':''}" data-layer="bass">${state.lang==='zh'?'低音开关':'Bass on/off'}</button>`;
+    if(id==='drums'||id==='pulse') return `<b>Djembe / ${state.lang==='zh'?'鼓圈':'drum circle'}</b><p class="mini">${state.lang==='zh'?'Bass=地面，Tone=步伐，Slap=强调，休止=呼吸。':'Bass=ground, Tone=step, Slap=accent, silence=breath.'}</p><div class="drum-circle">${Array.from({length:16},(_,i)=>`<button class="drum-hit ${(i%4===0||i%4===2)?'on':''}" data-act="drum-hit" data-step="${i}">${i%4===0?'B':i%4===2?'S':'·'}</button>`).join('')}</div>`;
+    return `<b>${role.name||id}</b><p class="mini">${state.lang==='zh'?(role.zhText||'轨道可以打开或收起。'):(role.enText||'Open or fold this track.')}</p>`;
+  }
+  function trackOverviewRow(r){
+    const grid=state.compose.grid||[];
+    const cells=Array.from({length:32},(_,i)=>{
+      const section=i<4?'intro':i<16?'a':i<28?'b':'return';
+      const on=r.id==='melody'?grid[i%grid.length]>=0:(r.id==='chords'||r.id==='bass'?i%8===0:(i%4===0||i%4===2));
+      return `<i class="${on?'on':''} section-${section}"></i>`;
+    }).join('');
+    return `<div class="track-overview-row"><b>${r.name||r.id}</b><div class="track-mini-grid">${cells}</div></div>`;
+  }
+
   function quickComposeHint(){
     const e=(DATA.emotionTemplates||[]).find(x=>x.id===state.compose.emotion)||{};
     return state.lang==='zh'?`当前感受：${e.zh||''}。先写一个 4 步小动机，重复一次，再变化一次，最后回到 1。`:`Feeling: ${e.en||''}. Write a 4-step motive, repeat it, vary once, then return to 1.`;
@@ -358,12 +476,12 @@ function renderCompose(redraw=true){
     const sc=DATA.scales[state.compose.scale]; const grid=state.compose.grid;
     const insts=DATA.instruments||[]; const purposes=DATA.composePurposes||[]; const emotions=DATA.emotionTemplates||[]; const activeEmotion=emotions.find(e=>e.id===state.compose.emotion)||emotions[0]||{};
     $('#view').innerHTML=`<section class="page">${head(C('compose'),state.lang==='zh'?'教学创作：把感受翻译成音阶、BPM、乐器、轨道、和弦和结构。':'Teaching compose: translate feeling into scale, BPM, instrument, tracks, chords and form.')}
-      ${composeModeBar()}<div class="studio-layout"><aside class="studio-left"><details class="fold" open><summary>${state.lang==='zh'?'① 感受 → 参数':'① Feeling → parameters'}</summary><div class="fold-body"><div class="visual-template-grid">${emotions.map(e=>`<button class="visual-template ${state.compose.emotion===e.id?'active':''}" data-act="emotion" data-id="${e.id}"><div class="template-icon">${templateBars(e)}</div><b>${state.lang==='zh'?e.zh:e.en}</b><p class="mini">${state.lang==='zh'?e.zhWhy:e.enWhy}</p></button>`).join('')}</div></div></details><details class="fold" open><summary>${state.lang==='zh'?'② 操作参数':'② Controls'}</summary><div class="fold-body"><div class="compose-top"><label>${state.lang==='zh'?'情绪':'Emotion'}<select id="emotionSelect">${emotions.map(e=>`<option value="${e.id}" ${e.id===state.compose.emotion?'selected':''}>${state.lang==='zh'?e.zh:e.en}</option>`).join('')}</select></label><label>${state.lang==='zh'?'用途':'Purpose'}<select id="purposeSelect">${purposes.map(p=>`<option value="${p.id}" ${p.id===state.compose.purpose?'selected':''}>${state.lang==='zh'?p.zh:p.en}</option>`).join('')}</select></label><label>${state.lang==='zh'?'音阶':'Scale'}<select id="scaleSelect">${Object.keys(DATA.scales).map(k=>`<option value="${k}" ${k===state.compose.scale?'selected':''}>${state.lang==='zh'?DATA.scales[k].zh:DATA.scales[k].en}</option>`).join('')}</select></label><label>${state.lang==='zh'?'乐器':'Instrument'}<select id="instrumentSelect">${insts.map(i=>`<option value="${i.id}" ${i.id===state.compose.instrument?'selected':''}>${state.lang==='zh'?i.zh:i.en}</option>`).join('')}</select></label><label>${state.lang==='zh'?'长度':'Length'}<select id="stepsSelect">${[16,32,64,128].map(n=>`<option value="${n}" ${n===state.compose.steps?'selected':''}>${n}</option>`).join('')}</select></label></div><div class="control"><label><span>BPM</span><output>${state.compose.tempo}</output></label><input id="tempoRange" type="range" min="40" max="180" value="${state.compose.tempo}"><input id="tempoInput" type="number" min="40" max="180" value="${state.compose.tempo}"></div></div></details><details class="fold" open><summary>${state.lang==='zh'?'③ 轨道分工':'③ Track roles'}</summary><div class="fold-body">${arrangementPanel()}</div></details></aside><section class="studio-mid"><div class="panel"><h2>${state.lang==='zh'?'写旋律 / 看乐谱':'Write melody / read notation'}</h2><p class="mini">${state.lang==='zh'?'旋律表达，低音稳定中心，和弦给情绪颜色，节奏推动身体。':'Melody expresses, bass stabilizes, chords color emotion, pulse moves the body.'}</p><div class="compose-actions"><button class="btn primary" data-act="compose-play">▶ ${C('play')}</button><button class="btn ghost" data-act="compose-random">${state.lang==='zh'?'按模板生成':'Generate by template'}</button><button class="btn ghost" data-act="compose-clear">${C('reset')}</button></div><div class="sequencer long" style="${seqStyle(grid.length)}">${seqGrid(sc,grid)}</div><div id="notation" class="notation">${notation(sc,grid)}</div></div></section><aside class="studio-right"><div class="panel"><h2>${state.lang==='zh'?'结构动画':'Form animation'}</h2><div class="structure-canvas-wrap"><canvas id="structureCanvas"></canvas></div><div class="explain-box">${structureExplanation(activeEmotion)}</div></div><div class="panel"><h2>${state.lang==='zh'?'曼陀罗 / 分析 / 导出':'Mandala / analysis / export'}</h2><div class="canvas-wrap small-canvas"><canvas id="mandalaCanvas"></canvas></div><div class="compose-analysis">${compositionAnalysis().map(a=>`<div class="analysis-card"><b>${a.title}</b><p class="mini">${a.text}</p></div>`).join('')}</div><div class="export-grid"><button class="btn gold" data-act="compose-wav">WAV</button><button class="btn gold" data-act="compose-midi">MIDI</button><button class="btn gold" data-act="compose-musicxml">MusicXML</button><button class="btn ghost" data-act="compose-export">JSON</button><button class="btn ghost" data-act="download-png">PNG</button><button class="btn ghost" data-act="download-wallpaper">${state.lang==='zh'?'壁纸':'Wallpaper'}</button></div></div></aside></div></section>`;
+      ${composeModeBar()}<div class="studio-layout"><aside class="studio-left"><details class="fold" open><summary>${state.lang==='zh'?'① 感受 → 参数':'① Feeling → parameters'}</summary><div class="fold-body"><div class="visual-template-grid">${emotions.map(e=>`<button class="visual-template ${state.compose.emotion===e.id?'active':''}" data-act="emotion" data-id="${e.id}"><div class="template-icon">${templateBars(e)}</div><b>${state.lang==='zh'?e.zh:e.en}</b><p class="mini">${state.lang==='zh'?e.zhWhy:e.enWhy}</p></button>`).join('')}</div></div></details><details class="fold" open><summary>${state.lang==='zh'?'② 操作参数':'② Controls'}</summary><div class="fold-body"><div class="compose-top"><label>${state.lang==='zh'?'情绪':'Emotion'}<select id="emotionSelect">${emotions.map(e=>`<option value="${e.id}" ${e.id===state.compose.emotion?'selected':''}>${state.lang==='zh'?e.zh:e.en}</option>`).join('')}</select></label><label>${state.lang==='zh'?'用途':'Purpose'}<select id="purposeSelect">${purposes.map(p=>`<option value="${p.id}" ${p.id===state.compose.purpose?'selected':''}>${state.lang==='zh'?p.zh:p.en}</option>`).join('')}</select></label><label>${state.lang==='zh'?'音阶':'Scale'}<select id="scaleSelect">${Object.keys(DATA.scales).map(k=>`<option value="${k}" ${k===state.compose.scale?'selected':''}>${state.lang==='zh'?DATA.scales[k].zh:DATA.scales[k].en}</option>`).join('')}</select></label><label>${state.lang==='zh'?'乐器':'Instrument'}<select id="instrumentSelect">${insts.map(i=>`<option value="${i.id}" ${i.id===state.compose.instrument?'selected':''}>${state.lang==='zh'?i.zh:i.en}</option>`).join('')}</select></label><label>${state.lang==='zh'?'长度':'Length'}<select id="stepsSelect">${[16,32,64,128].map(n=>`<option value="${n}" ${n===state.compose.steps?'selected':''}>${n}</option>`).join('')}</select></label></div><div class="control"><label><span>BPM</span><output>${state.compose.tempo}</output></label><input id="tempoRange" type="range" min="40" max="180" value="${state.compose.tempo}"><input id="tempoInput" type="number" min="40" max="180" value="${state.compose.tempo}"></div></div></details><details class="fold" open><summary>${state.lang==='zh'?'③ 轨道分工':'③ Track roles'}</summary><div class="fold-body">${trackMobilePanel()}${arrangementPanel()}</div></details></aside><section class="studio-mid"><div class="panel"><h2>${state.lang==='zh'?'写旋律 / 看乐谱':'Write melody / read notation'}</h2><p class="mini">${state.lang==='zh'?'旋律表达，低音稳定中心，和弦给情绪颜色，节奏推动身体。':'Melody expresses, bass stabilizes, chords color emotion, pulse moves the body.'}</p><div class="compose-actions"><button class="btn primary" data-act="compose-play">▶ ${C('play')}</button><button class="btn ghost" data-act="compose-random">${state.lang==='zh'?'按模板生成':'Generate by template'}</button><button class="btn ghost" data-act="compose-clear">${C('reset')}</button></div><div class="sequencer long" style="${seqStyle(grid.length)}">${seqGrid(sc,grid)}</div><div id="notation" class="notation">${notation(sc,grid)}</div></div></section><aside class="studio-right"><div class="panel"><h2>${state.lang==='zh'?'结构动画':'Form animation'}</h2><div class="structure-canvas-wrap"><canvas id="structureCanvas"></canvas></div><div class="explain-box">${structureExplanation(activeEmotion)}</div></div><div class="panel"><h2>${state.lang==='zh'?'曼陀罗 / 分析 / 导出':'Mandala / analysis / export'}</h2><div class="canvas-wrap small-canvas"><canvas id="mandalaCanvas"></canvas></div><div class="compose-analysis">${compositionAnalysis().map(a=>`<div class="analysis-card"><b>${a.title}</b><p class="mini">${a.text}</p></div>`).join('')}</div><div class="export-grid"><button class="btn gold" data-act="compose-wav">WAV</button><button class="btn gold" data-act="compose-midi">MIDI</button><button class="btn gold" data-act="compose-musicxml">MusicXML</button><button class="btn ghost" data-act="compose-export">JSON</button><button class="btn ghost" data-act="download-png">PNG</button><button class="btn ghost" data-act="download-wallpaper">${state.lang==='zh'?'壁纸':'Wallpaper'}</button></div></div></aside></div></section>`;
     if(redraw) drawActive();
   }
   function arrangementPanel(){
     const roles=DATA.trackRoles||[]; const chords=DATA.chordProgressions||[];
-    return `<div class="track-role-grid">${roles.map(r=>`<button class="track-role ${state.compose.layers?.[r.id]?'active':''}" data-layer="${r.id}"><b>${r.name}</b><span>${state.lang==='zh'?r.zh:r.en}</span></button>`).join('')}</div><div class="chord-row">${chords.map(ch=>`<button class="pill ${state.compose.chords?.includes(ch.id)?'active':''}" data-act="chord" data-id="${ch.id}">${ch.id}</button>`).join('')}</div><p class="mini">${state.lang==='zh'?'和弦不是装饰：根音给稳定，三度给明暗，五度给支撑。':'Chords are not decoration: root stabilizes, third colors, fifth supports.'}</p>${vocalGuidePanel()}`;
+    return `<div class="track-role-grid">${roles.map(r=>`<button class="track-role ${state.compose.layers?.[r.id]?'active':''}" data-layer="${r.id}"><b>${r.name||r.id}</b><span>${state.lang==='zh'?(r.zh||r.id):(r.en||r.id)}</span></button>`).join('')}</div><div class="chord-row">${chords.map(ch=>`<button class="pill ${state.compose.chords?.includes(ch.id)?'active':''}" data-act="chord" data-id="${ch.id}">${ch.id}</button>`).join('')}</div><p class="mini">${state.lang==='zh'?'和弦不是装饰：根音给稳定，三度给明暗，五度给支撑。':'Chords are not decoration: root stabilizes, third colors, fifth supports.'}</p>${vocalGuidePanel()}`;
   }
   function templateBars(e){
     const d=Math.max(.25,Math.min(1,e.density||.5));
@@ -610,7 +728,100 @@ function closeModal(){ $('#modal').classList.remove('open'); }
   function galaxy(id){return DATA.galaxies.find(g=>g.id===id)||DATA.galaxies[0];}
   function light(id){ if(id){state.lit.add(id); save(); toast(`✦ ${state.lang==='zh'?'已点亮':'Lit'}: ${id}`); if(state.stopCosmos) state.stopCosmos(); state.stopCosmos=ANIM.drawCosmos($('#cosmos'),state.reduced); render();} }
   function toast(msg){const el=$('#toast'); el.textContent=msg; el.classList.remove('hidden'); setTimeout(()=>el.classList.add('hidden'),1600);}
-  function loopCanvas(id,draw){ if(state.rafs && state.rafs[id]) cancelAnimationFrame(state.rafs[id]); const c=$('#'+id); if(!c)return; const frame=(t)=>{draw(c,t*.001); if(!state.reduced) state.rafs[id]=requestAnimationFrame(frame);}; state.rafs[id]=requestAnimationFrame(frame);}
+  
+  function bindDrawMelodyCanvas(){
+    const c=$('#drawMelodyCanvas'); if(!c || c.dataset.bound==='1') return;
+    c.dataset.bound='1';
+    const getP=(e)=>{const r=c.getBoundingClientRect(); const p=e.touches?e.touches[0]:e; return {x:Math.max(0,Math.min(1,(p.clientX-r.left)/r.width)), y:Math.max(0,Math.min(1,(p.clientY-r.top)/r.height))};};
+    let drawing=false;
+    const start=e=>{drawing=true; state.drawMelody.points=[getP(e)]; e.preventDefault(); drawActive();};
+    const move=e=>{if(!drawing)return; const p=getP(e); const pts=state.drawMelody.points; const last=pts[pts.length-1]; if(!last || Math.hypot(p.x-last.x,p.y-last.y)>.012){pts.push(p); if(pts.length>240) pts.shift(); ANIM.drawLineMelodyGuide(c,pts,state.compose.grid);} e.preventDefault();};
+    const end=e=>{drawing=false; save();};
+    c.addEventListener('pointerdown',start); c.addEventListener('pointermove',move); window.addEventListener('pointerup',end);
+    c.addEventListener('touchstart',start,{passive:false}); c.addEventListener('touchmove',move,{passive:false}); window.addEventListener('touchend',end);
+  }
+  function drawLineToMelody(){
+    const pts=state.drawMelody?.points||[];
+    if(pts.length<2){toast(state.lang==='zh'?'请先在画布上画一条线':'Draw a line first');return;}
+    normalizeComposition();
+    const steps=state.compose.steps||32;
+    const grid=Array(steps).fill(-1);
+    for(let i=0;i<steps;i++){
+      const x=i/Math.max(1,steps-1);
+      let nearest=pts[0], d=999;
+      pts.forEach(p=>{const dd=Math.abs(p.x-x); if(dd<d){d=dd; nearest=p;}});
+      const pitch=Math.round((1-nearest.y)*7);
+      grid[i]=Math.max(0,Math.min(7,pitch));
+    }
+    // simplify repeated jitter and add breath rests at phrase boundaries
+    for(let i=1;i<steps-1;i++){
+      if(Math.abs(grid[i]-grid[i-1])<=1 && Math.abs(grid[i]-grid[i+1])<=1 && i%2===1) grid[i]=-1;
+      if(i%8===7) grid[i]=-1;
+    }
+    state.compose.grid=grid;
+    naturalizeComposition(false);
+    save(); renderCompose();
+  }
+  function autoCorrelate(buf, sampleRate){
+    let SIZE=buf.length, rms=0;
+    for(let i=0;i<SIZE;i++){const v=buf[i]; rms+=v*v;}
+    rms=Math.sqrt(rms/SIZE);
+    if(rms<0.012) return {freq:0,level:rms};
+    let r1=0,r2=SIZE-1,thres=0.2;
+    for(let i=0;i<SIZE/2;i++){ if(Math.abs(buf[i])<thres){r1=i; break;} }
+    for(let i=1;i<SIZE/2;i++){ if(Math.abs(buf[SIZE-i])<thres){r2=SIZE-i; break;} }
+    buf=buf.slice(r1,r2); SIZE=buf.length;
+    const c=new Array(SIZE).fill(0);
+    for(let i=0;i<SIZE;i++) for(let j=0;j<SIZE-i;j++) c[i]+=buf[j]*buf[j+i];
+    let d=0; while(c[d]>c[d+1]) d++;
+    let maxval=-1,maxpos=-1;
+    for(let i=d;i<SIZE;i++){ if(c[i]>maxval){maxval=c[i]; maxpos=i;} }
+    let T0=maxpos;
+    if(T0>0 && T0<SIZE-1){
+      const x1=c[T0-1],x2=c[T0],x3=c[T0+1];
+      const a=(x1+x3-2*x2)/2,b=(x3-x1)/2;
+      if(a) T0=T0-b/(2*a);
+    }
+    return {freq: sampleRate/T0, level:rms};
+  }
+  async function startMicTrainer(){
+    try{
+      stopMicTrainer(false);
+      const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+      if(!state.audio) state.audio=ANIM.makeAudio();
+      const ctx=state.audio; if(ctx.state==='suspended') await ctx.resume();
+      const source=ctx.createMediaStreamSource(stream);
+      const analyser=ctx.createAnalyser(); analyser.fftSize=2048; source.connect(analyser);
+      const buf=new Float32Array(analyser.fftSize);
+      state.voiceMic={stream,source,analyser,buf,timer:null};
+      state.voiceTrainer.mic=true; state.voiceTrainer.status='listening';
+      const tick=()=>{
+        analyser.getFloatTimeDomainData(buf);
+        const res=autoCorrelate(buf,ctx.sampleRate);
+        state.voiceTrainer.currentFreq=res.freq||0; state.voiceTrainer.level=Math.min(1,(res.level||0)*12);
+        drawActive();
+      };
+      state.voiceMic.timer=setInterval(tick,120); toast(state.lang==='zh'?'麦克风训练已开启':'Mic trainer started');
+    }catch(err){
+      console.error(err); toast(state.lang==='zh'?'无法打开麦克风，请检查浏览器权限':'Could not open microphone; check browser permission');
+    }
+  }
+  function stopMicTrainer(show=true){
+    if(state.voiceMic){
+      clearInterval(state.voiceMic.timer);
+      state.voiceMic.stream?.getTracks?.().forEach(t=>t.stop());
+      state.voiceMic=null;
+    }
+    state.voiceTrainer.mic=false;
+    if(show) toast(state.lang==='zh'?'麦克风已停止':'Mic stopped');
+  }
+  function playTargetTone(){
+    if(!state.audio) state.audio=ANIM.makeAudio();
+    const a=state.audio; if(a.state==='suspended') a.resume();
+    ANIM.playInstrument(a, state.voiceTrainer?.targetFreq||261.63, .85, 'softChoir', .7);
+  }
+
+function loopCanvas(id,draw){ if(state.rafs && state.rafs[id]) cancelAnimationFrame(state.rafs[id]); const c=$('#'+id); if(!c)return; const frame=(t)=>{draw(c,t*.001); if(!state.reduced) state.rafs[id]=requestAnimationFrame(frame);}; state.rafs[id]=requestAnimationFrame(frame);}
   function drawActive(){
     if($('#labCanvas')){
       const basic=['sound','harmonics','resonance','ratio','voice','life','beings'];
@@ -619,10 +830,13 @@ function closeModal(){ $('#modal').classList.remove('open'); }
       else loopCanvas('labCanvas',(c)=>ANIM.drawMiniLesson(c,state.lab,state.params));
     }
     if($('#voiceFlowCanvas')) loopCanvas('voiceFlowCanvas',(c)=>ANIM.drawVoiceFlow(c, DATA.voiceFlow||[], state.params.voiceLesson||'breath'));
+    if($('#voiceTrainerCanvas')) loopCanvas('voiceTrainerCanvas',(c)=>(ANIM.drawSingingTrainer||ANIM.drawSingingCoach||ANIM.drawMiniLesson)(c, state.voiceTrainer||{}, state.params));
     if($('#voiceLessonCanvas')) loopCanvas('voiceLessonCanvas',(c)=>(ANIM.drawSingingCoach||ANIM.drawVoiceTeaching||ANIM.drawMiniLesson)(c, state.params.voiceLesson||'breath', state.params));
     if($('#voiceCanvas')) loopCanvas('voiceCanvas',(c)=>ANIM.drawLab(c,'voice',state.params));
     if($('#lifeCanvas')) loopCanvas('lifeCanvas',(c)=>ANIM.drawLab(c,'life',state.life));
     if($('#beingsCanvas')) loopCanvas('beingsCanvas',(c)=>(ANIM.drawResonanceTeaching||ANIM.drawLab)(c,state.beings));
+    if($('#drawMelodyCanvas')) { bindDrawMelodyCanvas(); ANIM.drawLineMelodyGuide($('#drawMelodyCanvas'), state.drawMelody?.points||[], state.compose.grid); }
+    if($('#trackOverviewCanvas')) ANIM.drawTrackOverview($('#trackOverviewCanvas'), {grid:state.compose.grid,steps:state.compose.steps});
     if($('#mandalaCanvas')) ANIM.drawMandala($('#mandalaCanvas'),state.compose.grid,-1);
     if($('#structureCanvas')) loopCanvas('structureCanvas',(c)=>ANIM.drawSongStructure(c,(DATA.emotionTemplates||[]).find(e=>e.id===state.compose.emotion)||{}));
   }

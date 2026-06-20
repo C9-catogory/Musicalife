@@ -1,5 +1,5 @@
 window.ML_DATA = {
-  "version": "harmonic-starcove-v17",
+  "version": "harmonic-starcove-v18",
   "copy": {
     "zh": {
       "home": "首页",
@@ -22,13 +22,13 @@ window.ML_DATA = {
       "reset": "重置",
       "export": "导出",
       "homeTitle": "音乐是我们建构的爱的方程式。",
-      "homeLead": "Harmonic Starcove V17 聚焦可视化创作与可视化唱歌：手绘线条可以转成旋律，四轨道更适合手机和电脑，歌唱页可训练也可展开原理。",
-      "gateTitle": "Harmonic Starcove V17",
-      "gateSub": "和谐星旅：画出感受、生成旋律、加入和弦与鼓点，再用歌唱训练器练习音准、气息、节奏和表达。",
+      "homeLead": "V18 聚焦 Interaction Core：手绘旋律有画笔参数，多轨道颜色统一，模板系统更快上手，唱歌训练器有评分，发声器官动画按身体层/声源层/滤波层/表达层展开。",
+      "gateTitle": "Harmonic Starcove V18",
+      "gateSub": "和谐星旅：先操作，再看反馈，再展开原理。画线、套模板、生成多轨道音乐，再练音准、气息、节奏和表达。",
       "enter": "进入和谐星旅",
       "made": "已点亮",
       "stars": "知识星点",
-      "score": "音乐能力",
+      "score": "评分",
       "choose": "选择",
       "listen": "聆听",
       "learn": "我理解了，点亮这颗星",
@@ -43,7 +43,9 @@ window.ML_DATA = {
       "explain": "原理",
       "drawMelody": "画旋律",
       "pitchTrainer": "音准训练",
-      "breathTrainer": "气息训练"
+      "breathTrainer": "气息训练",
+      "template": "模板",
+      "brush": "画笔"
     },
     "en": {
       "home": "Home",
@@ -66,13 +68,13 @@ window.ML_DATA = {
       "reset": "Reset",
       "export": "Export",
       "homeTitle": "Music is the equation of love we build.",
-      "homeLead": "Harmonic Starcove V17 focuses on visual creation and visual singing: draw lines into melody, use responsive four-track creation, and train or unfold singing principles.",
-      "gateTitle": "Harmonic Starcove V17",
-      "gateSub": "Draw feeling into melody, add harmony and drums, then practice pitch, breath, rhythm and expression with singing trainers.",
+      "homeLead": "V18 focuses on Interaction Core: brush parameters for drawn melody, unified track colors, quick templates, singing scores, and voice anatomy by body/source/filter/expression layers.",
+      "gateTitle": "Harmonic Starcove V18",
+      "gateSub": "Operate first, see feedback, then unfold principles. Draw lines, use templates, generate multi-track music, then train pitch, breath, rhythm and expression.",
       "enter": "Enter Harmonic Starcove",
       "made": "Lit",
       "stars": "Knowledge stars",
-      "score": "Music ability",
+      "score": "Score",
       "choose": "Choose",
       "listen": "Listen",
       "learn": "I understand — light this star",
@@ -87,7 +89,9 @@ window.ML_DATA = {
       "explain": "Explain",
       "drawMelody": "Draw melody",
       "pitchTrainer": "Pitch trainer",
-      "breathTrainer": "Breath trainer"
+      "breathTrainer": "Breath trainer",
+      "template": "Template",
+      "brush": "Brush"
     }
   },
   "routes": [
@@ -3395,5 +3399,215 @@ window.ML_DATA = {
       "break": "Breaks/valleys = breath or pause",
       "color": "Later, color can map to instrument or emotion"
     }
+  },
+  "composeTemplates": [
+    {
+      "id": "sleep",
+      "zh": "睡前",
+      "en": "Sleep",
+      "emotion": "calm",
+      "scale": "C_pentatonic",
+      "tempo": 62,
+      "instrument": "ambientPad",
+      "chords": [
+        "I",
+        "vi",
+        "IV",
+        "I"
+      ],
+      "contour": "fall",
+      "density": 0.32,
+      "layers": {
+        "melody": true,
+        "bass": true,
+        "chords": true,
+        "pulse": false,
+        "drums": false
+      },
+      "syllable": "oo"
+    },
+    {
+      "id": "focus",
+      "zh": "专注",
+      "en": "Focus",
+      "emotion": "focus",
+      "scale": "C_major",
+      "tempo": 84,
+      "instrument": "kalimba",
+      "chords": [
+        "I",
+        "V",
+        "vi",
+        "IV"
+      ],
+      "contour": "stable",
+      "density": 0.48,
+      "layers": {
+        "melody": true,
+        "bass": true,
+        "chords": true,
+        "pulse": true,
+        "drums": false
+      },
+      "syllable": "hum"
+    },
+    {
+      "id": "courage",
+      "zh": "勇气",
+      "en": "Courage",
+      "emotion": "courage",
+      "scale": "C_major",
+      "tempo": 112,
+      "instrument": "warmPiano",
+      "chords": [
+        "I",
+        "IV",
+        "V",
+        "I"
+      ],
+      "contour": "rise",
+      "density": 0.62,
+      "layers": {
+        "melody": true,
+        "bass": true,
+        "chords": true,
+        "pulse": true,
+        "drums": true
+      },
+      "syllable": "la"
+    },
+    {
+      "id": "sad",
+      "zh": "悲伤",
+      "en": "Sadness",
+      "emotion": "sadness",
+      "scale": "A_minor",
+      "tempo": 72,
+      "instrument": "warmStrings",
+      "chords": [
+        "vi",
+        "IV",
+        "I",
+        "V"
+      ],
+      "contour": "fall",
+      "density": 0.42,
+      "layers": {
+        "melody": true,
+        "bass": true,
+        "chords": true,
+        "pulse": false,
+        "drums": false
+      },
+      "syllable": "ah"
+    },
+    {
+      "id": "compassion",
+      "zh": "慈悲",
+      "en": "Compassion",
+      "emotion": "love",
+      "scale": "C_pentatonic",
+      "tempo": 68,
+      "instrument": "softChoir",
+      "chords": [
+        "I",
+        "IV",
+        "vi",
+        "IV"
+      ],
+      "contour": "breath",
+      "density": 0.38,
+      "layers": {
+        "melody": true,
+        "bass": true,
+        "chords": true,
+        "pulse": false,
+        "drums": false
+      },
+      "syllable": "ma"
+    },
+    {
+      "id": "drumcircle",
+      "zh": "鼓圈",
+      "en": "Drum circle",
+      "emotion": "groove",
+      "scale": "D_dorian",
+      "tempo": 104,
+      "instrument": "pluck",
+      "chords": [
+        "i",
+        "VII",
+        "IV",
+        "i"
+      ],
+      "contour": "stable",
+      "density": 0.45,
+      "layers": {
+        "melody": true,
+        "bass": true,
+        "chords": false,
+        "pulse": true,
+        "drums": true
+      },
+      "syllable": "hum"
+    },
+    {
+      "id": "ambient",
+      "zh": "Ambient 星云",
+      "en": "Ambient nebula",
+      "emotion": "calm",
+      "scale": "C_pentatonic",
+      "tempo": 58,
+      "instrument": "ambientPad",
+      "chords": [
+        "I",
+        "IV",
+        "I",
+        "vi"
+      ],
+      "contour": "breath",
+      "density": 0.26,
+      "layers": {
+        "melody": true,
+        "bass": true,
+        "chords": true,
+        "pulse": false,
+        "drums": false
+      },
+      "syllable": "oo"
+    },
+    {
+      "id": "softpiano",
+      "zh": "柔和钢琴",
+      "en": "Soft piano",
+      "emotion": "daily",
+      "scale": "C_major",
+      "tempo": 76,
+      "instrument": "warmPiano",
+      "chords": [
+        "I",
+        "V",
+        "vi",
+        "IV"
+      ],
+      "contour": "wave",
+      "density": 0.44,
+      "layers": {
+        "melody": true,
+        "bass": true,
+        "chords": true,
+        "pulse": false,
+        "drums": false
+      },
+      "syllable": "la"
+    }
+  ],
+  "trackColors": {
+    "melody": "#ffe19b",
+    "chords": "#ff9fd5",
+    "bass": "#7ce9ff",
+    "drums": "#aaf2c5",
+    "pulse": "#aaf2c5",
+    "vocal": "#fffaf2"
   }
 };

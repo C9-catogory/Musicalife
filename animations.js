@@ -790,7 +790,7 @@
     if(ctx.roundRect){ctx.roundRect(x,y,w,h,r);return;}
     ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
   }
-  function drawLineMelodyGuide(canvas, points=[], grid=[]){
+  function drawLineMelodyGuide(canvas, points=[], grid=[], opts={}){
     const {ctx,w,h}=setup(canvas); clear(ctx,w,h);
     ctx.save();
     ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=1;
@@ -798,11 +798,17 @@
     for(let i=0;i<=16;i++){const x=32+i*(w-64)/16;ctx.beginPath();ctx.moveTo(x,32);ctx.lineTo(x,h-32);ctx.stroke();}
     label(ctx,'time →',w-92,h-18); label(ctx,'pitch ↑',22,28);
     if(points && points.length>1){
-      ctx.lineWidth=5; ctx.lineCap='round'; ctx.lineJoin='round';
+      ctx.lineWidth=opts.lineStyle==='dotted'?8:5; ctx.lineCap='round'; ctx.lineJoin=opts.lineStyle==='angular'?'miter':'round';
       const grad=ctx.createLinearGradient(0,0,w,0); grad.addColorStop(0,'#7ce9ff');grad.addColorStop(.55,'#ffe19b');grad.addColorStop(1,'#ff9fd5');
-      ctx.strokeStyle=grad; ctx.beginPath();
-      points.forEach((p,i)=>{i?ctx.lineTo(p.x*w,p.y*h):ctx.moveTo(p.x*w,p.y*h)});
-      ctx.stroke();
+      ctx.strokeStyle=grad;
+      if(opts.lineStyle==='dotted'){
+        points.forEach((p,i)=>{ if(i%3===0) star(ctx,p.x*w,p.y*h,4,'#ffe19b');});
+      }else{
+        ctx.beginPath();
+        points.forEach((p,i)=>{i?ctx.lineTo(p.x*w,p.y*h):ctx.moveTo(p.x*w,p.y*h)});
+        ctx.stroke();
+      }
+      captionBox(ctx,`brush: ${opts.lineStyle||'smooth'} · snap: ${opts.snap||'scale'} · smoothing: ${Math.round((opts.smoothing??.62)*100)}%`,w*.48,42,330);
     }else{
       captionBox(ctx,'Draw a line: left→right is time, up/down is pitch',w*.18,h*.42,Math.min(360,w*.62));
     }
@@ -891,5 +897,65 @@
     captionBox(ctx,'four tracks share one time axis: melody · chord · bass · drum',w*.38,18,360);
   }
 
-  window.ML_ANIM = {setup,drawCosmos,drawGate,drawLab,drawMandala,drawSongStructure,drawMiniLesson,drawTeachingLab:drawTeachingLabV14,drawVoiceTeaching,drawSingingCoach,drawResonanceTeaching,drawVoiceFlow,drawLineMelodyGuide,drawSingingTrainer,drawTrackOverview,noteToFreq,makeAudio,playFreq,playMelody,playInstrument,playMelodyInstrument,playVocalGuide,wavBlob,wavBlobArrangement};
+
+  function drawVoiceOrgans(canvas, layer='all', params={}){
+    const {ctx,w,h}=setup(canvas); clear(ctx,w,h);
+    const cx=w*.46, cy=h*.54, t=performance.now()*.001;
+    ctx.save();
+    label(ctx,'body layer → source layer → filter layer → expression layer',24,28);
+    // torso / body
+    ctx.strokeStyle='rgba(170,242,197,.38)'; ctx.lineWidth=4;
+    ctx.beginPath(); ctx.ellipse(cx,cy+86,88,128,0,0,TAU); ctx.stroke();
+    ctx.beginPath(); ctx.ellipse(cx,cy+104,118,36,0,0,TAU); ctx.stroke();
+    ctx.fillStyle='rgba(170,242,197,.10)'; ctx.beginPath(); ctx.ellipse(cx,cy+116,112,30,0,0,TAU); ctx.fill();
+    // breath river
+    ctx.strokeStyle='#aaf2c5'; ctx.lineWidth=3;
+    for(let k=0;k<4;k++){
+      ctx.beginPath();
+      for(let i=0;i<90;i++){
+        const y=cy+128-i*2.8;
+        const x=cx-36+k*24+Math.sin(i*.16+t*2+k)*5;
+        i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+      }
+      ctx.stroke();
+    }
+    // neck/head
+    ctx.strokeStyle='rgba(255,250,242,.34)'; ctx.lineWidth=4;
+    ctx.beginPath(); ctx.moveTo(cx-34,cy-22); ctx.quadraticCurveTo(cx-52,cy-92,cx-6,cy-140); ctx.quadraticCurveTo(cx+70,cy-96,cx+42,cy-16); ctx.stroke();
+    // vocal folds
+    const closure=(params.closure||55)/100, gap=18-(closure*13);
+    ctx.fillStyle='rgba(255,159,213,.35)';
+    ctx.beginPath(); ctx.ellipse(cx-gap,cy-34,10,34,0,0,TAU); ctx.fill();
+    ctx.beginPath(); ctx.ellipse(cx+gap,cy-34,10,34,0,0,TAU); ctx.fill();
+    ctx.strokeStyle=closure>.75?'#ff9fd5':closure<.35?'#7ce9ff':'#ffe19b'; ctx.lineWidth=3;
+    ctx.beginPath(); ctx.moveTo(cx-gap,cy-34); ctx.quadraticCurveTo(cx,cy-34+Math.sin(t*10)*6,cx+gap,cy-34); ctx.stroke();
+    // tract spaces
+    ctx.fillStyle='rgba(124,233,255,.13)'; ctx.strokeStyle='rgba(124,233,255,.42)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.ellipse(cx+34,cy-94,34,52,-.18,0,TAU); ctx.fill(); ctx.stroke(); // pharynx
+    ctx.beginPath(); ctx.ellipse(cx+62,cy-128,46,26,0,0,TAU); ctx.fill(); ctx.stroke(); // mouth
+    ctx.fillStyle='rgba(255,225,155,.25)'; ctx.beginPath(); ctx.ellipse(cx+80,cy-124,24,8,0,0,TAU); ctx.fill(); // lips
+    ctx.fillStyle='rgba(255,159,213,.22)'; ctx.beginPath(); ctx.ellipse(cx+58,cy-121,28,10,-.2,0,TAU); ctx.fill(); // tongue
+    ctx.fillStyle='rgba(185,156,255,.12)'; ctx.strokeStyle='rgba(185,156,255,.38)';
+    ctx.beginPath(); ctx.ellipse(cx+28,cy-162,30,14,0,0,TAU); ctx.fill(); ctx.stroke(); // nasal
+    // spectrum / formant panel
+    const px=w*.66, py=h*.27, pw=w*.27, ph=h*.52;
+    ctx.strokeStyle='rgba(255,255,255,.18)'; ctx.fillStyle='rgba(0,0,0,.16)'; drawRoundRect(ctx,px,py,pw,ph,18); ctx.fill(); ctx.stroke();
+    const bars=[.32,.7,.42,.82,.28,.52,.24,.38];
+    bars.forEach((b,i)=>{const bh=b*ph*.72; ctx.fillStyle=i===3?'#ffe19b':i===1?'#7ce9ff':'rgba(255,255,255,.42)'; ctx.fillRect(px+20+i*(pw-40)/8,py+ph-24-bh,(pw-54)/10,bh);});
+    label(ctx,'Formants / spectrum',px+18,py+22);
+    // layer captions
+    const cards=[
+      ['身体层','posture + ribs + airflow','身体不是越用力越好，而是稳定开放。'],
+      ['声源层','vocal folds + onset','声带平衡闭合，清楚但不挤。'],
+      ['滤波层','pharynx + mouth + lips','声道改变 Formant，形成元音和音色。'],
+      ['表达层','diction + dynamics + phrase','情感来自重音、淡出、滑音和换气。']
+    ];
+    cards.forEach((c,i)=>captionBox(ctx,(i===0?c[0]+': ':c[0]+': ')+c[1],22,54+i*58,250));
+    drawArrow(ctx,cx,cy+90,cx,cy-64,'#aaf2c5');
+    drawArrow(ctx,cx+26,cy-34,cx+66,cy-126,'#7ce9ff');
+    drawArrow(ctx,cx+92,cy-126,px,py+ph*.38,'#ffe19b');
+    ctx.restore();
+  }
+
+  window.ML_ANIM = {setup,drawCosmos,drawGate,drawLab,drawMandala,drawSongStructure,drawMiniLesson,drawTeachingLab:drawTeachingLabV14,drawVoiceTeaching,drawSingingCoach,drawResonanceTeaching,drawVoiceFlow,drawLineMelodyGuide,drawSingingTrainer,drawVoiceOrgans,drawTrackOverview,noteToFreq,makeAudio,playFreq,playMelody,playInstrument,playMelodyInstrument,playVocalGuide,wavBlob,wavBlobArrangement};
 })();

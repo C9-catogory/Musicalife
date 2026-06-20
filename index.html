@@ -3,90 +3,29 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#06051c" />
-  <title>Musicalife｜音乐曼陀罗星河</title>
-  <meta name="description" content="Musicalife is a bilingual visual starworld for exploring music, mathematics, life, resonance, voice, care and creation." />
-  <link rel="stylesheet" href="styles.css?v=mandala8" />
+  <meta name="theme-color" content="#07051d" />
+  <title>Harmonic Starcove｜和谐星旅 · Musicalife</title>
+  <meta name="description" content="Harmonic Starcove is a bilingual visual music-learning game prototype: acoustics, voice, theory, healing, composition, mandala and starlight." />
+  <link rel="stylesheet" href="styles.css?v=harmonic-starcove-9" />
+  <script src="data.js?v=harmonic-starcove-9" defer></script>
+  <script src="animations.js?v=harmonic-starcove-9" defer></script>
+  <script src="app.js?v=harmonic-starcove-9" defer></script>
 </head>
 <body>
   <canvas id="cosmos" aria-hidden="true"></canvas>
-  <div class="aurora aurora-one" aria-hidden="true"></div>
-  <div class="aurora aurora-two" aria-hidden="true"></div>
-  <div class="aurora aurora-three" aria-hidden="true"></div>
-  <div class="meteor meteor-one" aria-hidden="true"></div>
-  <div class="meteor meteor-two" aria-hidden="true"></div>
-
+  <div class="deep-glow g1" aria-hidden="true"></div>
+  <div class="deep-glow g2" aria-hidden="true"></div>
+  <div class="deep-glow g3" aria-hidden="true"></div>
+  <div class="shooting s1" aria-hidden="true"></div>
+  <div class="shooting s2" aria-hidden="true"></div>
+  <div class="shooting s3" aria-hidden="true"></div>
   <main id="app" class="app" tabindex="-1">
-    <header class="topbar" aria-label="Musicalife navigation">
-      <button class="iconbtn" data-route="home" type="button" aria-label="Home">✦</button>
-      <div class="brand"><span class="brand-mark">♪</span><span>Musicalife</span></div>
-      <div class="top-actions">
-        <button class="pill" data-action="search" type="button">⌕</button>
-        <button class="pill" data-action="lang" type="button">中/EN</button>
-        <button class="pill" data-action="simple" type="button" data-i18n="simple">少字</button>
-        <button class="pill" data-action="motion" type="button" data-i18n="motion">低动效</button>
-      </div>
-    </header>
-
-    <section id="view" class="view" aria-live="polite">
-      <section class="page hero fallback-home">
-        <article class="hero-card">
-          <p class="eyebrow">Musicalife · loading</p>
-          <h1>音乐是一片可以航行的星河。</h1>
-          <p>这里会加载声之塔、银河星盘、毕达哥拉斯花园、人声宇宙、生命共振室与创作曼陀罗。</p>
-        </article>
-      </section>
+    <section class="fallback">
+      <p class="eyebrow">Harmonic Starcove · Musicalife</p>
+      <h1>音乐是我们建构的爱的方程式。</h1>
+      <p>如果脚本正在加载，请稍等。这个 demo 会展示声学、声乐、乐理、创作曼陀罗与生命共振。</p>
     </section>
-
-    <nav class="bottomnav" aria-label="Main routes">
-      <button data-route="home" type="button"><span>✦</span><b data-i18n="home">首页</b></button>
-      <button data-route="odyssey" type="button"><span>☄</span><b data-i18n="odyssey">声之塔</b></button>
-      <button data-route="atlas" type="button"><span>◎</span><b data-i18n="atlas">星盘</b></button>
-      <button data-route="pythagoras" type="button"><span>△</span><b data-i18n="pythagoras">比例花园</b></button>
-      <button data-route="voice" type="button"><span>◌</span><b data-i18n="voice">人声</b></button>
-      <button data-route="life" type="button"><span>♡</span><b data-i18n="life">生活</b></button>
-      <button data-route="create" type="button"><span>◇</span><b data-i18n="create">创作</b></button>
-      <button data-route="library" type="button"><span>☰</span><b data-i18n="library">图书馆</b></button>
-    </nav>
   </main>
-
-  <section id="gate" class="gate" aria-label="Musicalife entrance">
-    <canvas id="gateCanvas" aria-hidden="true"></canvas>
-    <article class="gate-card">
-      <p class="eyebrow">Musicalife · Mandala Starworld</p>
-      <h1 data-gate-title>进入音乐曼陀罗星河</h1>
-      <p data-gate-lead>音乐带给生命激情与勇气。它是频率、比例、呼吸、关系与爱的方程式。每个人都是一颗星，也是一件会呼吸的乐器。</p>
-      <div class="gate-actions">
-        <button class="btn primary" data-action="enter" data-lang="zh" type="button">中文进入</button>
-        <button class="btn ghost" data-action="enter" data-lang="en" type="button">Enter in English</button>
-      </div>
-      <div class="gate-small">
-        <button class="textbtn" data-action="skip" type="button">跳过星门 / Skip</button>
-        <button class="textbtn" data-action="motion" type="button">低动效 / Reduced motion</button>
-      </div>
-    </article>
-  </section>
-
-  <aside id="drawer" class="drawer" aria-hidden="true">
-    <button class="iconbtn drawer-close" data-action="closeDrawer" type="button" aria-label="Close">×</button>
-    <div id="drawerBody"></div>
-  </aside>
-
-  <section id="searchOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="searchTitle">
-    <article class="searchbox">
-      <button class="iconbtn drawer-close" data-action="closeSearch" type="button" aria-label="Close">×</button>
-      <h2 id="searchTitle">搜索音乐星河</h2>
-      <input id="searchInput" type="search" autocomplete="off" placeholder="频率 / 共振 / 声带 / 毕达哥拉斯 / 睡眠 / ambient" />
-      <div id="searchResults" class="results"></div>
-    </article>
-  </section>
-
-  <noscript>
-    <div class="noscript">Musicalife 需要 JavaScript 才能显示互动星盘、动画和声音。请启用 JavaScript 后刷新页面。</div>
-  </noscript>
-
-  <script src="data.js?v=mandala8"></script>
-  <script src="animations.js?v=mandala8"></script>
-  <script src="app.js?v=mandala8"></script>
+  <noscript>Musicalife needs JavaScript to show interactive music learning. 这个网站需要 JavaScript 才能显示互动音乐学习。</noscript>
 </body>
 </html>

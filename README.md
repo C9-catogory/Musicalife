@@ -1,36 +1,36 @@
-# Musicalife Mandala Starworld v8
+# Harmonic Starcove v9｜和谐星旅
 
-**Musicalife：音乐曼陀罗星河版**
+Musicalife 的第九版核心原型：不是商业落地页，而是一个可学习、可互动、可创作的音乐星河小游戏 demo。
 
-一个双语、无外部依赖、可直接部署到 GitHub Pages / Netlify 的静态互动音乐世界 demo。
+## 这版的重点
 
-## Core idea
+- 恢复 V1/V2 的 `canvas#cosmos + #app` 活世界骨架。
+- 入口不再遮挡正弦/余弦函数，星门视觉更偏数理、星空、曼陀罗。
+- 新增真正的声学教学实验：
+  - 频率 / 振幅 / 相位
+  - 谐波与音色
+  - 共振与放大
+- 新增毕达哥拉斯比例花园：
+  - 1:1, 2:1, 3:2, 4:3, 5:4, 6:5
+- 新增可创作的 16 步旋律网格：
+  - 选择 C 大调 / A 小调 / C 五声音阶 / D 多利亚
+  - 点击格子写旋律
+  - 播放旋律
+  - 生成简谱
+  - 生成五线谱雏形
+  - 生成音乐曼陀罗
+  - 导出 JSON / PNG
+- 人声模块改为声源-滤波模型：
+  - 声带作为 source
+  - 声道作为 filter
+  - a/i/u/e/o 元音改变 F1/F2 和频谱
+- 生活音乐选择模块：
+  - 根据 BPM / 动态 / 歌词 / 可预测性选择音乐
+- 生命共振室：
+  - 主频 / 开放度 / 相似与互补生成图形和声音反馈
+- 75 个知识星点，保留声音物理、乐理、声乐、疗愈、创作、世界音乐等入口。
 
-Musicalife is not only a music knowledge site. It is a visual starworld for exploring music, mathematics, life, resonance, care and creation.
-
-在这里：
-
-- 音乐是底层法则。
-- 知识是星星。
-- 数学是看见音乐的工具。
-- 生命是会呼吸的乐器。
-- 创作是找到自己的 harmony。
-- 疗愈来自连接、节奏、边界、理解与共鸣。
-
-## What is inside
-
-- 星门入口 / Music mandala gate
-- 宇宙港口首页 / Starworld harbor
-- 声之塔小游戏主线 / Odyssey tower
-- 银河星盘 / Knowledge atlas
-- 毕达哥拉斯花园 / Pythagorean ratio garden
-- 人声宇宙 / Voice cosmos
-- 生活星系 / Life and care galaxy
-- 生命共振室 / Resonance chamber
-- 创作曼陀罗 / Creation mandala
-- 图书馆与音乐推荐 / Library and listening gates
-
-## File structure
+## 文件结构
 
 ```text
 index.html
@@ -41,22 +41,20 @@ app.js
 README.md
 ```
 
-This version separates data, animations and app logic so the project can keep growing without becoming a single fragile script.
-
-## Local preview
+## 本地预览
 
 ```bash
-python -m http.server 5173
+python3 -m http.server 5173
 ```
 
-Then open:
+然后打开：
 
 ```text
 http://localhost:5173
 ```
 
-## Deploy
+## 部署
 
-Upload all files in this folder to the root of your GitHub Pages / Netlify site.
+把全部文件上传到 GitHub Pages / Netlify 的站点根目录即可。
 
-If the old version still appears, hard refresh the browser or clear deployment cache.
+如果线上仍显示旧版，请清理浏览器缓存，或重新 deploy。

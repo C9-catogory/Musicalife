@@ -1,5 +1,5 @@
 window.ML_DATA = {
-  "version": "harmonic-starcove-v12",
+  "version": "harmonic-starcove-v15",
   "copy": {
     "zh": {
       "home": "首页",
@@ -22,9 +22,9 @@ window.ML_DATA = {
       "reset": "重置",
       "export": "导出",
       "homeTitle": "音乐是我们建构的爱的方程式。",
-      "homeLead": "Harmonic Starcove V12 仍然是一片星河：知识是星星，练习是光，创作是把感受翻译成旋律。点亮越多，宇宙越明亮；你会一步步学习创作音乐、把身体当作乐器、选择适合自己的音乐，并用声音表达生命。",
-      "gateTitle": "Harmonic Starcove V12",
-      "gateSub": "和谐星旅：音乐是我们建构的爱的方程式。进入星空，学习如何听见、歌唱、创作、选择、疗愈，并点亮属于自己的音乐宇宙。",
+      "homeLead": "V15 重点是“极简可操作 + 教学可选择”：进入后可以直接开始创作，也可以切换到教学模式学习原理。动画使用高光、箭头、流程图和参数反馈，把感受转译成音乐操作。",
+      "gateTitle": "Harmonic Starcove V15",
+      "gateSub": "和谐星旅：音乐是我们建构的爱的方程式。选择一种模式，快速创作、练习歌唱、探索星图，或进入完整教学。",
       "enter": "进入和谐星旅",
       "made": "已点亮",
       "stars": "知识星点",
@@ -35,7 +35,10 @@ window.ML_DATA = {
       "task": "任务",
       "why": "为什么",
       "how": "怎么用",
-      "result": "结果"
+      "result": "结果",
+      "quick": "极简",
+      "teach": "教学",
+      "mode": "模式"
     },
     "en": {
       "home": "Home",
@@ -58,9 +61,9 @@ window.ML_DATA = {
       "reset": "Reset",
       "export": "Export",
       "homeTitle": "Music is the equation of love we build.",
-      "homeLead": "Harmonic Starcove V12 remains a starfield: knowledge is stars, practice is light, creation translates feeling into melody. The more you light, the brighter the universe becomes; step by step, learn to compose, sing the body, choose music and express life through sound.",
-      "gateTitle": "Harmonic Starcove V12",
-      "gateSub": "A journey of harmony: music is the equation of love we build. Enter the starfield and learn to hear, sing, compose, choose, heal and light your musical universe.",
+      "homeLead": "V15 focuses on selectable simplicity: start creating immediately, or switch into teaching mode to learn principles. Animations use highlights, arrows, flow diagrams and parameter feedback to translate feeling into musical action.",
+      "gateTitle": "Harmonic Starcove V15",
+      "gateSub": "A journey of harmony: music is the equation of love we build. Choose a mode to compose quickly, practice singing, explore the star map, or enter full teaching.",
       "enter": "Enter Harmonic Starcove",
       "made": "Lit",
       "stars": "Knowledge stars",
@@ -71,7 +74,10 @@ window.ML_DATA = {
       "task": "Task",
       "why": "Why",
       "how": "Use it",
-      "result": "Result"
+      "result": "Result",
+      "quick": "Quick",
+      "teach": "Teach",
+      "mode": "Mode"
     }
   },
   "routes": [
@@ -2014,7 +2020,9 @@ window.ML_DATA = {
         "resonance",
         "spectrum",
         "masking"
-      ]
+      ],
+      "zhShort": "听见",
+      "enShort": "Hear"
     },
     {
       "id": "sing",
@@ -2031,7 +2039,9 @@ window.ML_DATA = {
         "formant",
         "vowel",
         "choir"
-      ]
+      ],
+      "zhShort": "歌唱",
+      "enShort": "Sing"
     },
     {
       "id": "compose",
@@ -2048,7 +2058,9 @@ window.ML_DATA = {
         "harmony",
         "mandala",
         "notation"
-      ]
+      ],
+      "zhShort": "创作",
+      "enShort": "Create"
     },
     {
       "id": "choose",
@@ -2064,7 +2076,9 @@ window.ML_DATA = {
         "overload",
         "soundscape",
         "compassion"
-      ]
+      ],
+      "zhShort": "选择",
+      "enShort": "Choose"
     },
     {
       "id": "listen",
@@ -2080,7 +2094,9 @@ window.ML_DATA = {
         "harmony",
         "binaural",
         "emotion_curve"
-      ]
+      ],
+      "zhShort": "聆听",
+      "enShort": "Listen"
     },
     {
       "id": "express",
@@ -2095,7 +2111,9 @@ window.ML_DATA = {
         "boundary",
         "complement",
         "love_equation"
-      ]
+      ],
+      "zhShort": "表达",
+      "enShort": "Express"
     }
   ],
   "emotionTemplates": [
@@ -2392,6 +2410,58 @@ window.ML_DATA = {
       "practiceEn": "Sing 1 first, then listen to 3 and 5; feel stability and tension.",
       "mistakeZh": "不要只追求大声盖过别人。",
       "mistakeEn": "Do not try to cover others with loudness."
+    },
+    {
+      "id": "resonanceChoice",
+      "zh": "11. 共鸣选择：亮暗与腔体感",
+      "en": "11. Resonance choice: bright/dark and cavity feeling",
+      "term": "resonance_voice",
+      "lab": "voice-resonance",
+      "principleZh": "“共鸣”主要是声道滤波和身体振动反馈的组合。口腔、咽腔、鼻腔的形状会改变音色，但不要把声音硬挤到某个腔体。",
+      "principleEn": "“Resonance” is tract filtering plus body vibration feedback. Mouth, pharynx and nasal shapes change tone color, but do not force sound into one cavity.",
+      "practiceZh": "同一音高，用更圆的唇形、更高的舌位、更打开的口腔对比亮/暗。保持轻声。",
+      "practiceEn": "On one pitch, compare round lips, higher tongue and open mouth for bright/dark color. Keep it gentle.",
+      "mistakeZh": "不要用喉咙挤压来制造“共鸣感”。",
+      "mistakeEn": "Do not squeeze the throat to create a “resonant feeling”."
+    },
+    {
+      "id": "diction",
+      "zh": "12. 咬字：语言如何变成歌",
+      "en": "12. Diction: language becomes song",
+      "term": "tone_language",
+      "lab": "voice-diction",
+      "principleZh": "咬字由辅音的边界和元音的持续组成。唱歌时元音承载声音，辅音提供清晰度和节奏边界。",
+      "principleEn": "Diction combines consonant boundaries and sustained vowels. Vowels carry tone; consonants provide clarity and rhythmic edges.",
+      "practiceZh": "把“ma-me-mi-mo-mu”轻声连起来，保持元音稳定，辅音轻而清楚。",
+      "practiceEn": "Connect “ma-me-mi-mo-mu” softly: stable vowels, light clear consonants.",
+      "mistakeZh": "不要把每个辅音都用力爆破，也不要牺牲元音的流动。",
+      "mistakeEn": "Do not explosively over-pronounce every consonant or break vowel flow."
+    },
+    {
+      "id": "dynamics",
+      "zh": "13. 强弱控制：情绪重心",
+      "en": "13. Dynamics: emotional weight",
+      "term": "loudness",
+      "lab": "voice-dynamics",
+      "principleZh": "强弱不是单纯大小声，而是乐句的情绪重心。渐强、渐弱、重音和留白都会改变表达。",
+      "principleEn": "Dynamics are not only loudness; they are emotional weight. Crescendo, decrescendo, accent and silence change expression.",
+      "practiceZh": "同一句 1-2-3-2-1，分别做平直、渐强、渐弱、第三音强调。",
+      "practiceEn": "Sing 1-2-3-2-1 as flat, crescendo, decrescendo and with the third note accented.",
+      "mistakeZh": "不要用喉咙压力代替强弱控制。",
+      "mistakeEn": "Do not replace dynamic control with throat pressure."
+    },
+    {
+      "id": "emotion",
+      "zh": "14. 情感表达：同一句不同含义",
+      "en": "14. Emotion: one phrase, many meanings",
+      "term": "emotion_curve",
+      "lab": "voice-emotion",
+      "principleZh": "情感来自速度、强弱、咬字、音色、换气和句子方向的组合。",
+      "principleEn": "Emotion comes from tempo, dynamics, diction, timbre, breathing and phrase direction.",
+      "practiceZh": "同一句旋律，分别唱成安抚、快乐、勇气、告别。只改变强弱、速度和音色。",
+      "practiceEn": "Sing one phrase as comfort, joy, courage and goodbye by changing dynamics, speed and color.",
+      "mistakeZh": "不要只把情感理解成更大声或更夸张。",
+      "mistakeEn": "Do not reduce emotion to louder or more exaggerated singing."
     }
   ],
   "soundLabs": [
@@ -2478,6 +2548,482 @@ window.ML_DATA = {
       "en": "Chord tension & release",
       "term": "harmony",
       "formula": "tension → resolution"
+    },
+    {
+      "id": "meter",
+      "zh": "拍号与强弱",
+      "en": "Meter & accents",
+      "term": "meter",
+      "formula": "meter = strong/weak beat cycle"
+    },
+    {
+      "id": "polyrhythm",
+      "zh": "复节奏 3 over 4",
+      "en": "Polyrhythm 3 over 4",
+      "term": "polyrhythm",
+      "formula": "different cycles overlap"
+    },
+    {
+      "id": "motif",
+      "zh": "动机与重复",
+      "en": "Motive & repetition",
+      "term": "emotion_curve",
+      "formula": "small shape → repeat → variation"
     }
-  ]
+  ],
+  "compositionCoach": {
+    "zh": {
+      "title": "创作完成后怎么调整？",
+      "densityLow": "音符很少，适合宁静、睡前、冥想；想更有行动力，可以增加重复脉冲。",
+      "densityMid": "密度适中，适合每日主题、专注循环；可以加入一次变化形成转折。",
+      "densityHigh": "信息较密，容易兴奋或过载；想更疗愈，可以减少弱拍上的音，增加留白。",
+      "rise": "旋律整体上行，通常更像希望、启动、勇气。",
+      "fall": "旋律整体下行，更像安抚、回落、悲伤或入睡。",
+      "wave": "旋律像呼吸波，适合宁静、表达和情绪流动。",
+      "homeWeak": "回到主音较少，结尾会有悬浮感；想稳定，可以让最后 4 步回到 1。",
+      "homeStrong": "回到主音清楚，像回家，适合冥想和完整小曲。"
+    },
+    "en": {
+      "title": "How to adjust after composing?",
+      "densityLow": "Sparse notes suit calm, sleep and meditation; add repeated pulses for activation.",
+      "densityMid": "Medium density suits daily themes and focus loops; add one variation for a turn.",
+      "densityHigh": "Dense information can excite or overload; reduce off-beat notes and add space for care.",
+      "rise": "Overall rising contour often feels hopeful, activating or courageous.",
+      "fall": "Overall falling contour feels soothing, returning, sad or sleep-oriented.",
+      "wave": "A wave contour feels breath-like, good for calm, expression and emotional flow.",
+      "homeWeak": "Weak return to tonic feels suspended; return to 1 in the last 4 steps for stability.",
+      "homeStrong": "Clear return to tonic feels like home, good for meditation and closure."
+    }
+  },
+  "choiceGuides": [
+    {
+      "id": "sleep",
+      "zh": "失眠 / 睡前",
+      "en": "Insomnia / sleep",
+      "params": "50–75 BPM · 低动态 · 少歌词 · 可预测 · 暖 Pad / soft piano / singing bowl",
+      "createZh": "创作：低密度、长音、回到主音、避免突然高音。",
+      "createEn": "Compose: low density, long tones, return to tonic, avoid sudden high notes.",
+      "listenZh": "寻找：ambient、柔和钢琴、自然声景、慢速合唱、低音钵。",
+      "listenEn": "Search: ambient, soft piano, nature soundscape, slow choir, deep bowls.",
+      "linksKey": "sleep"
+    },
+    {
+      "id": "focus",
+      "zh": "专注 / 学习",
+      "en": "Focus / study",
+      "params": "70–95 BPM · 稳定脉冲 · 低歌词 · 中低复杂度 · 可循环",
+      "createZh": "创作：重复动机、少转折、弱变化、清晰节拍。",
+      "createEn": "Compose: repeated motive, few turns, slight variation, clear beat.",
+      "listenZh": "寻找：minimal piano、lo-fi instrumental、稳定鼓点、低歌词 ambient。",
+      "listenEn": "Search: minimal piano, lo-fi instrumental, steady pulse, low-lyric ambient.",
+      "linksKey": "focus"
+    },
+    {
+      "id": "mood",
+      "zh": "情绪安抚",
+      "en": "Emotion comfort",
+      "params": "55–85 BPM · 柔和音色 · 允许下行和停顿 · 低动态",
+      "createZh": "创作：下行线条、停顿、柔和音色，第三次重复稍微转亮。",
+      "createEn": "Compose: falling lines, pauses, soft timbre; brighten the third repetition slightly.",
+      "listenZh": "寻找：soft strings、music box、slow piano、gentle humming。",
+      "listenEn": "Search: soft strings, music box, slow piano, gentle humming.",
+      "linksKey": "composition"
+    },
+    {
+      "id": "pain",
+      "zh": "疼痛 / 身体不适",
+      "en": "Pain / body discomfort",
+      "params": "低干扰 · 稳定声景 · 呼吸同步 · 可预测结构",
+      "createZh": "创作：用 4–6 秒呼吸周期，低动态，避免刺耳频谱。",
+      "createEn": "Compose: use 4–6 second breath cycles, low dynamics and non-harsh spectrum.",
+      "listenZh": "寻找：slow ambient、body scan music、breath-paced soundscape。",
+      "listenEn": "Search: slow ambient, body-scan music, breath-paced soundscape.",
+      "linksKey": "composition"
+    },
+    {
+      "id": "compassion",
+      "zh": "慈悲心 / 连接",
+      "en": "Compassion / connection",
+      "params": "慢速和声 · 人声哼鸣 · 合唱感 · 温柔重复",
+      "createZh": "创作：根音 + 三度 + 五度，重复后轻微变化，像回应。",
+      "createEn": "Compose: root + third + fifth, repeat then vary gently like a response.",
+      "listenZh": "寻找：slow choir、humming、chant、gentle vocal ambient。",
+      "listenEn": "Search: slow choir, humming, chant, gentle vocal ambient.",
+      "linksKey": "compassion"
+    }
+  ],
+  "coreStars": {
+    "sound": [
+      "frequency",
+      "amplitude",
+      "harmonic",
+      "spectrum",
+      "resonance",
+      "beating"
+    ],
+    "hearing": [
+      "masking",
+      "roughness",
+      "loudness",
+      "binaural",
+      "noise_color"
+    ],
+    "theory": [
+      "scale",
+      "octave",
+      "fifth",
+      "chord",
+      "harmony",
+      "circle_fifths"
+    ],
+    "rhythm": [
+      "rhythm",
+      "tempo",
+      "meter",
+      "syncopation",
+      "groove"
+    ],
+    "voice": [
+      "breath",
+      "vocal_folds",
+      "sovt",
+      "formant",
+      "vowel",
+      "choir"
+    ],
+    "life": [
+      "sleep_music",
+      "adhd_start",
+      "overload",
+      "pain",
+      "compassion",
+      "soundscape"
+    ],
+    "world": [
+      "theremin",
+      "strings",
+      "air_column",
+      "synth",
+      "daw"
+    ],
+    "create": [
+      "mandala",
+      "notation",
+      "midi",
+      "emotion_curve"
+    ],
+    "beings": [
+      "life_frequency",
+      "boundary",
+      "complement",
+      "love_equation"
+    ]
+  },
+  "trackRoles": [
+    {
+      "id": "melody",
+      "zh": "Melody 主旋律",
+      "en": "Melody",
+      "zhText": "表达主要情绪和记忆点，像一句话。",
+      "enText": "Carries the main feeling and memorable idea, like a sentence."
+    },
+    {
+      "id": "bass",
+      "zh": "Bass 低音",
+      "en": "Bass",
+      "zhText": "给音乐一个地基，帮助听众知道“家”在哪里。",
+      "enText": "Gives the piece a foundation and tells the ear where home is."
+    },
+    {
+      "id": "chords",
+      "zh": "Chord 和弦",
+      "en": "Chord",
+      "zhText": "给旋律情绪颜色：明亮、暗、悬浮、解决。",
+      "enText": "Gives melody emotional color: bright, dark, suspended or resolved."
+    },
+    {
+      "id": "pulse",
+      "zh": "Pulse 节奏",
+      "en": "Pulse",
+      "zhText": "给身体一个可预测的时间脚手架。",
+      "enText": "Gives the body a predictable timing scaffold."
+    }
+  ],
+  "chordProgressions": [
+    {
+      "id": "safe",
+      "zh": "I–V–vi–IV 安全流行",
+      "en": "I–V–vi–IV safe pop",
+      "chords": [
+        "I",
+        "V",
+        "vi",
+        "IV"
+      ],
+      "zhWhy": "稳定、明亮、容易形成完整感。",
+      "enWhy": "Stable, bright and easy to feel complete."
+    },
+    {
+      "id": "home",
+      "zh": "I–IV–V–I 回家",
+      "en": "I–IV–V–I return home",
+      "chords": [
+        "I",
+        "IV",
+        "V",
+        "I"
+      ],
+      "zhWhy": "清楚地离开与回归，适合教学和起床铃。",
+      "enWhy": "Clear leaving and returning; good for teaching and alarm themes."
+    },
+    {
+      "id": "sad",
+      "zh": "vi–IV–I–V 温柔安抚",
+      "en": "vi–IV–I–V gentle comfort",
+      "chords": [
+        "vi",
+        "IV",
+        "I",
+        "V"
+      ],
+      "zhWhy": "柔和、带一点悲伤，但最后有支撑。",
+      "enWhy": "Tender, slightly sad, but supported at the end."
+    },
+    {
+      "id": "dorian",
+      "zh": "i–IV–i–VII 多利亚勇气",
+      "en": "i–IV–i–VII Dorian courage",
+      "chords": [
+        "i",
+        "IV",
+        "i",
+        "VII"
+      ],
+      "zhWhy": "有行动感，又不完全明亮。",
+      "enWhy": "Active but not fully bright."
+    }
+  ],
+  "resourceLinks": {
+    "sleep": [
+      {
+        "label": "ambient sleep search",
+        "url": "https://www.youtube.com/results?search_query=ambient%20sleep%20music%20soft%20piano"
+      },
+      {
+        "label": "soft piano sleep search",
+        "url": "https://www.youtube.com/results?search_query=soft%20piano%20sleep%20music%20no%20lyrics"
+      },
+      {
+        "label": "singing bowl meditation search",
+        "url": "https://www.youtube.com/results?search_query=singing%20bowl%20meditation%20low%20frequency"
+      }
+    ],
+    "focus": [
+      {
+        "label": "minimal piano focus search",
+        "url": "https://www.youtube.com/results?search_query=minimal%20piano%20focus%20instrumental"
+      },
+      {
+        "label": "lofi instrumental focus search",
+        "url": "https://www.youtube.com/results?search_query=lofi%20instrumental%20focus%20no%20vocals"
+      },
+      {
+        "label": "Open Music Theory",
+        "url": "https://viva.pressbooks.pub/openmusictheory/"
+      }
+    ],
+    "voice": [
+      {
+        "label": "NIDCD voice and speech",
+        "url": "https://www.nidcd.nih.gov/health/voice-speech-and-language"
+      },
+      {
+        "label": "Vocapedia search",
+        "url": "https://duckduckgo.com/?q=Vocapedia%20voice%20science%20SOVT%20formants"
+      },
+      {
+        "label": "NATS voice science search",
+        "url": "https://duckduckgo.com/?q=NATS%20voice%20science%20SOVT%20formant"
+      }
+    ],
+    "composition": [
+      {
+        "label": "Open Music Theory",
+        "url": "https://viva.pressbooks.pub/openmusictheory/"
+      },
+      {
+        "label": "musictheory.net",
+        "url": "https://www.musictheory.net/"
+      },
+      {
+        "label": "IMSLP scores",
+        "url": "https://imslp.org/"
+      }
+    ],
+    "compassion": [
+      {
+        "label": "slow choir ambient search",
+        "url": "https://www.youtube.com/results?search_query=slow%20choir%20ambient%20compassion%20humming"
+      },
+      {
+        "label": "gentle vocal ambient search",
+        "url": "https://www.youtube.com/results?search_query=gentle%20vocal%20ambient%20humming"
+      },
+      {
+        "label": "Smithsonian Folkways",
+        "url": "https://folkways.si.edu/"
+      }
+    ]
+  },
+  "startModes": [
+    {
+      "id": "quickCompose",
+      "route": "compose",
+      "mode": "quick",
+      "icon": "𝄞",
+      "zh": "极简创作",
+      "en": "Quick compose",
+      "zhText": "选择情绪、乐器和长度，直接写旋律、播放、导出。",
+      "enText": "Choose emotion, instrument and length, then write, play and export."
+    },
+    {
+      "id": "singPractice",
+      "route": "voice",
+      "mode": "quick",
+      "icon": "◌",
+      "zh": "歌唱练习",
+      "en": "Sing practice",
+      "zhText": "从身体、呼吸、声带、共鸣到表达，按步骤练。",
+      "enText": "Practice body, breath, folds, resonance and expression step by step."
+    },
+    {
+      "id": "starMap",
+      "route": "atlas",
+      "mode": "teach",
+      "icon": "◎",
+      "zh": "星图学习",
+      "en": "Star map",
+      "zhText": "点亮星点，打开小课，查找知识与动画。",
+      "enText": "Light stars, open mini lessons, search knowledge and animation."
+    },
+    {
+      "id": "chooseMusic",
+      "route": "life",
+      "mode": "quick",
+      "icon": "♡",
+      "zh": "选择音乐",
+      "en": "Choose music",
+      "zhText": "按睡眠、专注、情绪、疼痛和慈悲心寻找音乐方向。",
+      "enText": "Find music directions for sleep, focus, mood, pain and compassion."
+    },
+    {
+      "id": "resonance",
+      "route": "beings",
+      "mode": "teach",
+      "icon": "✺",
+      "zh": "生命共振",
+      "en": "Resonance",
+      "zhText": "用比例、音程、和弦理解连接与和谐。",
+      "enText": "Use ratios, intervals and chords to understand connection and harmony."
+    },
+    {
+      "id": "fullLesson",
+      "route": "odyssey",
+      "mode": "teach",
+      "icon": "☄",
+      "zh": "完整教学",
+      "en": "Full teaching",
+      "zhText": "按照听见、歌唱、创作、选择、聆听、表达的主线学习。",
+      "enText": "Learn through hear, sing, compose, choose, listen and express."
+    }
+  ],
+  "voiceFlow": [
+    {
+      "id": "feeling",
+      "zh": "感受 / 意图",
+      "en": "Feeling / intention"
+    },
+    {
+      "id": "body",
+      "zh": "身体姿态",
+      "en": "Body posture"
+    },
+    {
+      "id": "breath",
+      "zh": "呼吸支持",
+      "en": "Breath support"
+    },
+    {
+      "id": "source",
+      "zh": "声带振动",
+      "en": "Vocal fold source"
+    },
+    {
+      "id": "filter",
+      "zh": "声道滤波",
+      "en": "Vocal tract filter"
+    },
+    {
+      "id": "words",
+      "zh": "元音 / 咬字",
+      "en": "Vowel / diction"
+    },
+    {
+      "id": "shape",
+      "zh": "音高 / 节奏 / 强弱",
+      "en": "Pitch / rhythm / dynamics"
+    },
+    {
+      "id": "song",
+      "zh": "歌声表达",
+      "en": "Singing expression"
+    }
+  ],
+  "composeModes": [
+    {
+      "id": "quick",
+      "zh": "极简创作",
+      "en": "Quick compose",
+      "zhText": "少讲解，直接操作。",
+      "enText": "Less explanation, direct operation."
+    },
+    {
+      "id": "teach",
+      "zh": "教学模式",
+      "en": "Teaching mode",
+      "zhText": "显示原理、结构、轨道和作品分析。",
+      "enText": "Show principles, form, tracks and analysis."
+    }
+  ],
+  "searchLinks": {
+    "sleep": [
+      "ambient sleep music",
+      "soft piano sleep",
+      "singing bowl meditation",
+      "nature soundscape sleep"
+    ],
+    "focus": [
+      "minimal piano focus",
+      "lofi instrumental focus",
+      "ambient study music",
+      "steady pulse instrumental"
+    ],
+    "mood": [
+      "soft strings calming music",
+      "gentle humming meditation",
+      "music box calming",
+      "slow piano emotional"
+    ],
+    "pain": [
+      "music for pain relief relaxation",
+      "body scan music",
+      "breath paced soundscape"
+    ],
+    "compassion": [
+      "slow choir ambient",
+      "loving kindness music",
+      "gentle vocal ambient",
+      "humming meditation"
+    ]
+  }
 };

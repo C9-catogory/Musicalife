@@ -1,39 +1,50 @@
-# Musicalife｜音乐如何改善生活
+# Musicalife
 
-一个探索音乐趣味的可视化平台：从声波、乐理、发声、身体、大脑、语言、乐器到未来音乐。
+A bilingual visual platform for exploring the beauty of music: sound physics, psychoacoustics, music theory, voice science, daily life sound tools, world instruments, and future music.
 
-## 文件结构
+## Files
 
-- `index.html`：网页入口
-- `styles.css`：蓝紫色异世界视觉风格与移动端布局
-- `app.js`：所有互动逻辑、知识地图、动画、游戏主线、双语切换
+- `index.html` — site entry
+- `styles.css` — visual design and mobile layout
+- `app.js` — data, views, star map, animations and interaction
 
-## 本地打开
+## Local preview
 
-直接双击 `index.html`，或用 VS Code Live Server 打开。
+```bash
+cd musicalife_github_v2
+python -m http.server 5173
+```
 
-## GitHub Pages 发布
+Open:
 
-1. 新建 GitHub 仓库，例如 `musicalife`。
-2. 上传这三个文件：`index.html`、`styles.css`、`app.js`。
-3. 进入仓库 `Settings` → `Pages`。
-4. Source 选择 `Deploy from a branch`。
-5. Branch 选择 `main`，Folder 选择 `/root`。
-6. 保存后等待 GitHub 生成网址。
+```text
+http://localhost:5173
+```
 
-## 以后如何更新
+## GitHub Pages quick publish
 
-修改 `app.js` 中的这些数组即可扩展内容：
+1. Create a public repository named `musicalife`.
+2. Upload `index.html`, `styles.css`, `app.js`, `README.md` to the repository root.
+3. Go to `Settings → Pages`.
+4. Choose `Deploy from a branch`.
+5. Select `main` and `/root`.
+6. Save and wait a few minutes.
+7. The site URL will usually be:
 
-- `terms`：知识地图中的专业名词、解释、关联、链接、动画
-- `anims`：动画入口
-- `voiceChapters`：声乐课程章节
-- `lifeCards`：生活场景卡片
-- `instruments`：乐器博物馆
-- `timeline`：音乐媒介发展史
-- `books`：资料图书馆
+```text
+https://YOUR-USERNAME.github.io/musicalife/
+```
 
-## 联系方式
+## Edit content
 
-小红书：云心  
-ID：starcove
+Most content is in `app.js`:
+
+- `termData` — knowledge star map terms
+- `edges` — concept relationships
+- `anims` — animation list
+- `levels` — game path
+- `voiceChapters` — voice lab
+- `lifeCards` — daily life tools
+- `instruments` — instrument museum
+- `sources` — library links
+

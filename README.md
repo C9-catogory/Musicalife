@@ -1,17 +1,28 @@
-# Musicalife Starworld v6
+# Musicalife Starworld Core v7
 
-一个探索音乐之美的可视化星海。  
-A visual starworld for exploring the beauty of music.
+一个音乐世界的 GitHub demo：星门、宇宙港口、声之塔、银河星盘、生命体共振、创作实验室和图书馆。
 
-## This version focuses on
+## Core idea
 
-- 恢复“像音乐星河小游戏”一样的整体气质，而不是普通资料页。
-- 强化稳定入口：星门可点击，进入后始终有可见内容。
-- 背景升级：星空、闪烁星点、极光、流星，整体更梦幻。
-- 首页重构为“宇宙港口”：开始航行 / 知识星盘 / 人声宇宙 / 生活星系 / 世界音乐博物馆 / 图书馆。
-- 航行页升级为“声之塔 / Odyssey”，保留任务感与闯关感。
-- 保留现有双语、知识星点、动画实验室、推荐与图书馆数据。
-- 增加渲染错误回退视图，避免出现“页面空白、完全进不去”。
+Musicalife is not only a music knowledge page. It is a small playable world where:
+
+- everything can become a carrier of music;
+- every person is a star with structure, breath and rhythm;
+- music is explored through frequency, ratio, pattern, resonance and creation;
+- learning music becomes a journey of lighting stars, discovering life patterns and finding harmony.
+
+The worldview uses frequency and resonance as poetic/game metaphors, while the knowledge layer can later be expanded with acoustic, music theory, voice science and music therapy sources.
+
+## Files
+
+Upload these four files to the root of your GitHub Pages / Netlify site:
+
+```text
+index.html
+styles.css
+app.js
+README.md
+```
 
 ## Local preview
 
@@ -25,15 +36,18 @@ Open:
 http://localhost:5173
 ```
 
-## Deploy
+## What is stable in this version
 
-Upload these files to the root of your static site:
+- The app has visible fallback content even before JavaScript renders.
+- The gate is an overlay; the internal world is no longer an empty hidden shell.
+- Every main route can render independently: Home, Odyssey, Atlas, Beings, Create, Library.
+- Rendering errors fall back to a recovery page instead of a blank screen.
+- No external dependencies are required.
 
-```text
-index.html
-styles.css
-app.js
-README.md
-```
+## Next expansion
 
-If your site still shows an old version, clear the browser cache or force refresh.
+1. Add more real music knowledge stars.
+2. Add separate animation types for each concept.
+3. Add saveable personal rhythm / life star profiles.
+4. Add a real composition tool with export.
+5. Add sources, listening examples and learning quests.

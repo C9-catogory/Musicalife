@@ -3,80 +3,75 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#08071f" />
-  <title>Musicalife｜音乐星河 · Starworld</title>
-  <meta name="description" content="Musicalife is a visual star-ocean for exploring music knowledge: sound physics, hearing, voice, theory, brain, life, instruments, culture and future music." />
-  <link rel="stylesheet" href="styles.css?v6_starworld" />
-  <script src="app.js?v6_starworld" defer></script>
+  <meta name="theme-color" content="#07051f" />
+  <title>Musicalife｜音乐星河核心版</title>
+  <meta name="description" content="Musicalife Starworld Core: a playable visual world for exploring music, mathematics, resonance, life and creation." />
+  <link rel="stylesheet" href="styles.css?v=core7" />
 </head>
 <body>
   <canvas id="starBg" aria-hidden="true"></canvas>
-  <div class="aurora a1" aria-hidden="true"></div>
-  <div class="aurora a2" aria-hidden="true"></div>
-  <div class="aurora a3" aria-hidden="true"></div>
-  <div class="meteor m1" aria-hidden="true"></div>
-  <div class="meteor m2" aria-hidden="true"></div>
-  <div class="meteor m3" aria-hidden="true"></div>
+  <div class="aurora aurora-a" aria-hidden="true"></div>
+  <div class="aurora aurora-b" aria-hidden="true"></div>
+  <div class="meteor meteor-a" aria-hidden="true"></div>
+  <div class="meteor meteor-b" aria-hidden="true"></div>
 
-  <section id="gate" class="gate active" aria-label="Musicalife entrance">
-    <div class="gate-panel">
-      <canvas id="gateCanvas" class="gate-canvas" aria-hidden="true"></canvas>
-      <div class="gate-copy">
-        <p class="brand-mini">Musicalife · Star Ocean</p>
-        <h1 data-gate-title>在音乐的海洋中，进入一片会发光的星河</h1>
-        <p data-gate-sub>声音像波浪，星星像和声。沿着频率、比例、身体与记忆的光轨，进入一个可以感受美与和谐的音乐宇宙。</p>
-        <div class="gate-actions">
-          <button class="btn primary" data-act="enter" data-lang="zh" type="button">中文进入</button>
-          <button class="btn ghost" data-act="enter" data-lang="en" type="button">Enter in English</button>
-        </div>
-        <div class="gate-actions mini">
-          <button class="textbtn" data-act="toggle-reduced" type="button">低动效 / Reduced motion</button>
-          <button class="textbtn" data-act="enter" type="button">跳过开场 / Skip</button>
-        </div>
+  <section id="gate" class="gate" aria-label="Musicalife entrance">
+    <canvas id="gateCanvas" aria-hidden="true"></canvas>
+    <div class="gate-card">
+      <p class="eyebrow">Musicalife · Starworld Core</p>
+      <h1>进入音乐星河</h1>
+      <p class="gate-lead">这里的一切都是音乐的载体。频率、结构、呼吸、关系与爱，会在星光中变成可以探索、可以创作、可以疗愈的生命节奏。</p>
+      <div class="gate-actions">
+        <button class="btn primary" data-action="enter" data-lang="zh" type="button">中文进入</button>
+        <button class="btn ghost" data-action="enter" data-lang="en" type="button">Enter in English</button>
+      </div>
+      <div class="gate-small">
+        <button class="textbtn" data-action="reduced" type="button">低动效 / Reduced motion</button>
+        <button class="textbtn" data-action="skip" type="button">跳过星门 / Skip</button>
       </div>
     </div>
   </section>
 
-  <div id="app" class="app hidden" aria-live="polite">
+  <div id="app" class="app">
     <header class="topbar">
-      <button class="iconbtn" data-act="route" data-route="home" aria-label="Home" type="button">⌂</button>
-      <div class="brand" aria-label="Musicalife"><span class="brand-star">✦</span><span>Musicalife</span></div>
+      <button class="iconbtn" data-route="home" aria-label="Home" type="button">✦</button>
+      <div class="brand"><span class="brand-mark">♪</span><span>Musicalife</span></div>
       <div class="top-actions">
-        <button class="pill back-pill" data-act="back" type="button">←</button>
-        <button class="pill" data-act="search" type="button">⌕</button>
-        <button class="pill" data-act="lang" type="button">中/EN</button>
-        <button id="simpleToggle" class="pill" data-act="simple" type="button">少字</button>
+        <button class="pill" data-action="lang" type="button">中/EN</button>
+        <button class="pill" data-action="simple" type="button">少字</button>
+        <button class="pill" data-action="reset" type="button">重置</button>
       </div>
     </header>
-    <main id="view" class="view" tabindex="-1"></main>
+
+    <main id="view" class="view" tabindex="-1">
+      <section class="page fallback-home">
+        <div class="hero-card">
+          <p class="eyebrow">Musicalife · fallback</p>
+          <h1>音乐是一片可以航行的星河。</h1>
+          <p>如果脚本还在加载，这里会先作为可见首页。进入后可以探索声之塔、星盘、生命体共振与创作实验室。</p>
+        </div>
+      </section>
+    </main>
+
     <nav class="bottomnav" aria-label="Main navigation">
-      <button data-act="route" data-route="home" type="button"><span>✦</span><b data-nav-label="home">首页</b></button>
-      <button data-act="route" data-route="voyage" type="button"><span>☄</span><b data-nav-label="voyage">航行</b></button>
-      <button data-act="route" data-route="atlas" type="button"><span>◎</span><b data-nav-label="atlas">星盘</b></button>
-      <button data-act="route" data-route="voice" type="button"><span>◌</span><b data-nav-label="voice">人声</b></button>
-      <button data-act="route" data-route="life" type="button"><span>♡</span><b data-nav-label="life">生活</b></button>
-      <button data-act="route" data-route="explore" type="button"><span>♢</span><b data-nav-label="explore">探索</b></button>
-      <button data-act="route" data-route="recommend" type="button"><span>♪</span><b data-nav-label="recommend">推荐</b></button>
-      <button data-act="route" data-route="library" type="button"><span>☰</span><b data-nav-label="library">图书馆</b></button>
+      <button data-route="home" type="button"><span>✦</span><b data-i18n="home">首页</b></button>
+      <button data-route="odyssey" type="button"><span>☄</span><b data-i18n="odyssey">声之塔</b></button>
+      <button data-route="atlas" type="button"><span>◎</span><b data-i18n="atlas">星盘</b></button>
+      <button data-route="beings" type="button"><span>◌</span><b data-i18n="beings">生命体</b></button>
+      <button data-route="create" type="button"><span>◇</span><b data-i18n="create">创作</b></button>
+      <button data-route="library" type="button"><span>☰</span><b data-i18n="library">图书馆</b></button>
     </nav>
   </div>
 
-  <aside id="drawer" class="drawer" aria-hidden="true" aria-label="Knowledge detail panel">
-    <button class="iconbtn drawer-close" data-act="close-drawer" aria-label="Close" type="button">×</button>
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <button class="iconbtn drawer-close" data-action="closeDrawer" aria-label="Close" type="button">×</button>
     <div id="drawerBody"></div>
   </aside>
 
-  <div id="searchOverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-labelledby="searchTitle">
-    <div class="searchbox">
-      <button class="iconbtn drawer-close" data-act="close-search" aria-label="Close search" type="button">×</button>
-      <h2 id="searchTitle" data-search-title>搜索音乐星海</h2>
-      <input id="searchInput" autocomplete="off" inputmode="search" />
-      <div class="search-tools">
-        <button class="textbtn" data-act="clear-search" type="button">Clear</button>
-        <button class="textbtn" data-act="close-search" type="button">Exit</button>
-      </div>
-      <div id="searchResults" class="results"></div>
-    </div>
-  </div>
+  <noscript>
+    <div class="noscript">Musicalife 需要 JavaScript 才能显示互动星盘和动画。请启用 JavaScript 后刷新页面。</div>
+  </noscript>
+
+  <script src="app.js?v=core7" defer></script>
 </body>
 </html>

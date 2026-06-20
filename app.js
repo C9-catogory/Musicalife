@@ -9,23 +9,23 @@
   const esc = s => String(s ?? '').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const jget = (k,f)=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(f))}catch(e){return f}};
   const state = {
-    lang: localStorage.getItem('hs15_lang') || localStorage.getItem('hs14_lang') || localStorage.getItem('hs13_lang') || localStorage.getItem('hs12_lang') || localStorage.getItem('hs9_lang') || 'zh',
+    lang: localStorage.getItem('hs16_lang') || localStorage.getItem('hs15_lang') || localStorage.getItem('hs14_lang') || localStorage.getItem('hs13_lang') || localStorage.getItem('hs12_lang') || localStorage.getItem('hs9_lang') || 'zh',
     route: ROUTES.has(location.hash.replace('#','')) ? location.hash.replace('#','') : 'home',
-    entered: (localStorage.getItem('hs15_entered') || localStorage.getItem('hs14_entered') || localStorage.getItem('hs13_entered') || localStorage.getItem('hs12_entered') || localStorage.getItem('hs9_entered')) === '1',
-    simple: (localStorage.getItem('hs15_simple') || localStorage.getItem('hs14_simple') || localStorage.getItem('hs13_simple') || localStorage.getItem('hs12_simple') || localStorage.getItem('hs9_simple')) === '1',
-    reduced: (localStorage.getItem('hs15_reduced') || localStorage.getItem('hs14_reduced') || localStorage.getItem('hs13_reduced') || localStorage.getItem('hs12_reduced') || localStorage.getItem('hs9_reduced')) === '1',
-    lit: new Set(jget('hs15_lit', jget('hs14_lit', jget('hs13_lit', jget('hs12_lit', jget('hs9_lit', [])))))),
+    entered: (localStorage.getItem('hs16_entered') || localStorage.getItem('hs15_entered') || localStorage.getItem('hs14_entered') || localStorage.getItem('hs13_entered') || localStorage.getItem('hs12_entered') || localStorage.getItem('hs9_entered')) === '1',
+    simple: (localStorage.getItem('hs16_simple') || localStorage.getItem('hs15_simple') || localStorage.getItem('hs14_simple') || localStorage.getItem('hs13_simple') || localStorage.getItem('hs12_simple') || localStorage.getItem('hs9_simple')) === '1',
+    reduced: (localStorage.getItem('hs16_reduced') || localStorage.getItem('hs15_reduced') || localStorage.getItem('hs14_reduced') || localStorage.getItem('hs13_reduced') || localStorage.getItem('hs12_reduced') || localStorage.getItem('hs9_reduced')) === '1',
+    lit: new Set(jget('hs16_lit', jget('hs15_lit', jget('hs14_lit', jget('hs13_lit', jget('hs12_lit', jget('hs9_lit', []))))))),
     lab: 'sound',
     term: null,
     query: '',
     atlasFilter: 'all',
-    expandedGalaxy: localStorage.getItem('hs15_expandedGalaxy') || 'create',
-    uiMode: localStorage.getItem('hs15_uiMode') || 'quick',
+    expandedGalaxy: localStorage.getItem('hs16_expandedGalaxy') || localStorage.getItem('hs15_expandedGalaxy') || 'create',
+    uiMode: localStorage.getItem('hs16_uiMode') || localStorage.getItem('hs15_uiMode') || 'quick',
     raf: 0,
     rafs: {},
     stopCosmos: null,
     audio: null,
-    compose: jget('hs15_compose', jget('hs14_compose', jget('hs13_compose', jget('hs12_compose', {scale:'C_major',tempo:84,steps:32,instrument:'warmPiano',purpose:'daily',emotion:'focus',grid:Array(32).fill(-1)})))),
+    compose: jget('hs16_compose', jget('hs15_compose', jget('hs14_compose', jget('hs13_compose', jget('hs12_compose', {scale:'C_major',tempo:84,steps:32,instrument:'warmPiano',purpose:'daily',emotion:'focus',naturalize:true,vocalGuide:true,syllable:'hum',drums:true,grid:Array(32).fill(-1)}))))),
     life: {preset:'sleep', bpm:62,dynamic:22,lyrics:10,predict:86},
     beings: {a:52,b:68,c:42,open:60,ratioMode:'triad'},
     params: {freq:220,amp:52,phase:0,target:440,h1:1,h2:1,h3:.6,h4:.42,h5:.25,vowel:'a', voiceLesson:'breath'}
@@ -40,7 +40,13 @@
     state.compose.instrument = state.compose.instrument || 'softBell';
     state.compose.purpose = state.compose.purpose || 'daily';
     state.compose.emotion = state.compose.emotion || 'focus';
-    state.compose.layers = state.compose.layers || {melody:true,bass:true,chords:true,pulse:false};
+    state.compose.layers = state.compose.layers || {melody:true,bass:true,chords:true,pulse:true,drums:true};
+    if(state.compose.layers.pulse === undefined) state.compose.layers.pulse = true;
+    if(state.compose.layers.drums === undefined) state.compose.layers.drums = true;
+    state.compose.naturalize = state.compose.naturalize !== false;
+    state.compose.vocalGuide = state.compose.vocalGuide !== false;
+    state.compose.syllable = state.compose.syllable || 'hum';
+    state.compose.drums = state.compose.drums !== false;
     state.compose.chords = Array.isArray(state.compose.chords) ? state.compose.chords : ['I','V','vi','IV'];
     if(!Array.isArray(state.compose.grid)) state.compose.grid = [];
     while(state.compose.grid.length < state.compose.steps) state.compose.grid.push(-1);
@@ -51,14 +57,14 @@
   const C = k => (DATA.copy[state.lang] && DATA.copy[state.lang][k]) || DATA.copy.zh[k] || k;
   const L = obj => obj?.[state.lang] || obj?.zh || obj?.en || obj || '';
   const save = () => {
-    localStorage.setItem('hs15_lang', state.lang);
-    localStorage.setItem('hs15_entered', state.entered?'1':'0');
-    localStorage.setItem('hs15_simple', state.simple?'1':'0');
-    localStorage.setItem('hs15_reduced', state.reduced?'1':'0');
-    localStorage.setItem('hs15_lit', JSON.stringify([...state.lit]));
-    localStorage.setItem('hs15_compose', JSON.stringify(state.compose));
-    localStorage.setItem('hs15_uiMode', state.uiMode);
-    localStorage.setItem('hs15_expandedGalaxy', state.expandedGalaxy);
+    localStorage.setItem('hs16_lang', state.lang);
+    localStorage.setItem('hs16_entered', state.entered?'1':'0');
+    localStorage.setItem('hs16_simple', state.simple?'1':'0');
+    localStorage.setItem('hs16_reduced', state.reduced?'1':'0');
+    localStorage.setItem('hs16_lit', JSON.stringify([...state.lit]));
+    localStorage.setItem('hs16_compose', JSON.stringify(state.compose));
+    localStorage.setItem('hs16_uiMode', state.uiMode);
+    localStorage.setItem('hs16_expandedGalaxy', state.expandedGalaxy);
   };
   document.addEventListener('DOMContentLoaded', init);
   function init(){
@@ -71,7 +77,7 @@
   }
   function bind(){
     document.addEventListener('click', e=>{
-      const el=e.target.closest('[data-act],[data-route],[data-term],[data-lab],[data-preset],[data-param-toggle],[data-filter],[data-voice-lesson],[data-soundlab],[data-voice-mode],[data-layer],[data-ratio-mode],[data-ui-mode],[data-start-mode],[data-galaxy]');
+      const el=e.target.closest('[data-act],[data-route],[data-term],[data-lab],[data-preset],[data-param-toggle],[data-filter],[data-voice-lesson],[data-soundlab],[data-voice-mode],[data-layer],[data-syllable],[data-ratio-mode],[data-ui-mode],[data-start-mode],[data-galaxy]');
       if(!el) return;
       if(el.dataset.route){ e.preventDefault(); closeModal(); route(el.dataset.route); return; }
       const act=el.dataset.act;
@@ -86,6 +92,11 @@
       if(act==='close'){closeModal(); return;}
       if(act==='compose-note'){toggleNote(+el.dataset.step,+el.dataset.pitch); return;}
       if(act==='compose-play'){playComposition(); return;}
+      if(act==='vocal-guide-play'){playVocalGuide(); return;}
+      if(act==='compose-naturalize'){naturalizeComposition(); return;}
+      if(act==='toggle-natural'){state.compose.naturalize=!state.compose.naturalize; save(); renderCompose(); return;}
+      if(act==='toggle-vocal'){state.compose.vocalGuide=!state.compose.vocalGuide; save(); renderCompose(); return;}
+      if(act==='toggle-drums'){state.compose.layers=state.compose.layers||{}; state.compose.layers.drums=!state.compose.layers.drums; save(); renderCompose(); return;}
       if(act==='compose-wav'){exportWav(); return;}
       if(act==='compose-midi'){exportMidi(); return;}
       if(act==='compose-musicxml'){exportMusicXML(); return;}
@@ -100,6 +111,7 @@
       if(act==='download-wallpaper'){downloadMandala('wallpaper'); return;}
       if(act==='preset' || el.dataset.preset){applyPreset(el.dataset.preset); return;}
       if(el.dataset.voiceMode){ state.params.voiceMode=el.dataset.voiceMode; drawActive(); return; }
+      if(el.dataset.syllable){ state.compose.syllable=el.dataset.syllable; save(); renderCompose(); return; }
       if(el.dataset.layer){ state.compose.layers=state.compose.layers||{}; state.compose.layers[el.dataset.layer]=!state.compose.layers[el.dataset.layer]; save(); renderCompose(); return; }
       if(el.dataset.ratioMode){ state.beings.ratioMode=el.dataset.ratioMode; drawActive(); return; }
       if(el.dataset.uiMode){ state.uiMode=el.dataset.uiMode; save(); render(); return; }
@@ -245,9 +257,10 @@ function renderVoice(redraw=true){
     const shown=state.uiMode==='quick'?lessons.filter(l=>quickIds.includes(l.id)):lessons;
     $('#view').innerHTML=`<section class="page">${head(C('voice'),state.lang==='zh'?'歌唱：先看总流程，再选择一步练习。极简模式只保留最常用动作；教学模式显示完整路径。':'Singing: see the whole flow, then practice one step. Quick mode keeps core actions; teaching mode shows the full path.')}
       ${composeModeBar()}
-      <div class="panel voice-flow-panel"><h2>${state.lang==='zh'?'从感受到歌声':'From feeling to song'}</h2><div class="voice-flow-wrap"><canvas id="voiceFlowCanvas"></canvas></div><p class="mini">${state.lang==='zh'?'感受不是直接变成声音，它要经过身体、气流、声带、声道、咬字、强弱和乐句。':'Feeling becomes sound through body, airflow, folds, tract, words, dynamics and phrasing.'}</p></div>
+      <div class="panel voice-flow-panel"><h2>${state.lang==='zh'?'从感受到歌声':'From feeling to song'}</h2><div class="voice-flow-wrap"><canvas id="voiceFlowCanvas"></canvas></div><p class="mini">${state.lang==='zh'?'感受不是直接变成声音：先变成身体方向，再变成气流、声带振动、声道滤波、咬字、强弱和乐句。':'Feeling does not become sound directly: it becomes body direction, airflow, fold vibration, tract filter, words, dynamics and phrasing.'}</p></div>
+      <div class="panel vocal-guide-box"><h2>${state.lang==='zh'?'用当前旋律练唱':'Practice singing current melody'}</h2><p class="mini">${state.lang==='zh'?'先在创作页写或生成旋律，然后回到这里听机器哼唱 guide：哪里换气、哪里强调、哪里回到主音。':'Write/generate a melody in Compose, then return here and hear the vocal guide: breath points, accents and return to tonic.'}</p><div class="actions"><button class="btn primary" data-act="vocal-guide-play">${state.lang==='zh'?'机器哼唱当前旋律':'Sing current melody'}</button><button class="btn ghost" data-route="compose">${state.lang==='zh'?'去创作旋律':'Go compose'}</button></div><div class="melody-guide">${vocalPhraseMarks().map(x=>`<span>${x}</span>`).join('')}</div></div>
       <div class="voice-quick-grid">${shown.map((l,i)=>`<button class="${active===l.id?'active':''}" data-voice-lesson="${l.id}"><b>${state.lang==='zh'?l.zh.replace(/^\d+\.\s*/,''):l.en.replace(/^\d+\.\s*/,'')}</b><br><span class="mini">${state.lang==='zh'?l.principleZh:l.principleEn}</span></button>`).join('')}</div>
-      <div class="lesson-stage"><div class="panel"><h2>${esc(state.lang==='zh'?lesson.zh:lesson.en)}</h2><div class="canvas-wrap"><canvas id="voiceLessonCanvas"></canvas></div><div class="voice-mode-row">${voiceModeButtons(active)}</div><div class="voice-control-grid">${voiceControls(active)}</div><div class="actions"><button class="btn primary" data-act="play-lab">${C('listen')}</button><button class="btn ghost" data-act="light" data-id="${lesson.term}">${C('learn')}</button><button class="btn gold" data-route="compose">${state.lang==='zh'?'把练习写成旋律':'Turn practice into melody'}</button></div></div><aside class="panel"><div class="principle-card"><b>${state.lang==='zh'?'原理':'Principle'}</b><p>${esc(state.lang==='zh'?lesson.principleZh:lesson.principleEn)}</p></div><div class="principle-card"><b>${state.lang==='zh'?'怎么练':'Practice'}</b><p>${esc(state.lang==='zh'?lesson.practiceZh:lesson.practiceEn)}</p></div><div class="principle-card"><b>${state.lang==='zh'?'常见错误':'Common mistake'}</b><p>${esc(state.lang==='zh'?lesson.mistakeZh:lesson.mistakeEn)}</p></div><div class="formula formula-plain">${voiceFormula(active)}</div></aside></div>
+      <div class="lesson-stage"><div class="panel"><h2>${esc(state.lang==='zh'?lesson.zh:lesson.en)}</h2><div class="canvas-wrap"><canvas id="voiceLessonCanvas"></canvas></div><div class="voice-mode-row">${voiceModeButtons(active)}</div><div class="voice-control-grid">${voiceControls(active)}</div><div class="actions"><button class="btn primary" data-act="play-lab">${C('listen')}</button><button class="btn ghost" data-act="light" data-id="${lesson.term}">${C('learn')}</button><button class="btn gold" data-route="compose">${state.lang==='zh'?'把练习写成旋律':'Turn practice into melody'}</button></div></div><aside class="panel"><div class="principle-card"><b>${state.lang==='zh'?'原理':'Principle'}</b><p>${esc(state.lang==='zh'?lesson.principleZh:lesson.principleEn)}</p></div><div class="principle-card"><b>${state.lang==='zh'?'怎么练':'Practice'}</b><p>${esc(state.lang==='zh'?lesson.practiceZh:lesson.practiceEn)}</p></div><div class="principle-card"><b>${state.lang==='zh'?'常见错误':'Common mistake'}</b><p>${esc(state.lang==='zh'?lesson.mistakeZh:lesson.mistakeEn)}</p></div><div class="formula formula-plain">${voiceFormula(active)}</div><div class="resource-row">${resourceLinks('voice_core').map(r=>`<a href="${r.url}" target="_blank" rel="noopener">↗ ${r.label}</a>`).join('')}</div></aside></div>
     </section>`;
     if(redraw) drawActive();
   }
@@ -304,16 +317,16 @@ function renderCompose(redraw=true){
     const sc=DATA.scales[state.compose.scale]; const grid=state.compose.grid; const insts=DATA.instruments||[]; const emotions=DATA.emotionTemplates||[];
     $('#view').innerHTML=`<section class="page">${head(C('compose'),state.lang==='zh'?'极简创作：选择感受，点星格，播放并导出。需要原理时切换到教学模式。':'Quick compose: choose feeling, tap star cells, play and export. Switch to teaching for principles.')}
       ${composeModeBar()}
-      <div class="quick-compose"><div class="panel"><div class="quick-controls">
+      <div class="quick-compose"><div class="panel"><div class="quick-controls compact">
         <label>${state.lang==='zh'?'情绪':'Emotion'}<select id="emotionSelect">${emotions.map(e=>`<option value="${e.id}" ${e.id===state.compose.emotion?'selected':''}>${state.lang==='zh'?e.zh:e.en}</option>`).join('')}</select></label>
         <label>${state.lang==='zh'?'音阶':'Scale'}<select id="scaleSelect">${Object.keys(DATA.scales).map(k=>`<option value="${k}" ${k===state.compose.scale?'selected':''}>${state.lang==='zh'?DATA.scales[k].zh:DATA.scales[k].en}</option>`).join('')}</select></label>
         <label>${state.lang==='zh'?'乐器':'Instrument'}<select id="instrumentSelect">${insts.map(i=>`<option value="${i.id}" ${i.id===state.compose.instrument?'selected':''}>${state.lang==='zh'?i.zh:i.en}</option>`).join('')}</select></label>
         <label>${state.lang==='zh'?'长度':'Length'}<select id="stepsSelect">${[16,32,64,128].map(n=>`<option value="${n}" ${n===state.compose.steps?'selected':''}>${n}</option>`).join('')}</select></label>
       </div><div class="control"><label><span>BPM</span><output>${state.compose.tempo}</output></label><input id="tempoRange" type="range" min="40" max="180" value="${state.compose.tempo}"><input id="tempoInput" type="number" min="40" max="180" value="${state.compose.tempo}"></div>
-      <div class="quick-hint">${quickComposeHint()}</div>
+      <div class="quick-hint">${quickComposeHint()}</div>${makerCorePanel()}${vocalGuidePanel()}
       <div class="sequencer long" style="${seqStyle(grid.length)}">${seqGrid(sc,grid)}</div>
       <div id="notation" class="notation">${notation(sc,grid)}</div>
-      <div class="quick-actions"><button class="btn primary" data-act="compose-play">▶ ${C('play')}</button><button class="btn ghost" data-act="compose-random">${state.lang==='zh'?'生成':'Generate'}</button><button class="btn ghost" data-act="compose-clear">${C('reset')}</button><button class="btn gold" data-act="compose-wav">WAV</button><button class="btn gold" data-act="compose-midi">MIDI</button><button class="btn ghost" data-act="download-png">PNG</button></div></div>
+      <div class="quick-actions-sticky"><button class="btn primary" data-act="compose-play">▶ ${C('play')}</button><button class="btn ghost" data-act="vocal-guide-play">${state.lang==='zh'?'哼唱':'Vocal'}</button><button class="btn ghost" data-act="compose-random">${state.lang==='zh'?'生成':'Generate'}</button><button class="btn ghost" data-act="compose-naturalize">${state.lang==='zh'?'更自然':'Humanize'}</button><button class="btn ghost" data-act="compose-clear">${C('reset')}</button><button class="btn gold" data-act="compose-wav">WAV</button><button class="btn gold" data-act="compose-midi">MIDI</button><button class="btn ghost" data-act="download-png">PNG</button></div></div>
       <aside class="panel"><div class="canvas-wrap"><canvas id="mandalaCanvas"></canvas></div><div class="compose-analysis">${compositionAnalysis().slice(0,3).map(a=>`<div class="analysis-card"><b>${a.title}</b><p class="mini">${a.text}</p></div>`).join('')}</div><div class="actions"><button class="btn ghost" data-act="download-wallpaper">${state.lang==='zh'?'星空壁纸':'Wallpaper'}</button><button class="btn ghost" data-ui-mode="teach">${state.lang==='zh'?'查看原理':'Show teaching'}</button></div></aside></div></section>`;
     if(redraw) drawActive();
   }
@@ -321,6 +334,26 @@ function renderCompose(redraw=true){
     const e=(DATA.emotionTemplates||[]).find(x=>x.id===state.compose.emotion)||{};
     return state.lang==='zh'?`当前感受：${e.zh||''}。先写一个 4 步小动机，重复一次，再变化一次，最后回到 1。`:`Feeling: ${e.en||''}. Write a 4-step motive, repeat it, vary once, then return to 1.`;
   }
+
+  function makerCorePanel(){
+    const layers=state.compose.layers||{};
+    return `<div class="maker-strip">
+      <button class="${layers.melody!==false?'active':''}" data-layer="melody"><b>Melody</b><span class="mini">${state.lang==='zh'?'表达主线':'main expression'}</span></button>
+      <button class="${layers.bass!==false?'active':''}" data-layer="bass"><b>Bass</b><span class="mini">${state.lang==='zh'?'稳定中心':'gravity / home'}</span></button>
+      <button class="${layers.chords!==false?'active':''}" data-layer="chords"><b>Chord</b><span class="mini">${state.lang==='zh'?'情绪颜色':'emotional color'}</span></button>
+      <button class="${layers.drums?'active':''}" data-act="toggle-drums"><b>Djembe</b><span class="mini">${state.lang==='zh'?'身体节奏':'body pulse'}</span></button>
+    </div><div class="drum-panel"><b>${state.lang==='zh'?'更自然的音乐':'More natural music'}</b><p class="mini">${state.lang==='zh'?'打开低音、和弦、非洲鼓和“更自然”，旋律就不再只是单音格子。':'Turn on bass, chords, djembe and humanize so melody is not just single grid notes.'}</p></div>`;
+  }
+  function vocalGuidePanel(){
+    const syll=(DATA.vocalGuide&&DATA.vocalGuide.syllables)||[];
+    return `<div class="vocal-guide-box"><h3>${state.lang==='zh'?'机器哼唱 Guide':'Vocal guide'}</h3><p class="mini">${state.lang==='zh'?(DATA.vocalGuide?.zhLead||'用当前旋律生成哼唱 guide。'):(DATA.vocalGuide?.enLead||'Generate a vocal guide from your melody.')}</p><div class="actions">${syll.map(s=>`<button class="pill ${state.compose.syllable===s.id?'active':''}" data-syllable="${s.id}">${state.lang==='zh'?s.zh:s.en}</button>`).join('')}<button class="btn ghost" data-act="vocal-guide-play">${state.lang==='zh'?'唱出旋律':'Sing guide'}</button><button class="btn ghost" data-act="toggle-vocal">${state.compose.vocalGuide!==false?'✓ ':''}${state.lang==='zh'?'随播放加入':'with playback'}</button></div><div class="melody-guide">${vocalPhraseMarks().map(x=>`<span>${x}</span>`).join('')}</div></div>`;
+  }
+  function vocalPhraseMarks(){
+    const len=state.compose.grid.length||32; const marks=[];
+    for(let i=0;i<len;i+=8) marks.push(`${i+1}-${Math.min(len,i+8)} ${state.lang==='zh'?'一句/换气':'phrase/breath'}`);
+    return marks.slice(0,4);
+  }
+
   function renderComposeTeach(redraw=true){
     const sc=DATA.scales[state.compose.scale]; const grid=state.compose.grid;
     const insts=DATA.instruments||[]; const purposes=DATA.composePurposes||[]; const emotions=DATA.emotionTemplates||[]; const activeEmotion=emotions.find(e=>e.id===state.compose.emotion)||emotions[0]||{};
@@ -330,7 +363,7 @@ function renderCompose(redraw=true){
   }
   function arrangementPanel(){
     const roles=DATA.trackRoles||[]; const chords=DATA.chordProgressions||[];
-    return `<div class="track-role-grid">${roles.map(r=>`<button class="track-role ${state.compose.layers?.[r.id]?'active':''}" data-layer="${r.id}"><b>${r.name}</b><span>${state.lang==='zh'?r.zh:r.en}</span></button>`).join('')}</div><div class="chord-row">${chords.map(ch=>`<button class="pill ${state.compose.chords?.includes(ch.id)?'active':''}" data-act="chord" data-id="${ch.id}">${ch.id}</button>`).join('')}</div><p class="mini">${state.lang==='zh'?'和弦不是装饰：根音给稳定，三度给明暗，五度给支撑。':'Chords are not decoration: root stabilizes, third colors, fifth supports.'}</p>`;
+    return `<div class="track-role-grid">${roles.map(r=>`<button class="track-role ${state.compose.layers?.[r.id]?'active':''}" data-layer="${r.id}"><b>${r.name}</b><span>${state.lang==='zh'?r.zh:r.en}</span></button>`).join('')}</div><div class="chord-row">${chords.map(ch=>`<button class="pill ${state.compose.chords?.includes(ch.id)?'active':''}" data-act="chord" data-id="${ch.id}">${ch.id}</button>`).join('')}</div><p class="mini">${state.lang==='zh'?'和弦不是装饰：根音给稳定，三度给明暗，五度给支撑。':'Chords are not decoration: root stabilizes, third colors, fifth supports.'}</p>${vocalGuidePanel()}`;
   }
   function templateBars(e){
     const d=Math.max(.25,Math.min(1,e.density||.5));
@@ -371,7 +404,7 @@ function seqStyle(steps){ return `grid-template-columns:42px repeat(${steps},min
     for(let s=0;s<grid.length;s++) html+=`<div class="seq-label ${s%8===0?'seq-step-accent':''}">${s+1}</div>`;
     for(let p=7;p>=0;p--){
       html+=`<div class="seq-label">${sc.jianpu[p]}</div>`;
-      for(let s=0;s<grid.length;s++) html+=`<button class="seq-cell ${grid[s]===p?'on':'rest'} ${s%8===0?'seq-step-accent':''}" data-act="compose-note" data-step="${s}" data-pitch="${p}" type="button" aria-label="step ${s+1} pitch ${p}"></button>`;
+      for(let s=0;s<grid.length;s++) html+=`<button class="seq-cell ${grid[s]===p?'on':'rest'} ${s%8===0?'seq-step-accent':''} ${state.compose.naturalize?'naturalized':''}" data-act="compose-note" data-step="${s}" data-pitch="${p}" type="button" aria-label="step ${s+1} pitch ${p}"></button>`;
     }
     return html;
   }
@@ -586,7 +619,7 @@ function closeModal(){ $('#modal').classList.remove('open'); }
       else loopCanvas('labCanvas',(c)=>ANIM.drawMiniLesson(c,state.lab,state.params));
     }
     if($('#voiceFlowCanvas')) loopCanvas('voiceFlowCanvas',(c)=>ANIM.drawVoiceFlow(c, DATA.voiceFlow||[], state.params.voiceLesson||'breath'));
-    if($('#voiceLessonCanvas')) loopCanvas('voiceLessonCanvas',(c)=>(ANIM.drawVoiceTeaching||ANIM.drawMiniLesson)(c, state.params.voiceLesson||'breath', state.params));
+    if($('#voiceLessonCanvas')) loopCanvas('voiceLessonCanvas',(c)=>(ANIM.drawSingingCoach||ANIM.drawVoiceTeaching||ANIM.drawMiniLesson)(c, state.params.voiceLesson||'breath', state.params));
     if($('#voiceCanvas')) loopCanvas('voiceCanvas',(c)=>ANIM.drawLab(c,'voice',state.params));
     if($('#lifeCanvas')) loopCanvas('lifeCanvas',(c)=>ANIM.drawLab(c,'life',state.life));
     if($('#beingsCanvas')) loopCanvas('beingsCanvas',(c)=>(ANIM.drawResonanceTeaching||ANIM.drawLab)(c,state.beings));
@@ -625,20 +658,40 @@ function shiftOct(note,delta){
     const map={I:[0,2,4],ii:[1,3,5],iii:[2,4,6],IV:[3,5,0],V:[4,6,1],vi:[5,0,2],'vii°':[6,1,3],i:[0,2,4],VII:[6,1,3]};
     return map[symbol]||map.I;
   }
-  function arrangementEvents(){
+  function arrangementEvents(opts={}){
     const sc=DATA.scales[state.compose.scale]; const layers=state.compose.layers||{}; const chords=state.compose.chords||['I','V','vi','IV'];
-    const events=[]; const stepDur=60/state.compose.tempo/2;
-    state.compose.grid.forEach((n,step)=>{
-      if(layers.melody!==false && n>=0) events.push({step,freq:ANIM.noteToFreq(sc.notes[n]),instrument:state.compose.instrument,gain:1,dur:stepDur*.9});
-      if(step%8===0){
-        const sym=chords[Math.floor(step/8)%4]||'I'; const deg=chordDegrees(sym);
-        if(layers.bass!==false){const root=sc.notes[deg[0]%7]||sc.notes[0]; events.push({step,freq:ANIM.noteToFreq(shiftOct(root,-1)),instrument:'deepBowl',gain:.55,dur:stepDur*7.4});}
-        if(layers.chords!==false){deg.forEach((d,i)=>{const note=sc.notes[d%7]||sc.notes[0]; events.push({step:step+i*.08,freq:ANIM.noteToFreq(note),instrument:'ambientPad',gain:.28,dur:stepDur*7.2});});}
+    const events=[]; const stepDur=60/state.compose.tempo/2; const natural=state.compose.naturalize!==false;
+    const grid=state.compose.grid||[];
+    grid.forEach((n,step)=>{
+      const human = natural ? ((step%3)-1)*0.018 : 0;
+      const vel = natural ? (.82 + ((step*37)%17)/100) : 1;
+      if(layers.melody!==false && n>=0){
+        events.push({role:'melody',step:step+human,freq:ANIM.noteToFreq(sc.notes[n]),instrument:state.compose.instrument,gain:vel,dur:stepDur*(natural?(step%8===6?1.25:.82):.9)});
+        // passing tone between larger leaps: makes grid melody less blocky
+        const next=grid[step+1];
+        if(natural && next>=0 && Math.abs(next-n)>=3){
+          const f1=ANIM.noteToFreq(sc.notes[n]), f2=ANIM.noteToFreq(sc.notes[next]);
+          events.push({role:'passing',step:step+.52,freq:Math.sqrt(f1*f2),instrument:state.compose.instrument,gain:.34,dur:stepDur*.28});
+        }
       }
-      if(layers.pulse!==false && step%2===0) events.push({step,freq:ANIM.noteToFreq(shiftOct(sc.notes[0],-1)),instrument:'kalimba',gain:.23,dur:stepDur*.35});
+      if(step%8===0){
+        const sym=chords[Math.floor(step/8)%Math.max(1,chords.length)]||'I'; const deg=chordDegrees(sym);
+        if(layers.bass!==false){const root=sc.notes[deg[0]%7]||sc.notes[0]; events.push({role:'bass',step,freq:ANIM.noteToFreq(shiftOct(root,-1)),instrument:'deepBowl',gain:.48,dur:stepDur*7.6});}
+        if(layers.chords!==false){deg.forEach((d,i)=>{const note=sc.notes[d%7]||sc.notes[0]; events.push({role:'chord',step:step+i*.06,freq:ANIM.noteToFreq(note),instrument:'ambientPad',gain:.22,dur:stepDur*7.4});});}
+      }
+      if(layers.pulse!==false && step%2===0) events.push({role:'pulse',step:step+.01,freq:ANIM.noteToFreq(shiftOct(sc.notes[0],-1)),instrument:'woodPulse',gain:.18,dur:stepDur*.22});
+      if(layers.drums!==false && state.compose.drums!==false){
+        if(step%4===0) events.push({role:'drum',step:step+.005,freq:86,instrument:'djembeLow',gain:.62,dur:stepDur*.25});
+        else if(step%4===2) events.push({role:'drum',step:step+.005,freq:170,instrument:'djembeSlap',gain:.30,dur:stepDur*.16});
+        else if(natural && step%8===7) events.push({role:'drum',step:step+.01,freq:220,instrument:'djembeSlap',gain:.20,dur:stepDur*.12});
+      }
     });
-    return events;
+    if(opts.vocal || (state.compose.vocalGuide && opts.includeVocal)){
+      grid.forEach((n,step)=>{ if(n>=0) events.push({role:'vocal',step:step+(natural?0.035:0),freq:ANIM.noteToFreq(sc.notes[n]),instrument:'vocalGuide',gain:.34,dur:stepDur*(natural?1.05:.9)}); });
+    }
+    return events.sort((a,b)=>(a.step||0)-(b.step||0));
   }
+
 
 function currentNotes(){
     const sc=DATA.scales[state.compose.scale];
@@ -648,7 +701,7 @@ function currentNotes(){
     const sc=DATA.scales[state.compose.scale];
     return {
       title:'Harmonic Starcove melody',
-      version: DATA.version || 'v13',
+      version: DATA.version || 'v16',
       purpose: state.compose.purpose,
       scale: state.compose.scale,
       tempo: state.compose.tempo,
@@ -662,10 +715,27 @@ function currentNotes(){
       arrangement: arrangementEvents().map(e=>({step:e.step,freq:Math.round(e.freq),instrument:e.instrument,gain:e.gain}))
     };
   }
+
+  function playVocalGuide(){
+    if(!state.audio) state.audio=ANIM.makeAudio(); const a=state.audio; if(!a)return; if(a.state==='suspended') a.resume();
+    const events=arrangementEvents({vocal:true}).filter(e=>e.role==='vocal'||e.role==='melody');
+    if(ANIM.playVocalGuide) ANIM.playVocalGuide(a,events,state.compose.tempo,state.compose.syllable||'hum');
+    else events.filter(e=>e.role==='melody').forEach(e=>ANIM.playInstrument(a,e.freq,e.dur||.4,'vocalGuide',.45,e.step*(60/state.compose.tempo/2)));
+  }
+  function naturalizeComposition(){
+    state.compose.naturalize=true;
+    const g=state.compose.grid||[];
+    // add breath rests and small returns without destroying the user's melody
+    for(let i=7;i<g.length;i+=8){ if(Math.random()>.35) g[i]=-1; }
+    for(let i=6;i<g.length;i+=16){ if(g[i]>=0 && Math.random()>.45) g[i]=Math.max(0,g[i]-1); }
+    if(g.length>4 && !g.slice(-4).some(n=>n===0||n===7)) g[g.length-1]=0;
+    state.compose.grid=g; save(); renderCompose();
+  }
+
   function playComposition(){
     if(!state.audio) state.audio=ANIM.makeAudio(); const a=state.audio; if(!a)return; if(a.state==='suspended') a.resume();
-    const events=arrangementEvents(); const stepMs=60/state.compose.tempo/2*1000;
-    events.forEach(e=>ANIM.playInstrument(a,e.freq,e.dur||stepMs/1000,e.instrument||state.compose.instrument,e.gain||1,e.step*stepMs/1000));
+    const events=arrangementEvents({includeVocal:true}); const stepMs=60/state.compose.tempo/2*1000;
+    events.forEach(e=>ANIM.playInstrument(a,e.freq,e.dur||stepMs/1000,e.instrument||state.compose.instrument,e.gain||1,Math.max(0,e.step)*stepMs/1000));
     let i=0; const cells=$$('.seq-cell'); const max=state.compose.grid.length;
     const timer=setInterval(()=>{
       cells.forEach(c=>c.classList.remove('playing'));
@@ -682,7 +752,7 @@ function currentNotes(){
     downloadBlob(new Blob([JSON.stringify(currentPayload(),null,2)],{type:'application/json'}),'harmonic-starcove-melody.json');
   }
   function exportWav(){
-    const blob=(ANIM.wavBlobArrangement?ANIM.wavBlobArrangement(arrangementEvents(), state.compose.tempo):ANIM.wavBlob(currentNotes(), state.compose.tempo, state.compose.instrument));
+    const blob=(ANIM.wavBlobArrangement?ANIM.wavBlobArrangement(arrangementEvents({includeVocal:true}), state.compose.tempo):ANIM.wavBlob(currentNotes(), state.compose.tempo, state.compose.instrument));
     downloadBlob(blob,'harmonic-starcove-melody.wav');
   }
   function exportMidi(){

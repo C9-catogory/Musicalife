@@ -39,7 +39,7 @@
   }
   function litCount(){
     try{
-      const keys=['hs14_lit','hs13_lit','hs12_lit','hs11_lit','hs10_lit','hs9_lit'];
+      const keys=['hs16_lit','hs15_lit','hs14_lit','hs13_lit','hs12_lit','hs11_lit','hs10_lit','hs9_lit'];
       for(const k of keys){
         const v=JSON.parse(localStorage.getItem(k)||'[]');
         if(Array.isArray(v) && v.length) return v.length;
@@ -332,7 +332,11 @@
       deepBowl:{osc:'sine',gain:.045,partials:[[.5,.55],[1,.8],[2,.16]],decay:1.6},
       warmStrings:{osc:'triangle',gain:.04,partials:[[1,.75],[2,.26],[3,.12],[5,.04]],decay:1.1},
       kalimba:{osc:'triangle',gain:.046,partials:[[1,.9],[2,.38],[5,.1]],decay:.45},
-      celeste:{osc:'sine',gain:.043,partials:[[1,.8],[2,.55],[3,.18],[6,.08]],decay:.7}
+      celeste:{osc:'sine',gain:.043,partials:[[1,.8],[2,.55],[3,.18],[6,.08]],decay:.7},
+      vocalGuide:{osc:'sine',gain:.032,partials:[[1,.8],[2,.20],[3,.06]],decay:1.05},
+      djembeLow:{osc:'sine',gain:.06,partials:[[.48,.85],[1,.28],[2,.08]],decay:.22},
+      djembeSlap:{osc:'triangle',gain:.045,partials:[[1.8,.5],[3.2,.32],[5.1,.18]],decay:.12},
+      woodPulse:{osc:'triangle',gain:.038,partials:[[1,.75],[2,.25],[4,.08]],decay:.18}
     };
     return map[instrument]||map.warmPiano;
   }
@@ -350,7 +354,7 @@
       const o=audio.createOscillator();
       o.type=prof.osc;
       o.frequency.setValueAtTime(freq*mul,now);
-      if(instrument==='theremin'){
+      if(instrument==='theremin' || instrument==='vocalGuide'){
         o.frequency.linearRampToValueAtTime(freq*mul*1.012,now+dur*.45);
         o.frequency.linearRampToValueAtTime(freq*mul*.998,now+dur);
       }
@@ -742,5 +746,43 @@
     ctx.restore();
   }
 
-  window.ML_ANIM = {setup,drawCosmos,drawGate,drawLab,drawMandala,drawSongStructure,drawMiniLesson,drawTeachingLab:drawTeachingLabV14,drawVoiceTeaching,drawResonanceTeaching,drawVoiceFlow,noteToFreq,makeAudio,playFreq,playMelody,playInstrument,playMelodyInstrument,wavBlob,wavBlobArrangement};
+
+  function playVocalGuide(audio,events=[],tempo=88,syllable='hum'){
+    if(!audio) return; if(audio.state==='suspended') audio.resume();
+    const step=60/tempo/2;
+    const vowelGain={hum:.55,ma:.62,la:.72,ah:.78,oo:.58}[syllable]||.62;
+    events.filter(e=>e.role==='melody'||!e.role).forEach((e,i)=>{
+      const dur=(e.dur||step*.95)*1.05;
+      playInstrument(audio,e.freq||440,dur,'vocalGuide',vowelGain,e.step*step);
+    });
+  }
+  function drawSingingCoach(canvas,lesson='breath',p={}){
+    const {ctx,w,h}=setup(canvas); clear(ctx,w,h);
+    const t=performance.now()*.001;
+    const cx=w*.5, cy=h*.52;
+    // overall body / voice path
+    ctx.save();
+    ctx.strokeStyle='rgba(255,255,255,.18)'; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.moveTo(w*.12,h*.72); ctx.bezierCurveTo(w*.24,h*.22,w*.38,h*.16,w*.50,h*.33); ctx.bezierCurveTo(w*.66,h*.55,w*.76,h*.24,w*.90,h*.36); ctx.stroke();
+    const stages=[['body',w*.16,h*.70,'身体'],['breath',w*.31,h*.36,'呼吸'],['folds',w*.47,h*.34,'声带'],['tract',w*.62,h*.48,'声道'],['words',w*.78,h*.32,'咬字'],['song',w*.89,h*.46,'歌声']];
+    stages.forEach(([id,x,y,txt],i)=>{const on=(lesson==='posture'&&id==='body')||(lesson==='breath'&&id==='breath')||(['folds','onset','sovt'].includes(lesson)&&id==='folds')||(['tract','vowel','resonanceChoice'].includes(lesson)&&id==='tract')||(['diction','phrase'].includes(lesson)&&id==='words')||(['dynamics','emotion','choir'].includes(lesson)&&id==='song'); star(ctx,x,y,on?12:7,on?'#ffe19b':['#7ce9ff','#ff9fd5','#aaf2c5'][i%3]); label(ctx,txt,x-14,y+32);});
+    if(lesson==='posture'){
+      ctx.strokeStyle='#ffe19b'; ctx.lineWidth=4; ctx.beginPath();ctx.moveTo(cx,h*.25);ctx.lineTo(cx,h*.76);ctx.stroke(); captionBox(ctx,'稳定开放：头顶向上，肋骨展开，声音更自由',w*.50,h*.08,360);
+    } else if(lesson==='breath'){
+      ctx.strokeStyle='#aaf2c5'; ctx.lineWidth=4; ctx.beginPath(); for(let x=w*.15;x<w*.85;x+=3){const y=h*.67+Math.sin((x/w)*TAU*2+t)*24; x>w*.15?ctx.lineTo(x,y):ctx.moveTo(x,y)} ctx.stroke(); captionBox(ctx,'气流平稳，不是越多越好',w*.50,h*.08,320);
+    } else if(['folds','onset'].includes(lesson)){
+      const gap=+(p.closure||55); const g=42-(gap-50)*.35; ctx.fillStyle='rgba(255,159,213,.48)'; ctx.beginPath();ctx.ellipse(cx-g,cy,26,86,0,0,TAU);ctx.fill();ctx.beginPath();ctx.ellipse(cx+g,cy,26,86,0,0,TAU);ctx.fill(); captionBox(ctx,g>48?'漏气：门开太大，声音虚':g<30?'挤压：门太紧，喉咙累':'平衡：清楚、省力、可持续',w*.53,h*.08,350);
+    } else if(lesson==='sovt'){
+      ctx.strokeStyle='#7ce9ff';ctx.lineWidth=10;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(w*.30,cy);ctx.quadraticCurveTo(w*.55,cy-70,w*.78,cy);ctx.stroke(); for(let i=0;i<9;i++)star(ctx,w*.42+i*w*.04,cy+Math.sin(t*3+i)*16,2.5,'#ffe19b'); captionBox(ctx,'出口变窄 → 温和回压 → 声带更省力',w*.48,h*.08,350);
+    } else if(['tract','vowel','resonanceChoice'].includes(lesson)){
+      drawVoice(ctx,w,h,t,{vowel:p.vowel||'a'}); captionBox(ctx,'声源经过声道滤波：舌位/唇形改变 Formant 与元音',w*.42,h*.08,400);
+    } else if(['diction','phrase'].includes(lesson)){
+      const xs=[.18,.30,.42,.56,.70,.82].map(v=>w*v); xs.forEach((x,i)=>{star(ctx,x,cy+(i%2?24:-18),i===2?11:7,i===2?'#ffe19b':'#7ce9ff'); if(i===2) label(ctx,'换气',x-12,cy+44);}); captionBox(ctx,'咬字是边界，元音是流动；换气发生在乐句边界',w*.48,h*.08,380);
+    } else {
+      ctx.strokeStyle='#ffe19b';ctx.lineWidth=4;ctx.beginPath();for(let x=w*.15;x<w*.86;x+=4){const u=(x-w*.15)/(w*.70);const y=h*.70-Math.sin(u*Math.PI)*(90+(p.amp||50)*.6); x>w*.15?ctx.lineTo(x,y):ctx.moveTo(x,y)}ctx.stroke(); captionBox(ctx,'强弱不是只变大声，而是情绪重心和方向',w*.48,h*.08,360);
+    }
+    ctx.restore();
+  }
+
+  window.ML_ANIM = {setup,drawCosmos,drawGate,drawLab,drawMandala,drawSongStructure,drawMiniLesson,drawTeachingLab:drawTeachingLabV14,drawVoiceTeaching,drawSingingCoach,drawResonanceTeaching,drawVoiceFlow,noteToFreq,makeAudio,playFreq,playMelody,playInstrument,playMelodyInstrument,playVocalGuide,wavBlob,wavBlobArrangement};
 })();

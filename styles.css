@@ -261,3 +261,26 @@ body,button,input,select,textarea{font-family:var(--font)!important}
 .search-chip-grid{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.search-chip-grid a{border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 9px;background:rgba(255,255,255,.05);text-decoration:none;color:var(--muted);font-size:.86rem}.search-chip-grid a:hover{color:var(--ink);border-color:rgba(255,225,155,.45)}
 @media(max-width:1100px){.start-mode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.quick-compose,.atlas-focus,.resonance-lesson{grid-template-columns:1fr}.quick-controls{grid-template-columns:repeat(2,minmax(0,1fr))}.voice-quick-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.atlas-side{position:static}}
 @media(max-width:620px){.start-mode-grid,.gate .start-mode-grid{grid-template-columns:1fr}.quick-controls,.voice-quick-grid{grid-template-columns:1fr}.quick-actions{bottom:82px}.star-map-v15,.star-map-v15 svg{min-height:560px}}
+
+/* v16 music maker core + singing studio */
+.quick-compose{grid-template-columns:minmax(0,1fr) minmax(280px,420px);align-items:start}
+.quick-compose .panel{min-width:0}
+.quick-controls.compact{grid-template-columns:repeat(3,minmax(0,1fr))}
+.quick-actions-sticky{position:sticky;bottom:86px;z-index:8;background:rgba(7,5,29,.72);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:18px;padding:8px;margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
+.maker-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0}
+.maker-strip button{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.055);padding:9px;text-align:left}
+.maker-strip button.active{border-color:rgba(255,225,155,.45);background:linear-gradient(135deg,rgba(255,225,155,.14),rgba(124,233,255,.08))}
+.vocal-guide-box{border:1px solid rgba(255,159,213,.22);background:rgba(255,159,213,.07);border-radius:18px;padding:12px;margin:10px 0}
+.vocal-guide-box h3{margin-bottom:6px}.vocal-guide-box .pill.active{background:rgba(255,159,213,.22)}
+.singing-studio-v16{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(320px,.9fr);gap:14px;align-items:start}
+.sing-master-diagram{border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,rgba(255,255,255,.07),rgba(255,255,255,.025));padding:14px;margin-bottom:12px}
+.sing-flow-canvas{height:300px;border:1px solid rgba(255,255,255,.13);border-radius:20px;overflow:hidden;background:rgba(0,0,0,.14)}
+.sing-steps-compact{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:10px 0}.sing-steps-compact button{border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.045);padding:9px;text-align:left;min-height:84px}.sing-steps-compact button.active{background:linear-gradient(135deg,rgba(124,233,255,.15),rgba(255,225,155,.09));border-color:rgba(124,233,255,.45)}
+.sing-coach-card{border:1px solid rgba(255,225,155,.22);border-radius:18px;background:rgba(255,225,155,.07);padding:12px;margin:8px 0}.sing-coach-card b{color:var(--gold)}
+.sing-practice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.sing-practice-grid .principle-card{min-height:110px}
+.melody-guide{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:8px}.melody-guide span{border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:5px 8px;font-size:.78rem;color:var(--muted);text-align:center;background:rgba(255,255,255,.04)}
+.seq-cell.naturalized{box-shadow:0 0 0 1px rgba(255,225,155,.25),0 0 14px rgba(255,225,155,.18)}
+.drum-panel{border:1px solid rgba(170,242,197,.22);background:rgba(170,242,197,.06);border-radius:18px;padding:11px;margin-top:10px}.drum-panel b{color:var(--green)}
+.resource-row{display:flex;gap:6px;flex-wrap:wrap}.resource-row a{font-size:.82rem;border:1px solid var(--line);border-radius:999px;padding:6px 8px;text-decoration:none;color:var(--muted);background:rgba(255,255,255,.04)}
+@media(max-width:980px){.quick-compose,.singing-studio-v16{grid-template-columns:1fr}.quick-controls.compact{grid-template-columns:repeat(2,minmax(0,1fr))}.maker-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.sing-steps-compact{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.app{padding-left:8px;padding-right:8px}.quick-controls.compact,.maker-strip,.sing-steps-compact,.sing-practice-grid{grid-template-columns:1fr}.quick-actions-sticky{bottom:82px}.sequencer.long{max-width:100%;overflow:auto}.quick-compose .canvas-wrap{min-height:240px}.sing-flow-canvas{height:240px}.page-head .actions{margin-top:10px}.bottomnav button{min-width:62px}.topbar{width:calc(100vw - 10px)}}

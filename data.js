@@ -1,5 +1,5 @@
 window.ML_DATA = {
-  "version": "harmonic-starcove-v15",
+  "version": "harmonic-starcove-v16",
   "copy": {
     "zh": {
       "home": "首页",
@@ -22,9 +22,9 @@ window.ML_DATA = {
       "reset": "重置",
       "export": "导出",
       "homeTitle": "音乐是我们建构的爱的方程式。",
-      "homeLead": "V15 重点是“极简可操作 + 教学可选择”：进入后可以直接开始创作，也可以切换到教学模式学习原理。动画使用高光、箭头、流程图和参数反馈，把感受转译成音乐操作。",
-      "gateTitle": "Harmonic Starcove V15",
-      "gateSub": "和谐星旅：音乐是我们建构的爱的方程式。选择一种模式，快速创作、练习歌唱、探索星图，或进入完整教学。",
+      "homeLead": "Harmonic Starcove V16 聚焦 Music Maker Core 与 Singing Studio：更自然的旋律、多轨道/和弦/非洲鼓节奏、机器哼唱 guide，以及从姿态到表达的歌唱教学。",
+      "gateTitle": "Harmonic Starcove V16",
+      "gateSub": "和谐星旅：音乐是我们建构的爱的方程式。写一段更自然的小曲子，用机器哼唱对齐旋律，再进入歌唱练习。",
       "enter": "进入和谐星旅",
       "made": "已点亮",
       "stars": "知识星点",
@@ -61,9 +61,9 @@ window.ML_DATA = {
       "reset": "Reset",
       "export": "Export",
       "homeTitle": "Music is the equation of love we build.",
-      "homeLead": "V15 focuses on selectable simplicity: start creating immediately, or switch into teaching mode to learn principles. Animations use highlights, arrows, flow diagrams and parameter feedback to translate feeling into musical action.",
-      "gateTitle": "Harmonic Starcove V15",
-      "gateSub": "A journey of harmony: music is the equation of love we build. Choose a mode to compose quickly, practice singing, explore the star map, or enter full teaching.",
+      "homeLead": "Harmonic Starcove V16 focuses on Music Maker Core and Singing Studio: more natural melody, layers/chords/drum pulse, vocal guide, and a clearer path from posture to expression.",
+      "gateTitle": "Harmonic Starcove V16",
+      "gateSub": "A journey of harmony: music is the equation of love we build. Write a more natural small piece, align it with a vocal guide, then practice singing.",
       "enter": "Enter Harmonic Starcove",
       "made": "Lit",
       "stars": "Knowledge stars",
@@ -1693,6 +1693,54 @@ window.ML_DATA = {
         "1'",
         "2'"
       ]
+    },
+    "C_blues": {
+      "zh": "C 蓝调/自然过渡",
+      "en": "C blues / natural color",
+      "notes": [
+        "C4",
+        "Eb4",
+        "F4",
+        "F#4",
+        "G4",
+        "Bb4",
+        "C5",
+        "D5"
+      ],
+      "jianpu": [
+        "1",
+        "♭3",
+        "4",
+        "♯4",
+        "5",
+        "♭7",
+        "1'",
+        "2'"
+      ]
+    },
+    "G_major": {
+      "zh": "G 大调",
+      "en": "G major",
+      "notes": [
+        "G3",
+        "A3",
+        "B3",
+        "C4",
+        "D4",
+        "E4",
+        "F#4",
+        "G4"
+      ],
+      "jianpu": [
+        "5,",
+        "6,",
+        "7,",
+        "1",
+        "2",
+        "3",
+        "♯4",
+        "5"
+      ]
     }
   },
   "lifePresets": [
@@ -1923,6 +1971,30 @@ window.ML_DATA = {
       "zh": "星光钢片琴",
       "en": "Celeste",
       "hint": "适合梦境、星空、起床铃。"
+    },
+    {
+      "id": "vocalGuide",
+      "zh": "机器哼唱 Guide",
+      "en": "Vocal guide hum",
+      "hint": "让旋律像 la / hum / ah 一样被唱出来。"
+    },
+    {
+      "id": "djembeLow",
+      "zh": "非洲鼓低音",
+      "en": "Djembe low",
+      "hint": "地面、心跳、重拍。"
+    },
+    {
+      "id": "djembeSlap",
+      "zh": "非洲鼓高音 Slap",
+      "en": "Djembe slap",
+      "hint": "强调、闪光、切分。"
+    },
+    {
+      "id": "woodPulse",
+      "zh": "木质脉冲",
+      "en": "Wood pulse",
+      "hint": "清晰稳定的身体节拍。"
     }
   ],
   "composePurposes": [
@@ -2873,6 +2945,42 @@ window.ML_DATA = {
         "label": "Smithsonian Folkways",
         "url": "https://folkways.si.edu/"
       }
+    ],
+    "voice_core": [
+      {
+        "label": "Search: SOVT straw phonation",
+        "url": "https://www.google.com/search?q=SOVT+straw+phonation+voice+exercise"
+      },
+      {
+        "label": "Search: source filter model voice",
+        "url": "https://www.google.com/search?q=source+filter+model+voice"
+      },
+      {
+        "label": "Search: vocal formants vowels",
+        "url": "https://www.google.com/search?q=vocal+formants+vowels+singing"
+      },
+      {
+        "label": "Search: breath support singing",
+        "url": "https://www.google.com/search?q=breath+support+singing+exercise"
+      }
+    ],
+    "composition_core": [
+      {
+        "label": "Open Music Theory",
+        "url": "https://viva.pressbooks.pub/openmusictheory/"
+      },
+      {
+        "label": "Search: chord progressions I IV V vi",
+        "url": "https://www.google.com/search?q=I+IV+V+vi+chord+progression"
+      },
+      {
+        "label": "Search: melody motif repetition variation",
+        "url": "https://www.google.com/search?q=melody+motif+repetition+variation"
+      },
+      {
+        "label": "Search: djembe rhythm basics",
+        "url": "https://www.google.com/search?q=djembe+rhythm+basics"
+      }
     ]
   },
   "startModes": [
@@ -3025,5 +3133,126 @@ window.ML_DATA = {
       "gentle vocal ambient",
       "humming meditation"
     ]
-  }
+  },
+  "vocalGuide": {
+    "syllables": [
+      {
+        "id": "hum",
+        "zh": "hum / 嗯",
+        "en": "hum"
+      },
+      {
+        "id": "la",
+        "zh": "la",
+        "en": "la"
+      },
+      {
+        "id": "ma",
+        "zh": "ma",
+        "en": "ma"
+      },
+      {
+        "id": "ah",
+        "zh": "ah / 啊",
+        "en": "ah"
+      },
+      {
+        "id": "oo",
+        "zh": "oo / 呜",
+        "en": "oo"
+      }
+    ],
+    "zhLead": "机器哼唱不是完整 Vocaloid，而是一个轻量 guide：用你写的旋律生成 hum/la/ah，帮助你看到换气、重音和乐句。",
+    "enLead": "The vocal guide is not full Vocaloid; it hums/sings your melody with hum/la/ah so you can see breath, accent and phrase."
+  },
+  "singingCoach": [
+    {
+      "id": "posture",
+      "zh": "姿态",
+      "en": "Posture",
+      "whyZh": "身体像乐器外壳：稳定开放会让气流和声道更自由。",
+      "whyEn": "The body is the instrument shell: stable openness frees airflow and tract.",
+      "doZh": "脚底稳定，头顶轻轻向上，肋骨展开，肩颈放松。",
+      "doEn": "Feet stable, crown gently upward, ribs open, neck relaxed.",
+      "feelZh": "感觉更宽、更稳，而不是更用力。",
+      "feelEn": "Feel wider and steadier, not harder."
+    },
+    {
+      "id": "breath",
+      "zh": "呼吸支持",
+      "en": "Breath support",
+      "whyZh": "气流是动力，但不是越多越好。稳定输出让音更稳。",
+      "whyEn": "Airflow powers voice, but more is not always better. Smooth release steadies tone.",
+      "doZh": "吸气不耸肩；用 sss/hum 做 4–6 秒稳定输出。",
+      "doEn": "Inhale without raising shoulders; sustain sss/hum for 4–6 seconds.",
+      "feelZh": "像缓慢流动的光，不像突然冲出去的风。",
+      "feelEn": "Like slow flowing light, not a blast of wind."
+    },
+    {
+      "id": "folds",
+      "zh": "声带门",
+      "en": "Fold gate",
+      "whyZh": "声带闭合太少会漏气，太多会挤压，平衡时清楚省力。",
+      "whyEn": "Too little closure leaks; too much presses; balance is clear and easy.",
+      "doZh": "轻声 mm → ah，找清楚但不紧的起声。",
+      "doEn": "Soft mm → ah, find a clear but non-tight start.",
+      "feelZh": "喉咙不夹，声音能持续。",
+      "feelEn": "No throat squeeze; sound can continue."
+    },
+    {
+      "id": "sovt",
+      "zh": "SOVT 开嗓",
+      "en": "SOVT warm-up",
+      "whyZh": "吸管、唇颤、哼鸣会产生温和回压，让声带更容易振动。",
+      "whyEn": "Straw, lip trill and hum create gentle back pressure and easier oscillation.",
+      "doZh": "吸管/唇颤做低到高再回来的滑音。",
+      "doEn": "Use straw/lip trill to siren low→high→low.",
+      "feelZh": "不是憋气，不是推气，是省力。",
+      "feelEn": "Not holding or pushing; it should feel easier."
+    },
+    {
+      "id": "tract",
+      "zh": "声道滤波",
+      "en": "Vocal tract filter",
+      "whyZh": "声带产生声源；咽腔、口腔、舌位、唇形改变音色和元音。",
+      "whyEn": "Folds create source; pharynx, mouth, tongue and lips shape color and vowels.",
+      "doZh": "同一音高上慢慢切 a-e-i-o-u，听亮暗改变。",
+      "doEn": "On one pitch, slowly move a-e-i-o-u and hear color change.",
+      "feelZh": "嘴型改变的是滤波，不是直接改变音高。",
+      "feelEn": "Mouth shape changes filtering, not pitch directly."
+    },
+    {
+      "id": "diction",
+      "zh": "咬字",
+      "en": "Diction",
+      "whyZh": "咬字是语言边界，元音是歌声流动。清晰不等于僵硬。",
+      "whyEn": "Consonants are word boundaries; vowels carry sung flow. Clear is not stiff.",
+      "doZh": "轻轻说出辅音，把能量放回元音。",
+      "doEn": "Light consonants, then return energy to vowels.",
+      "feelZh": "字清楚，气流不断。",
+      "feelEn": "Words clear, airflow continuous."
+    },
+    {
+      "id": "phrase",
+      "zh": "换气与乐句",
+      "en": "Breath & phrase",
+      "whyZh": "换气不是随机断开，而是在乐句边界、标点和情绪转折处。",
+      "whyEn": "Breath is not random; it happens at phrase boundaries, punctuation and turns.",
+      "doZh": "唱 1-2-3-4，停顿换气，再唱 5-4-3-2-1。",
+      "doEn": "Sing 1-2-3-4, pause-breathe, then 5-4-3-2-1.",
+      "feelZh": "像一句话，不是一个个单字。",
+      "feelEn": "Like a sentence, not separate syllables."
+    },
+    {
+      "id": "expression",
+      "zh": "强弱与情感",
+      "en": "Dynamics & emotion",
+      "whyZh": "强弱、重音、渐强和淡出决定情绪重心。",
+      "whyEn": "Dynamics, accent, crescendo and fade shape emotional weight.",
+      "doZh": "同一句旋律分别唱成安抚、快乐、勇气、告别。",
+      "doEn": "Sing the same melody as comfort, joy, courage and goodbye.",
+      "feelZh": "不是更大声，而是更有方向。",
+      "feelEn": "Not louder, but more directed."
+    }
+  ]
 };

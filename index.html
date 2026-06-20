@@ -3,15 +3,77 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#09061f" />
-  <title>Musicalife｜A Visual Voyage into Music</title>
-  <meta name="description" content="Musicalife is a bilingual visual platform for exploring the beauty of music: sound, voice, theory, life, instruments, culture, and future music." />
+  <meta name="theme-color" content="#120f33" />
+  <title>Musicalife｜音乐如何改善生活</title>
+  <meta name="description" content="Musicalife: 一个探索音乐之美的可视化星海。A visual cosmos for exploring the beauty of music." />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <canvas id="cosmos" aria-hidden="true"></canvas>
-  <div id="app" class="app"></div>
-  <noscript>Musicalife needs JavaScript to show the interactive constellations and animations. 这个网站需要 JavaScript 才能显示互动星盘和动画。</noscript>
+  <div class="nebula nebula-a" aria-hidden="true"></div>
+  <div class="nebula nebula-b" aria-hidden="true"></div>
+
+  <section id="gate" class="gate active" aria-label="Musicalife entrance">
+    <div class="gate-inner">
+      <div class="sigil" aria-hidden="true">
+        <canvas id="gateWave"></canvas>
+      </div>
+      <p class="eyebrow">Musicalife</p>
+      <h1 id="gateTitle">一个探索音乐之美的可视化星海</h1>
+      <p id="gateSub" class="gate-sub">声音是振动，音乐是关系。乘着知识的小船，进入音乐的银河。</p>
+      <div class="gate-actions">
+        <button class="primary big" data-enter="zh">中文进入</button>
+        <button class="ghost big" data-enter="en">Enter in English</button>
+      </div>
+      <div class="gate-mini">
+        <button id="reducedAtGate" class="linkbtn">低动效 / Reduced motion</button>
+        <button id="skipGate" class="linkbtn">跳过开场 / Skip</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="app" class="app-shell" hidden>
+    <header class="topbar">
+      <button id="homeBtn" class="iconbtn" aria-label="Home">⌂</button>
+      <div class="brand" role="banner">
+        <span class="brand-mark">✦</span>
+        <span class="brand-text">Musicalife</span>
+      </div>
+      <div class="top-actions">
+        <button id="backBtn" class="pill small">←</button>
+        <button id="searchBtn" class="pill small">⌕</button>
+        <button id="langBtn" class="pill small">中/EN</button>
+        <button id="simpleBtn" class="pill small">少字</button>
+      </div>
+    </header>
+
+    <main id="view" class="view" tabindex="-1"></main>
+
+    <nav class="bottomnav" aria-label="Main navigation">
+      <button data-nav="home"><span>✦</span><b data-i18n="navHome">首页</b></button>
+      <button data-nav="voyage"><span>☄</span><b data-i18n="navVoyage">航行</b></button>
+      <button data-nav="map"><span>◎</span><b data-i18n="navMap">星盘</b></button>
+      <button data-nav="voice"><span>◌</span><b data-i18n="navVoice">人声</b></button>
+      <button data-nav="life"><span>♡</span><b data-i18n="navLife">生活</b></button>
+      <button data-nav="explore"><span>♢</span><b data-i18n="navExplore">探索</b></button>
+      <button data-nav="library"><span>☰</span><b data-i18n="navLibrary">图书馆</b></button>
+    </nav>
+  </div>
+
+  <aside id="drawer" class="drawer" aria-live="polite" aria-hidden="true">
+    <button id="closeDrawer" class="iconbtn close" aria-label="Close">×</button>
+    <div id="drawerContent"></div>
+  </aside>
+
+  <div id="searchPanel" class="search-panel" hidden>
+    <div class="search-box">
+      <button id="closeSearch" class="iconbtn close" aria-label="Close search">×</button>
+      <h2 data-i18n="searchTitle">搜索音乐星海</h2>
+      <input id="searchInput" placeholder="频率 / resonance / voice / sleep" />
+      <div id="searchResults" class="search-results"></div>
+    </div>
+  </div>
+
   <script src="app.js"></script>
 </body>
 </html>

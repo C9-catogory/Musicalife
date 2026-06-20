@@ -1,17 +1,17 @@
 # Musicalife
 
-A bilingual visual platform for exploring the beauty of music: sound physics, psychoacoustics, music theory, voice science, daily life sound tools, world instruments, and future music.
+**Musicalife｜一个探索音乐之美的可视化星海**  
+A visual cosmos for exploring the beauty of music.
 
-## Files
+This is a static GitHub Pages website. It uses only:
 
-- `index.html` — site entry
-- `styles.css` — visual design and mobile layout
-- `app.js` — data, views, star map, animations and interaction
+- `index.html`
+- `styles.css`
+- `app.js`
 
 ## Local preview
 
 ```bash
-cd musicalife_github_v2
 python -m http.server 5173
 ```
 
@@ -21,30 +21,36 @@ Open:
 http://localhost:5173
 ```
 
-## GitHub Pages quick publish
+## GitHub Pages deployment
 
-1. Create a public repository named `musicalife`.
-2. Upload `index.html`, `styles.css`, `app.js`, `README.md` to the repository root.
-3. Go to `Settings → Pages`.
-4. Choose `Deploy from a branch`.
-5. Select `main` and `/root`.
-6. Save and wait a few minutes.
-7. The site URL will usually be:
+1. Create a public GitHub repository named `musicalife`.
+2. Upload `index.html`, `styles.css`, `app.js`, and `README.md` to the repository root.
+3. Open repository **Settings → Pages**.
+4. Choose **Deploy from a branch**.
+5. Select **main** and **/root**.
+6. Save.
+7. Wait a few minutes, then open:
 
 ```text
-https://YOUR-USERNAME.github.io/musicalife/
+https://YOUR_USERNAME.github.io/musicalife/
 ```
 
-## Edit content
+## Main data sections in `app.js`
 
-Most content is in `app.js`:
+- `termData`: bilingual knowledge constellation nodes
+- `edges`: knowledge connections
+- `levels`: game journey levels
+- `animationCards`: animation lab entries
+- `voiceChapters`: human voice lab modules
+- `lifeCards`: life support scenarios
+- `instrumentData`: instrument cosmos
+- `timelineData`: media history timeline
+- `sourceData`: library and sources
 
-- `termData` — knowledge star map terms
-- `edges` — concept relationships
-- `anims` — animation list
-- `levels` — game path
-- `voiceChapters` — voice lab
-- `lifeCards` — daily life tools
-- `instruments` — instrument museum
-- `sources` — library links
+## Accessibility
 
+- Language gate: Chinese / English
+- Simple mode
+- Reduced motion mode
+- Mobile-first layout
+- No sound autoplay
